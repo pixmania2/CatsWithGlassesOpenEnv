@@ -27,6 +27,8 @@ def check_eligibility(patient, ipd):
         evidence_type="policy_rule",
         label="Eligibility Status",
         value=eligible,
+        unit=None,
+        date=None,
         clinically_significant=True,
         source_section="eligibility"
     )
@@ -61,6 +63,8 @@ def check_cpt_coverage(patient, ipd):
         evidence_type="policy_rule",
         label="CPT Coverage",
         value=is_covered,
+        unit=None,
+        date=None,
         clinically_significant=True,
         source_section="covered_services"
     )
