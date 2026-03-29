@@ -1,0 +1,213 @@
+# openenv.yaml — Environment Manifest for the PTPA OpenEnv Environment
+#
+# Patient Triage & Prior Authorization (PTPA) Environment
+# =========================================================
+# This manifest is required for OpenEnv spec compliance and HuggingFace
+# Spaces auto-discovery. It controls deployment configuration, endpoint
+# declarations, hardware requirements, and metadata tagging.
+#
+# Validate this file before submission:
+#   python -c "import yaml, sys; yaml.safe_load(open('openenv.yaml'))"
+
+# ---------------------------------------------------------------------------
+# IDENTITY
+# ---------------------------------------------------------------------------
+name: healthcare_prior_auth
+version: "1.2.0"
+display_name: "Patient Triage & Prior Authorization (PTPA)"
+description: >
+  A high-fidelity healthcare environment for training and evaluating AI agents
+  on real-world prior authorization (PA) workflows. Agents must navigate
+  insurance eligibility verification, medical necessity assessment for advanced
+  imaging, and complex exception appeal construction for diabetic management
+  devices. Built on a synthetic but clinically grounded dataset, the environment
+  challenges agents to combine structured database retrieval with multi-step
+  clinical reasoning.
+
+author: "PTPA Team"
+license: "MIT"
+
+# ---------------------------------------------------------------------------
+# HUGGINGFACE SPACES CONFIGURATION
+# ---------------------------------------------------------------------------
+tags:
+  - openenv
+  - healthcare
+  - prior-authorization
+  - medical-reasoning
+  - legal-reasoning
+  - multi-step
+  - text-heavy
+  - retrieval
+  - rl-environment
+
+sdk: docker
+hardware: cpu-basic
+base_image: "ghcr.io/meta-pytorch/openenv-base:latest"
+
+# ---------------------------------------------------------------------------
+# ENDPOINT DECLARATIONS
+# ---------------------------------------------------------------------------
+endpoints:
+  reset:    "/reset"
+  step:     "/step"
+  state:    "/state"
+  tasks:    "/tasks"
+  grader:   "/grader"
+  baseline: "/baseline"
+  health:   "/health"
+  validate: "/validate"
+  info:     "/info"
+
+# ---------------------------------------------------------------------------
+# ENVIRONMENT SPECIFICATION
+# ---------------------------------------------------------------------------
+spec:
+  openenv_version: "0.3.0"
+  gymnasium_compatible: true
+  max_episodes_per_session: 50
+  session_timeout_seconds: 3600
+
+  tasks:
+    - id: task1_verification
+      name: "Insurance Verification & Eligibility Check"
+      difficulty: easy
+      max_steps: 10
+      baseline_score: 0.98
+      grader_type: programmatic
+
+    - id: task2_mri_necessity
+      name: "Medical Necessity Review: Advanced Imaging (MRI)"
+      difficulty: medium
+      max_steps: 20
+      baseline_score: 0.42
+      grader_type: programmatic
+
+    - id: task3_cgm_appeal
+      name: "Medical Exception Appeal: Continuous Glucose Monitor (CGM)"
+      difficulty: hard
+      max_steps: 25
+      baseline_score: 0.15
+      grader_type: hybrid
+
+  observation_space:
+    type: text
+    schema: "PTPAObservation"
+    contains:
+      result: "str — Human-readable summary of the action result"
+      success: "bool — Whether the action succeeded"
+      found_evidence: "list[EvidenceItem] — Extracted clinical evidence"
+      red_flags: "list[RedFlagItem] — Clinical urgency indicators"
+      pt_sessions: "list[PTSession] — Physical therapy session records"
+      policy_rule: "PolicyRule | None — Retrieved insurance policy rule"
+      reward: "float in [-0.5, +0.4] — Partial progress reward"
+      reward_reason: "str — Explanation of reward signal"
+      done: "bool — Episode termination flag"
+
+  action_space:
+    type: discrete_typed
+    schema: "PTPAAction"
+    action_types:
+      - query_patient_record
+      - query_policy_database
+      - submit_decision
+      - check_eligibility
+      - check_cpt_coverage
+      - extract_pt_sessions
+      - check_red_flags
+      - compare_policy_duration
+      - extract_lab_values
+      - check_step_therapy
+      - generate_appeal_letter
+
+  reward_function:
+    type: dense
+    range: [-0.5, 1.0]
+    signals:
+      discovery_reward:    +0.10
+      evidence_reward:     +0.20
+      logic_reward:        +0.30
+      success_reward:      +0.40
+      loop_penalty:        -0.10
+      destructive_penalty: -0.50
+
+# ---------------------------------------------------------------------------
+# DATA
+# ---------------------------------------------------------------------------
+data:
+  patient_fixture_count: 15
+  task_distribution:
+    task1_verification:  5
+    task2_mri_necessity: 5
+    task3_cgm_appeal:    5
+  synthetic_data: true
+  clinical_realism: high
+
+# ---------------------------------------------------------------------------
+# BASELINE INFERENCE
+# ---------------------------------------------------------------------------
+baseline:
+  model: "gpt-4o-mini"
+  api_compatible: "openai"
+  temperature: 0
+  max_tokens: 1000
+  seeds: [42, 137, 999]
+  expected_scores:
+    task1_verification:  0.98
+    task2_mri_necessity: 0.42
+    task3_cgm_appeal:    0.15
+    overall_mean:        0.52
+  api_key_env_var: "OPENAI_API_KEY"
+  script: "baseline/run_baseline.py"
+
+# ---------------------------------------------------------------------------
+# INFRASTRUCTURE & DEPLOYMENT
+# ---------------------------------------------------------------------------
+infrastructure:
+  dockerfile: "Dockerfile"
+  port: 8000
+  build_command: "docker build -t ptpa-env ."
+  run_command: "docker run -p 8000:8000 -e OPENAI_API_KEY=$OPENAI_API_KEY ptpa-env"
+  framework: fastapi
+  server: uvicorn
+  workers: 1
+  startup_command: "uvicorn server.app:app --host 0.0.0.0 --port 8000"
+  session_backend: in_memory
+  websocket_support: true
+  env_vars:
+    required:
+      - OPENAI_API_KEY
+    optional:
+      - PTPA_LOG_LEVEL
+      - PTPA_MAX_SESSIONS
+      - PTPA_SEED_OVERRIDE
+
+# ---------------------------------------------------------------------------
+# PROJECT STRUCTURE
+# ---------------------------------------------------------------------------
+# healthcare_prior_auth/
+# ├── openenv.yaml
+# ├── Dockerfile
+# ├── pyproject.toml
+# ├── README.md
+# ├── models.py                  <- Shared Pydantic models
+# ├── tasks.py                   <- Task registry, grader specs, answer keys
+# ├── server/
+# │   ├── app.py                 <- FastAPI app + all endpoints
+# │   ├── session.py             <- In-memory session management
+# │   └── websocket.py           <- WebSocket handler
+# ├── environment/
+# │   ├── engine.py              <- step()/reset()/state() logic
+# │   ├── rewards.py             <- Reward computation
+# │   ├── task1_verification.py
+# │   ├── task2_mri_necessity.py
+# │   └── task3_cgm_appeal.py    <- Includes LLM-as-judge grader
+# ├── data/
+# │   ├── prs/                   <- Patient Record System fixtures
+# │   │   ├── PAT-001.json ... PAT-015.json
+# │   └── ipd/                   <- Insurance Policy Database
+# │       ├── aetna_policies.json
+# │       ├── cigna_policies.json
+# │       └── cms_policies.json
+# └── baseline/
+#     └── run_baseline.py
