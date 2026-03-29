@@ -387,7 +387,7 @@ if __name__ == "__main__":
     store = SessionStore()
 
     result = asyncio.run(run_baseline_internal(eng, store))
-    print(f"\nBaseline Results:")
+    print("\nBaseline Results:")
     print(f"  Overall Score: {result.overall_score:.4f}")
     for tr in result.task_results:
         print(f"  {tr.task_id.value}: {tr.final_score:.4f} ({tr.steps_taken} steps)")

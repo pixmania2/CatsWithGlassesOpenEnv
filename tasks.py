@@ -15,7 +15,7 @@ Both Person A (task logic / graders) and Person B (server / baseline) import fro
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Any
+from typing import Dict, List
 from models import (
     TaskID, TaskInfo, Difficulty, ActionType, ActionSchema,
     GraderComponentSpec, AuthorizationDecision

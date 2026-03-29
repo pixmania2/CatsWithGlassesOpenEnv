@@ -59,7 +59,7 @@ for pid in ["PAT-001", "PAT-002", "PAT-003"]:
         task_id=TaskID.VERIFICATION,
         parameters={
             "decision": decision,
-            "rationale": f"Decision based on eligibility and coverage check. Policy Section 4.2 Covered Services.",
+            "rationale": "Decision based on eligibility and coverage check. Policy Section 4.2 Covered Services.",
             "policy_section_cited": "Section 4.2 Covered Services"
         }
     ))

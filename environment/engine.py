@@ -33,7 +33,6 @@ from models import (
     TaskID,
 )
 from tasks import (
-    ALL_TASKS,
     TASK1_ANSWER_KEYS,
     TASK2_ANSWER_KEYS,
     TASK3_ANSWER_KEYS,
@@ -565,7 +564,7 @@ def _handle_check_cpt_coverage(
     if entry.get("note"):
         result += f"  Note: {entry['note']}\n"
     if entry.get("requires_prior_auth"):
-        result += f"  Requires Prior Auth: YES\n"
+        result += "  Requires Prior Auth: YES\n"
 
     evidence = [EvidenceItem(
         evidence_type="policy_rule", label=f"CPT {cpt} coverage",

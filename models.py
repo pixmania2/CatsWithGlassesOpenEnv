@@ -13,7 +13,7 @@ DO NOT modify without team agreement — this is the interface boundary.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field
 
 

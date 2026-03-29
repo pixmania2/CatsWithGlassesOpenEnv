@@ -1,8 +1,9 @@
-print("🚀 GENERATOR STARTED")
 import json
 import os
 import random
 from datetime import datetime, timedelta
+
+print("GENERATOR STARTED")
 
 OUTPUT_DIR = "data/prs"
 os.makedirs(OUTPUT_DIR, exist_ok=True)

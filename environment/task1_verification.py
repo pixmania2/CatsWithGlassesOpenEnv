@@ -1,4 +1,3 @@
-print("task1_verification loaded")
 from models import (
     PTPAObservation,
     EvidenceItem,
@@ -6,6 +5,8 @@ from models import (
 )
 from tasks import TASK1_ANSWER_KEYS
 from environment.rewards import compute_reward
+
+print("task1_verification loaded")
 
 
 # --------------------------------------------------
@@ -153,7 +154,6 @@ def handle_task1_action(action, state, prs, ipd):
         answer = TASK1_ANSWER_KEYS[state.patient.patient_id]
 
         decision = action.parameters.get("decision")
-        rationale = action.parameters.get("rationale", "")
 
         correct_decision = decision == answer["decision"]
 
