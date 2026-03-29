@@ -11,14 +11,13 @@ from __future__ import annotations
 
 import json
 import logging
+import random
 
 from fastapi import WebSocket, WebSocketDisconnect
 
 from models import (
     EpisodeStatus,
     PTPAAction,
-    ResetRequest,
-    StepRequest,
     TaskID,
 )
 
@@ -68,7 +67,6 @@ async def websocket_endpoint(websocket: WebSocket):
                 seed = data.get("seed")
                 patient_id = data.get("patient_id")
 
-                import random
                 if seed is None:
                     seed = random.randint(0, 99999)
 
@@ -115,15 +113,20 @@ async def websocket_endpoint(websocket: WebSocket):
                     await websocket.send_json({"type": "error", "data": {"error": f"Invalid action: {e}"}})
                     continue
 
+                # Validate task_id and patient_id match
+                if action.task_id != entry.task_id:
+                    await websocket.send_json({"type": "error", "data": {"error": f"Action task_id mismatch: {action.task_id.value} vs {entry.task_id.value}"}})
+                    continue
+                if action.patient_id != entry.state.patient.patient_id:
+                    await websocket.send_json({"type": "error", "data": {"error": f"Action patient_id mismatch: {action.patient_id} vs {entry.state.patient.patient_id}"}})
+                    continue
+
                 obs, reward, done, state = engine.step(episode_id, action)
                 session_store.update_state(episode_id, state)
                 session_store.record_step(episode_id, action, obs, state.progress.total_reward_so_far)
 
                 if done and entry.status == EpisodeStatus.ACTIVE:
-                    try:
-                        session_store.set_status(episode_id, EpisodeStatus.GRADING)
-                    except ValueError:
-                        pass
+                    session_store.set_status(episode_id, EpisodeStatus.GRADING)
 
                 await websocket.send_json({
                     "type": "step_response",
@@ -140,10 +143,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 if done:
                     try:
                         grader_result = engine.grade(episode_id)
-                        try:
-                            session_store.set_status(episode_id, EpisodeStatus.DONE)
-                        except ValueError:
-                            pass
+                        session_store.set_status(episode_id, EpisodeStatus.DONE)
                         await websocket.send_json({
                             "type": "grader_response",
                             "data": grader_result.model_dump(),

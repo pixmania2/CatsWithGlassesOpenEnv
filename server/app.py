@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import logging
 import os
+import random
 import traceback
-from datetime import datetime
 from typing import Any, Dict
 
 import yaml
@@ -20,29 +20,26 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from models import (
     BaselineResponse,
-    BaselineStepTrace,
-    BaselineTaskResult,
     EpisodeStatus,
-    ErrorResponse,
     GraderRequest,
     GraderResult,
-    PTPAAction,
-    PTPAObservation,
     PTPAState,
     ResetRequest,
     ResetResponse,
     StepRequest,
     StepResponse,
-    TaskID,
     TaskListResponse,
 )
-from tasks import ALL_TASKS, BASELINE_SEEDS, get_all_tasks, get_task
+from tasks import get_all_tasks, get_task
 from server.session import SessionStore
 from environment.engine import PTPAEngine
 
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+ENV_NAME = "healthcare_prior_auth"
+ENV_VERSION = "1.2.0"
+
 LOG_LEVEL = os.getenv("PTPA_LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=LOG_LEVEL)
 logger = logging.getLogger("ptpa")
@@ -52,7 +49,7 @@ logger = logging.getLogger("ptpa")
 # ---------------------------------------------------------------------------
 app = FastAPI(
     title="Patient Triage & Prior Authorization (PTPA) OpenEnv",
-    version="1.2.0",
+    version=ENV_VERSION,
     description="A healthcare RL environment for prior authorization workflows.",
 )
 app.add_middleware(
@@ -87,7 +84,6 @@ async def reset_endpoint(req: ResetRequest):
 
     seed = req.seed
     if seed is None:
-        import random
         seed = random.randint(0, 99999)
 
     seed_override = os.getenv("PTPA_SEED_OVERRIDE")
@@ -165,10 +161,7 @@ async def step_endpoint(req: StepRequest):
 
     # 6. Transition to GRADING if done
     if done and entry.status == EpisodeStatus.ACTIVE:
-        try:
-            session_store.set_status(req.episode_id, EpisodeStatus.GRADING)
-        except ValueError:
-            pass  # already transitioned inside engine
+        session_store.set_status(req.episode_id, EpisodeStatus.GRADING)
 
     return StepResponse(
         episode_id=req.episode_id,
@@ -200,8 +193,8 @@ async def tasks_endpoint():
     """Return all available tasks with action schemas and grader specs."""
     return TaskListResponse(
         tasks=get_all_tasks(),
-        environment="healthcare_prior_auth",
-        version="1.2.0",
+        environment=ENV_NAME,
+        version=ENV_VERSION,
     )
 
 
@@ -224,10 +217,7 @@ async def grader_endpoint(req: GraderRequest):
 
     # Transition to GRADING if still ACTIVE
     if entry.status == EpisodeStatus.ACTIVE:
-        try:
-            session_store.set_status(req.episode_id, EpisodeStatus.GRADING)
-        except ValueError:
-            pass
+        session_store.set_status(req.episode_id, EpisodeStatus.GRADING)
 
     try:
         result = engine.grade(req.episode_id)
@@ -236,10 +226,7 @@ async def grader_endpoint(req: GraderRequest):
         raise HTTPException(status_code=500, detail=str(exc))
 
     # Transition to DONE
-    try:
-        session_store.set_status(req.episode_id, EpisodeStatus.DONE)
-    except ValueError:
-        pass
+    session_store.set_status(req.episode_id, EpisodeStatus.DONE)
 
     entry.grader_result = result
     return result
@@ -275,8 +262,8 @@ async def health_endpoint():
     """Liveness check."""
     return {
         "status": "healthy",
-        "environment": "healthcare_prior_auth",
-        "version": "1.2.0",
+        "environment": ENV_NAME,
+        "version": ENV_VERSION,
         "active_sessions": session_store.count,
     }
 
@@ -299,9 +286,9 @@ async def validate_endpoint():
     # Check patient data (via engine)
     from environment.engine import _PATIENTS, _POLICIES
     checks["patient_fixtures"] = {
-        "status": "pass" if len(_PATIENTS) == 15 else "fail",
+        "status": "pass" if len(_PATIENTS) >= 15 else "fail",
         "count": len(_PATIENTS),
-        "expected": 15,
+        "expected": ">=15",
     }
     checks["policy_database"] = {
         "status": "pass" if len(_POLICIES) >= 3 else "fail",

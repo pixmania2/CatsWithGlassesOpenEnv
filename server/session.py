@@ -48,14 +48,8 @@ class SessionEntry:
     # Observation / step history (for baseline trace recording)
     step_history: List[Dict[str, Any]] = field(default_factory=list)
 
-    # Task 3 appeal letter (stored when generate_appeal_letter action runs)
-    appeal_letter: Optional[str] = None
-
     # Grader result (populated after POST /grader)
     grader_result: Optional[GraderResult] = None
-
-    # The last submitted decision parameters (for grading)
-    submitted_decision: Optional[Dict[str, Any]] = None
 
     @property
     def status(self) -> EpisodeStatus:
@@ -84,11 +78,9 @@ class SessionStore:
     # -- helpers -------------------------------------------------------------
 
     def _cleanup_expired(self) -> None:
-        now = time.time()
         expired = [
-            eid
-            for eid, entry in self._sessions.items()
-            if (now - entry.created_at) > self._timeout
+            eid for eid, entry in self._sessions.items()
+            if entry.is_expired
         ]
         for eid in expired:
             del self._sessions[eid]

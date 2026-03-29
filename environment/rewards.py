@@ -9,15 +9,7 @@ from __future__ import annotations
 
 from typing import Set
 
-from tasks import REWARD_SIGNALS, get_reward_value
-
-
-# ---------------------------------------------------------------------------
-# Backward-compatible shim (used by Person A's task handler files)
-# ---------------------------------------------------------------------------
-def compute_reward(signal: str) -> float:
-    """Return the scalar reward value for a named signal."""
-    return get_reward_value(signal)
+from tasks import REWARD_SIGNALS
 
 
 def discovery_reward() -> tuple[float, str]:
@@ -56,6 +48,14 @@ def destructive_penalty(reason: str = "") -> tuple[float, str]:
 def no_reward(reason: str = "") -> tuple[float, str]:
     msg = reason if reason else "No reward signal"
     return REWARD_SIGNALS["no_reward"], msg
+
+
+def compute_reward(signal_name: str) -> float:
+    """
+    Simple lookup used by task handler modules (Person A's code).
+    Accepts a reward signal name and returns its float value.
+    """
+    return REWARD_SIGNALS.get(signal_name, 0.0)
 
 
 def compute_step_reward(

@@ -228,9 +228,9 @@ class EvidenceItem(BaseModel):
     evidence_type         : str   = Field(..., description="'lab_result', 'pt_session', 'red_flag', 'policy_rule'")
     label                 : str   = Field(..., description="Human-readable label, e.g. 'HbA1c'")
     value                 : Any   = Field(..., description="Extracted value, e.g. 8.2 or '6 sessions'")
-    unit                  : Optional[str] = Field(None, description="Unit: '%', 'mg/dL', 'weeks'")
-    date                  : Optional[str] = Field(None, description="ISO date when recorded")
-    source_section        : Optional[str] = Field(None, description="Which PRS section this came from")
+    unit                  : Optional[str] = Field(default=None, description="Unit: '%', 'mg/dL', 'weeks'")
+    date                  : Optional[str] = Field(default=None, description="ISO date when recorded")
+    source_section        : Optional[str] = Field(default=None, description="Which PRS section this came from")
     clinically_significant: bool  = Field(
         False,
         description="True if this evidence directly affects the grader score"
@@ -305,7 +305,7 @@ class PTPAObservation(BaseModel):
     red_flags      : List[RedFlagItem]   = Field(default_factory=list)
     pt_sessions    : List[PTSession]     = Field(default_factory=list)
     policy_rule    : Optional[PolicyRule] = None
-    reward         : float = Field(0.0, ge=-1.0, le=1.0)
+    reward         : float = Field(default=0.0, ge=-1.0, le=1.0)
     reward_reason  : str   = ""
     step_count     : int   = 0
     done           : bool  = False
@@ -351,7 +351,7 @@ class EpisodeProgress(BaseModel):
     queried_sections       : List[str]           = Field(default_factory=list)
 
     # Loop detection
-    repeated_queries       : int   = Field(0, description="Count of duplicate queries")
+    repeated_queries       : int   = Field(default=0, description="Count of duplicate queries")
     total_reward_so_far    : float = 0.0
 
 
@@ -402,7 +402,7 @@ class GraderResult(BaseModel):
 
     # Task 3 only: LLM-as-judge sub-score for the appeal letter
     appeal_letter_score : Optional[float] = Field(
-        None, ge=0.0, le=1.0,
+        default=None, ge=0.0, le=1.0,
         description="LLM-as-judge score for appeal letter quality (Task 3 only)"
     )
 

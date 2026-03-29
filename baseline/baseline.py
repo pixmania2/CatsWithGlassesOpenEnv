@@ -14,20 +14,22 @@ import logging
 import os
 import re
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from models import (
     ActionType,
+    AuthorizationDecision,
     BaselineResponse,
     BaselineStepTrace,
     BaselineTaskResult,
+    EpisodeStatus,
     GraderResult,
     PTPAAction,
     PTPAObservation,
     PTPAState,
     TaskID,
 )
-from tasks import ALL_TASKS, BASELINE_SEEDS, get_task
+from tasks import BASELINE_SEEDS, get_task
 
 logger = logging.getLogger("ptpa.baseline")
 
@@ -279,7 +281,6 @@ async def run_baseline_internal(engine, session_store) -> BaselineResponse:
             ))
 
         # Grade
-        from models import EpisodeStatus
         try:
             session_store.set_status(episode_id, EpisodeStatus.GRADING)
         except (ValueError, KeyError):
@@ -295,7 +296,6 @@ async def run_baseline_internal(engine, session_store) -> BaselineResponse:
         agent_decision = None
         ep_data = engine.get_episode_data(episode_id)
         if ep_data and ep_data.get("submitted_decision"):
-            from models import AuthorizationDecision
             try:
                 agent_decision = AuthorizationDecision(ep_data["submitted_decision"].get("decision", ""))
             except ValueError:
@@ -327,8 +327,6 @@ async def run_baseline_internal(engine, session_store) -> BaselineResponse:
 
 def _placeholder_baseline_response() -> BaselineResponse:
     """Return a placeholder when OPENAI_API_KEY is not set."""
-    from tasks import TASK1_ANSWER_KEYS, TASK2_ANSWER_KEYS, TASK3_ANSWER_KEYS
-
     task_results = []
     for task_id, expected_score in [
         (TaskID.VERIFICATION, 0.98),
