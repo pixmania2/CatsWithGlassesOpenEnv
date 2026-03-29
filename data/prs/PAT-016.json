@@ -1,0 +1,53 @@
+{
+  "patient_id": "PAT-016",
+  "demographics": {
+    "name": "Patient PAT-016",
+    "dob": "1975-01-01",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-227936",
+    "insurer": "aetna",
+    "plan_id": "AETNA-PLAN",
+    "active": true
+  },
+  "vitals": {
+    "bmi": 30.7
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.9",
+      "primary": true
+    }
+  ],
+  "progress_notes": [],
+  "physical_exam": [],
+  "lab_results": [
+    {
+      "test_name": "fasting_glucose",
+      "value": 210,
+      "unit": "mg/dL"
+    },
+    {
+      "test_name": "HbA1c",
+      "value": 8.9,
+      "unit": "%"
+    },
+    {
+      "test_name": "glucose",
+      "value": 50,
+      "unit": "mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin",
+      "frequency": "2 times daily"
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "95250"
+  }
+}

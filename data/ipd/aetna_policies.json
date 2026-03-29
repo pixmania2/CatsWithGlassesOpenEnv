@@ -1,0 +1,12 @@
+{
+  "insurer": "aetna",
+  "eligibility": {
+    "active_required": true
+  },
+  "covered_services": {
+    "73721": {
+      "covered": true,
+      "policy_section": "Section 4.2 Covered Services"
+    }
+  }
+}

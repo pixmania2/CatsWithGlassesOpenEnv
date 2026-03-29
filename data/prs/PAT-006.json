@@ -1,0 +1,136 @@
+{
+  "patient_id": "PAT-006",
+  "demographics": {
+    "name": "Patient PAT-006",
+    "dob": "1975-01-01",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-187871",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-PLAN",
+    "active": true
+  },
+  "vitals": {
+    "bmi": 27.9
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2025-12-11",
+      "note": "Patient undergoing PT for 7 weeks"
+    }
+  ],
+  "physical_exam": [],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2026-02-08",
+      "session_number": 1,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": true
+    },
+    {
+      "session_date": "2026-02-11",
+      "session_number": 2,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2026-02-14",
+      "session_number": 3,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 4,
+      "improved": true
+    },
+    {
+      "session_date": "2026-02-17",
+      "session_number": 4,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2026-02-20",
+      "session_number": 5,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2026-02-23",
+      "session_number": 6,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2026-02-26",
+      "session_number": 7,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-01",
+      "session_number": 8,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": true
+    },
+    {
+      "session_date": "2026-03-04",
+      "session_number": 9,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-07",
+      "session_number": 10,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-10",
+      "session_number": 11,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-13",
+      "session_number": 12,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-16",
+      "session_number": 13,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2026-03-19",
+      "session_number": 14,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 8,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "73721"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "patient_id": "PAT-002",
+  "demographics": {
+    "name": "Patient PAT-002",
+    "dob": "1975-01-01",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-350335",
+    "insurer": "aetna",
+    "plan_id": "AETNA-PLAN",
+    "active": false
+  },
+  "vitals": {
+    "bmi": 31.2
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "primary": true
+    }
+  ],
+  "progress_notes": [],
+  "physical_exam": [],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "73721"
+  }
+}

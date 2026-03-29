@@ -1,0 +1,52 @@
+{
+  "patient_id": "PAT-009",
+  "demographics": {
+    "name": "Patient PAT-009",
+    "dob": "1975-01-01",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-559730",
+    "insurer": "aetna",
+    "plan_id": "AETNA-PLAN",
+    "active": true
+  },
+  "vitals": {
+    "bmi": 29.9
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2026-03-17",
+      "note": "Patient undergoing PT for 1 weeks"
+    }
+  ],
+  "physical_exam": [],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2026-03-22",
+      "session_number": 1,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2026-03-25",
+      "session_number": 2,
+      "therapist_notes": "PT session conducted",
+      "pain_score": 7,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "73721"
+  }
+}

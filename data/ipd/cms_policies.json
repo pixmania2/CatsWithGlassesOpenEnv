@@ -1,0 +1,55 @@
+{
+  "insurer": "cms",
+
+  "eligibility": {
+    "active_required": true,
+    "coverage_types": ["medical"]
+  },
+
+  "covered_services": {
+    "73721": {
+      "description": "MRI knee",
+      "covered": true,
+      "requires_prior_auth": true,
+      "policy_section": "CMS LCD L33634"
+    }
+  },
+
+  "prior_auth_criteria": {
+    "73721": {
+      "pt_required_weeks": 6,
+      "requires_conservative_treatment": true,
+      "requires_xray_first": true,
+      "policy_section": "CMS Imaging Guidelines"
+    }
+  },
+
+  "red_flag_bypass": [
+    {
+      "flag": "Suspected Tumor",
+      "bypass": ["all"],
+      "severity": "critical",
+      "policy_section": "CMS Emergency Clause"
+    }
+  ],
+
+  "step_therapy_rules": {
+    "CGM": {
+      "min_insulin_injections_per_day": 2,
+      "required_duration_months": 6,
+      "requires_failure": true
+    }
+  },
+
+  "exception_criteria": {
+    "CGM": [
+      {
+        "type": "hypoglycemia",
+        "metric": "glucose",
+        "threshold": 54,
+        "operator": "<",
+        "policy_section": "CMS CGM Hypoglycemia Exception"
+      }
+    ]
+  }
+}

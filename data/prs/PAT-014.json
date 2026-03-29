@@ -1,0 +1,53 @@
+{
+  "patient_id": "PAT-014",
+  "demographics": {
+    "name": "Patient PAT-014",
+    "dob": "1975-01-01",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-544607",
+    "insurer": "cms",
+    "plan_id": "CMS-PLAN",
+    "active": true
+  },
+  "vitals": {
+    "bmi": 25.1
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.9",
+      "primary": true
+    }
+  ],
+  "progress_notes": [],
+  "physical_exam": [],
+  "lab_results": [
+    {
+      "test_name": "fasting_glucose",
+      "value": 180,
+      "unit": "mg/dL"
+    },
+    {
+      "test_name": "HbA1c",
+      "value": 9.2,
+      "unit": "%"
+    },
+    {
+      "test_name": "glucose",
+      "value": 45,
+      "unit": "mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin",
+      "frequency": "1 times daily"
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "95250"
+  }
+}
