@@ -2,7 +2,7 @@
 # Build:  docker build -t ptpa-env .
 # Run:    docker run -p 8000:8000 -e OPENAI_API_KEY=$OPENAI_API_KEY ptpa-env
 
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
