@@ -15,7 +15,7 @@ import traceback
 from typing import Any, Dict
 
 import yaml
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import Body, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -30,6 +30,7 @@ from models import (
     ResetResponse,
     StepRequest,
     StepResponse,
+    TaskID,
     TaskListResponse,
 )
 from tasks import get_all_tasks, get_task
@@ -89,12 +90,20 @@ app.mount("/static", StaticFiles(directory=_STATIC_DIR), name="static")
 # POST /reset
 # ===================================================================
 @app.post("/reset", response_model=ResetResponse)
-async def reset_endpoint(req: ResetRequest):
+async def reset_endpoint(req: ResetRequest = Body(default=None)):
     """Initialize a new episode for the given task."""
+    if req is None:
+        req = ResetRequest()
+
+    # Default to a random task if none provided
+    task_id = req.task_id
+    if task_id is None:
+        task_id = random.choice(list(TaskID))
+
     try:
-        get_task(req.task_id)  # validate task exists
+        get_task(task_id)  # validate task exists
     except KeyError:
-        raise HTTPException(status_code=400, detail=f"Unknown task_id: {req.task_id}")
+        raise HTTPException(status_code=400, detail=f"Unknown task_id: {task_id}")
 
     episode_id = SessionStore.generate_episode_id()
 
@@ -109,7 +118,7 @@ async def reset_endpoint(req: ResetRequest):
     try:
         obs, state = engine.reset(
             episode_id=episode_id,
-            task_id=req.task_id,
+            task_id=task_id,
             seed=seed,
             patient_id=req.patient_id,
         )
@@ -117,11 +126,11 @@ async def reset_endpoint(req: ResetRequest):
         logger.error("Reset failed: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc))
 
-    session_store.create(task_id=req.task_id, state=state)
+    session_store.create(task_id=task_id, state=state)
 
     return ResetResponse(
         episode_id=episode_id,
-        task_id=req.task_id,
+        task_id=task_id,
         initial_observation=obs,
         state=state,
     )

@@ -504,12 +504,14 @@ class BaselineResponse(BaseModel):
 
 class ResetRequest(BaseModel):
     """Request body for POST /reset."""
-    task_id    : TaskID
+    task_id    : Optional[TaskID] = Field(
+        default=None, description="Task to run. None = random task."
+    )
     seed       : Optional[int] = Field(
-        None, description="Fix seed for reproducible episodes. None = random."
+        default=None, description="Fix seed for reproducible episodes. None = random."
     )
     patient_id : Optional[str] = Field(
-        None, description="Request a specific patient fixture. None = sampled by seed."
+        default=None, description="Request a specific patient fixture. None = sampled by seed."
     )
 
 
