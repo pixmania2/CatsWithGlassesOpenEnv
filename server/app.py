@@ -372,8 +372,79 @@ async def info_endpoint():
 
 
 # ===================================================================
+# GET /metadata  (OpenEnv spec requirement)
+# ===================================================================
+@app.get("/metadata")
+async def metadata_endpoint():
+    """Return environment name and description (OpenEnv spec)."""
+    try:
+        yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "openenv.yaml")
+        with open(yaml_path) as f:
+            manifest = yaml.safe_load(f)
+    except Exception:
+        manifest = {}
+
+    return {
+        "name": manifest.get("name", "healthcare_prior_auth"),
+        "description": manifest.get("description", ""),
+        "version": manifest.get("version", ENV_VERSION),
+        "display_name": manifest.get("display_name", "Patient Triage & Prior Authorization"),
+        "author": manifest.get("author", "PTPA Team"),
+    }
+
+
+# ===================================================================
+# GET /schema  (OpenEnv spec requirement)
+# ===================================================================
+@app.get("/schema")
+async def schema_endpoint():
+    """Return JSON schemas for action, observation, and state (OpenEnv spec)."""
+    from models import PTPAAction, PTPAObservation, PTPAState
+
+    return {
+        "action": PTPAAction.model_json_schema(),
+        "observation": PTPAObservation.model_json_schema(),
+        "state": PTPAState.model_json_schema(),
+    }
+
+
+# ===================================================================
+# POST /mcp  (OpenEnv spec — MCP JSON-RPC stub)
+# ===================================================================
+@app.post("/mcp")
+async def mcp_endpoint():
+    """MCP JSON-RPC endpoint stub (OpenEnv spec)."""
+    return {
+        "jsonrpc": "2.0",
+        "result": {
+            "name": "healthcare_prior_auth",
+            "version": ENV_VERSION,
+            "capabilities": {
+                "tools": True,
+                "resources": False,
+                "prompts": False,
+            },
+        },
+        "id": 1,
+    }
+
+
+# ===================================================================
 # WebSocket — imported from websocket module
 # ===================================================================
 from server.websocket import websocket_endpoint  # noqa: E402
 
 app.add_api_websocket_route("/ws", websocket_endpoint)
+
+
+# ===================================================================
+# Entry point for `openenv serve` and `project.scripts`
+# ===================================================================
+def main():
+    """Start the PTPA OpenEnv server."""
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+if __name__ == "__main__":
+    main()
