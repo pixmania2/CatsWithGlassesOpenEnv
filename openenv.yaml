@@ -28,6 +28,23 @@ author: "PTPA Team"
 license: "MIT"
 
 # ---------------------------------------------------------------------------
+# TASKS (top-level reference for validators)
+# ---------------------------------------------------------------------------
+tasks:
+  - task_id: task1_verification
+    name: "Insurance Verification & Eligibility"
+    difficulty: easy
+    baseline_expected_score: 0.98
+  - task_id: task2_mri_necessity
+    name: "Medical Necessity Review — MRI"
+    difficulty: medium
+    baseline_expected_score: 0.42
+  - task_id: task3_cgm_appeal
+    name: "Medical Exception Appeal — CGM"
+    difficulty: hard
+    baseline_expected_score: 0.15
+
+# ---------------------------------------------------------------------------
 # HUGGINGFACE SPACES CONFIGURATION
 # ---------------------------------------------------------------------------
 tags:
