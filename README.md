@@ -1,14 +1,3 @@
----
-title: CatsWithGlassesOpenEnv
-emoji: 🏥
-colorFrom: blue
-colorTo: green
-sdk: docker
-app_port: 8000
-tags:
-  - openenv
----
-
 # Patient Triage & Prior Authorization (PTPA) OpenEnv
 
 A high-fidelity healthcare environment for training and evaluating AI agents on real-world prior authorization (PA) workflows. Agents must navigate insurance eligibility verification, medical necessity assessment for advanced imaging, and complex exception appeal construction for diabetic management devices.
