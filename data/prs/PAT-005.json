@@ -1,32 +1,53 @@
 {
   "patient_id": "PAT-005",
   "demographics": {
-    "name": "Patient PAT-005",
-    "dob": "1975-01-01",
+    "name": "Thomas Patel",
+    "dob": "1990-06-30",
     "gender": "male"
   },
   "insurance": {
-    "member_id": "MBR-139400",
-    "insurer": "cigna",
-    "plan_id": "CIGNA-PLAN",
+    "member_id": "MBR-998877",
+    "insurer": "aetna",
+    "plan_id": "AETNA-BASIC-EPO",
     "active": true
   },
   "vitals": {
-    "bmi": 29.7
+    "height_cm": 180,
+    "weight_kg": 78,
+    "bmi": 24.1
   },
   "diagnosis_codes": [
     {
-      "code": "M17.11",
+      "code": "G43.909",
+      "description": "Migraine, unspecified",
       "primary": true
     }
   ],
-  "progress_notes": [],
-  "physical_exam": [],
+  "progress_notes": [
+    {
+      "date": "2024-09-01",
+      "note": "Frequent migraines. Requesting brain MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-01",
+      "findings": "Cranial nerves intact. No focal deficits."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [],
-  "pharmacy_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Sumatriptan 50mg",
+      "start_date": "2024-03-01",
+      "duration_days": 180
+    }
+  ],
   "imaging_history": [],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "70553",
+    "description": "MRI brain with and without contrast"
+  },
+  "attending_physician": "Dr. Nora Reyes"
 }

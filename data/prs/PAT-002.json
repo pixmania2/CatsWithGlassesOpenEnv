@@ -1,32 +1,53 @@
 {
   "patient_id": "PAT-002",
   "demographics": {
-    "name": "Patient PAT-002",
-    "dob": "1975-01-01",
+    "name": "Maria Gonzalez",
+    "dob": "1978-09-22",
     "gender": "female"
   },
   "insurance": {
-    "member_id": "MBR-350335",
-    "insurer": "aetna",
-    "plan_id": "AETNA-PLAN",
+    "member_id": "MBR-556789",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-HMO-STANDARD",
     "active": false
   },
   "vitals": {
-    "bmi": 31.2
+    "height_cm": 163,
+    "weight_kg": 65,
+    "bmi": 24.5
   },
   "diagnosis_codes": [
     {
-      "code": "M17.11",
+      "code": "M54.5",
+      "description": "Low back pain",
       "primary": true
     }
   ],
-  "progress_notes": [],
-  "physical_exam": [],
+  "progress_notes": [
+    {
+      "date": "2024-07-10",
+      "note": "Chronic low back pain, requesting lumbar MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-10",
+      "findings": "Paravertebral tenderness L4-L5. SLR negative."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [],
-  "pharmacy_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-03-01",
+      "duration_days": 90
+    }
+  ],
   "imaging_history": [],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee"
 }

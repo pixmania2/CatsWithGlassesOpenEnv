@@ -158,7 +158,7 @@ baseline:
     task3_cgm_appeal:    0.15
     overall_mean:        0.52
   api_key_env_var: "OPENAI_API_KEY"
-  script: "baseline/run_baseline.py"
+  script: "baseline/baseline.py"
 
 # ---------------------------------------------------------------------------
 # INFRASTRUCTURE & DEPLOYMENT
@@ -210,4 +210,4 @@ infrastructure:
 # │       ├── cigna_policies.json
 # │       └── cms_policies.json
 # └── baseline/
-#     └── run_baseline.py
+#     └── baseline.py

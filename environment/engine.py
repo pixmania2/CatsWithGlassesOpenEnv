@@ -17,11 +17,9 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from models import (
     ActionType,
-    AuthorizationDecision,
     EpisodeProgress,
     EpisodeStatus,
     EvidenceItem,
-    GraderComponentScore,
     GraderResult,
     PatientRecord,
     PolicyRule,
@@ -40,6 +38,9 @@ from tasks import (
     get_task,
 )
 from environment.rewards import compute_step_reward, no_reward
+from environment.task1_verification import grade as grade_task1
+from environment.task2_mri_necessity import grade as grade_task2
+from environment.task3_cgm_appeal import grade as grade_task3
 
 
 # =========================================================================
@@ -416,11 +417,11 @@ class PTPAEngine:
         submitted = ep.get("submitted_decision") or {}
 
         if task_id == TaskID.VERIFICATION:
-            return _grade_task1(pid, submitted, progress, episode_id)
+            return grade_task1(pid, submitted, progress, episode_id)
         elif task_id == TaskID.MRI_NECESSITY:
-            return _grade_task2(pid, submitted, progress, episode_id)
+            return grade_task2(pid, submitted, progress, episode_id)
         elif task_id == TaskID.CGM_APPEAL:
-            return _grade_task3(pid, submitted, progress, ep, episode_id)
+            return grade_task3(pid, submitted, progress, ep, episode_id)
         else:
             raise ValueError(f"Unknown task: {task_id}")
 
@@ -818,160 +819,4 @@ _ACTION_HANDLERS = {
 }
 
 
-# =========================================================================
-# GRADERS
-# =========================================================================
 
-def _grade_task1(pid: str, submitted: dict, progress: EpisodeProgress, episode_id: str) -> GraderResult:
-    key = TASK1_ANSWER_KEYS.get(pid, {})
-    correct_decision = key.get("decision")
-    agent_decision_str = submitted.get("decision", "")
-
-    elig_score = 1.0 if progress.eligibility_verified else 0.0
-    cov_score = 1.0 if progress.cpt_coverage_checked else 0.0
-
-    try:
-        agent_decision = AuthorizationDecision(agent_decision_str)
-        decision_correct = agent_decision == correct_decision
-    except ValueError:
-        agent_decision = None
-        decision_correct = False
-
-    if not decision_correct:
-        elig_score *= 0.5
-        cov_score *= 0.5
-
-    rationale = submitted.get("rationale", "")
-    correct_section = key.get("correct_policy_section", "")
-    if correct_section and correct_section.lower() in rationale.lower():
-        rat_score = 1.0
-    elif key.get("insurer", "") in rationale.lower():
-        rat_score = 0.5
-    else:
-        rat_score = 0.0
-
-    components = [
-        GraderComponentScore(component_name="eligibility_status", weight=0.40, score=elig_score, weighted_score=0.40 * elig_score, passed=elig_score > 0.5, feedback=f"Eligibility verified: {progress.eligibility_verified}"),
-        GraderComponentScore(component_name="procedure_coverage", weight=0.40, score=cov_score, weighted_score=0.40 * cov_score, passed=cov_score > 0.5, feedback=f"CPT coverage checked: {progress.cpt_coverage_checked}"),
-        GraderComponentScore(component_name="policy_rationale", weight=0.20, score=rat_score, weighted_score=0.20 * rat_score, passed=rat_score > 0.5, feedback=f"Rationale quality: {rat_score}"),
-    ]
-    final = sum(c.weighted_score for c in components)
-
-    return GraderResult(
-        task_id=TaskID.VERIFICATION, episode_id=episode_id,
-        final_score=round(final, 4), components=components,
-        decision_made=agent_decision, decision_correct=decision_correct,
-        feedback=f"Decision: {agent_decision_str} | Correct: {correct_decision.value if correct_decision else 'N/A'} | Score: {final:.2f}",
-    )
-
-
-def _grade_task2(pid: str, submitted: dict, progress: EpisodeProgress, episode_id: str) -> GraderResult:
-    key = TASK2_ANSWER_KEYS.get(pid, {})
-    correct_decision = key.get("decision")
-    agent_decision_str = submitted.get("decision", "")
-
-    try:
-        agent_decision = AuthorizationDecision(agent_decision_str)
-        decision_correct = agent_decision == correct_decision
-    except ValueError:
-        agent_decision = None
-        decision_correct = False
-
-    ev_score = 1.0 if progress.pt_sessions_extracted else 0.0
-
-    dur_score = 0.0
-    if progress.policy_retrieved:
-        dur_score = 0.5
-    if decision_correct:
-        dur_score = 1.0
-
-    rf_score = 0.0
-    if progress.red_flags_checked:
-        rf_score = 1.0
-
-    dec_score = 1.0 if decision_correct else 0.0
-
-    components = [
-        GraderComponentScore(component_name="evidence_extraction", weight=0.35, score=ev_score, weighted_score=0.35 * ev_score, passed=ev_score > 0.5, feedback=f"PT sessions extracted: {progress.pt_sessions_extracted}"),
-        GraderComponentScore(component_name="policy_duration_logic", weight=0.30, score=dur_score, weighted_score=0.30 * dur_score, passed=dur_score > 0.5, feedback=f"Duration logic score: {dur_score}"),
-        GraderComponentScore(component_name="red_flag_recognition", weight=0.20, score=rf_score, weighted_score=0.20 * rf_score, passed=rf_score > 0.5, feedback=f"Red flags checked: {progress.red_flags_checked}"),
-        GraderComponentScore(component_name="final_decision_accuracy", weight=0.15, score=dec_score, weighted_score=0.15 * dec_score, passed=decision_correct, feedback=f"Decision correct: {decision_correct}"),
-    ]
-    final = sum(c.weighted_score for c in components)
-
-    return GraderResult(
-        task_id=TaskID.MRI_NECESSITY, episode_id=episode_id,
-        final_score=round(final, 4), components=components,
-        decision_made=agent_decision, decision_correct=decision_correct,
-        feedback=f"Decision: {agent_decision_str} | Correct: {correct_decision.value if correct_decision else 'N/A'} | Score: {final:.2f}",
-    )
-
-
-def _grade_task3(pid: str, submitted: dict, progress: EpisodeProgress, ep: dict, episode_id: str) -> GraderResult:
-    key = TASK3_ANSWER_KEYS.get(pid, {})
-    correct_decision = key.get("decision")
-    agent_decision_str = submitted.get("decision", "")
-
-    try:
-        agent_decision = AuthorizationDecision(agent_decision_str)
-        decision_correct = agent_decision == correct_decision
-    except ValueError:
-        agent_decision = None
-        decision_correct = False
-
-    # Metric identification (40%)
-    metric_score = 0.0
-    if progress.lab_values_extracted:
-        metric_score = 0.5
-        rationale = submitted.get("rationale", "")
-        qv = key.get("qualifying_value")
-        if qv is not None and str(int(qv)) in rationale:
-            metric_score = 1.0
-        elif key.get("exception_type") and key["exception_type"].replace("_", " ") in rationale.lower():
-            metric_score = 0.75
-
-    # Rationale mapping (30%)
-    rat_score = 0.0
-    correct_clause = key.get("correct_exception_clause", "") or ""
-    rationale = submitted.get("rationale", "")
-    policy_cited = submitted.get("policy_section_cited", "")
-    if correct_clause:
-        if correct_clause.lower() in rationale.lower() or correct_clause.lower() in policy_cited.lower():
-            rat_score = 1.0
-        elif key.get("insurer", "") in rationale.lower() and "exception" in rationale.lower():
-            rat_score = 0.5
-
-    # Appeal letter quality (30%)
-    letter_score = 0.0
-    letter = ep.get("appeal_letter", "")
-    if letter:
-        checks = 0
-        patient_data = ep.get("patient_data", {})
-        if any(dx.get("code", "") in letter for dx in patient_data.get("diagnosis_codes", [])):
-            checks += 1
-        for lab in patient_data.get("lab_results", []):
-            if str(lab.get("value", "")) in letter:
-                checks += 1
-                break
-        if correct_clause and any(word in letter.lower() for word in correct_clause.lower().split()[:3]):
-            checks += 1
-        if "dear" in letter.lower() or "to:" in letter.lower():
-            checks += 1
-        if "npi" in letter.lower() or "respectfully" in letter.lower():
-            checks += 1
-        letter_score = checks / 5.0
-
-    components = [
-        GraderComponentScore(component_name="metric_identification", weight=0.40, score=metric_score, weighted_score=0.40 * metric_score, passed=metric_score > 0.5, feedback=f"Metric identification: {metric_score}"),
-        GraderComponentScore(component_name="rationale_mapping", weight=0.30, score=rat_score, weighted_score=0.30 * rat_score, passed=rat_score > 0.5, feedback=f"Rationale mapping: {rat_score}"),
-        GraderComponentScore(component_name="appeal_letter_quality", weight=0.30, score=letter_score, weighted_score=0.30 * letter_score, passed=letter_score > 0.5, feedback=f"Appeal letter score: {letter_score}"),
-    ]
-    final = sum(c.weighted_score for c in components)
-
-    return GraderResult(
-        task_id=TaskID.CGM_APPEAL, episode_id=episode_id,
-        final_score=round(final, 4), components=components,
-        decision_made=agent_decision, decision_correct=decision_correct,
-        feedback=f"Decision: {agent_decision_str} | Correct: {correct_decision.value if correct_decision else 'N/A'} | Score: {final:.2f}",
-        appeal_letter_score=round(letter_score, 4),
-    )

@@ -1,52 +1,165 @@
 {
   "patient_id": "PAT-009",
   "demographics": {
-    "name": "Patient PAT-009",
-    "dob": "1975-01-01",
-    "gender": "female"
+    "name": "Richard Thompson",
+    "dob": "1960-02-14",
+    "gender": "male"
   },
   "insurance": {
-    "member_id": "MBR-559730",
-    "insurer": "aetna",
-    "plan_id": "AETNA-PLAN",
+    "member_id": "MBR-223344",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
     "active": true
   },
   "vitals": {
-    "bmi": 29.9
+    "height_cm": 175,
+    "weight_kg": 95,
+    "bmi": 31.0
   },
   "diagnosis_codes": [
     {
-      "code": "M17.11",
+      "code": "M54.5",
+      "description": "Low back pain",
       "primary": true
     }
   ],
   "progress_notes": [
     {
-      "date": "2026-03-17",
-      "note": "Patient undergoing PT for 1 weeks"
+      "date": "2024-04-01",
+      "note": "Chronic LBP. 7.5 weeks PT completed. Requesting lumbar MRI."
     }
   ],
-  "physical_exam": [],
+  "physical_exam": [
+    {
+      "date": "2024-04-01",
+      "findings": "Positive SLR right at 40 degrees. Decreased ankle reflex. No red flags."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [
     {
-      "session_date": "2026-03-22",
+      "session_date": "2024-02-05",
       "session_number": 1,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 6,
+      "therapist_notes": "Session 1.",
+      "pain_score": 7.0,
       "improved": true
     },
     {
-      "session_date": "2026-03-25",
+      "session_date": "2024-02-08",
       "session_number": 2,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
+      "therapist_notes": "Session 2.",
+      "pain_score": 6.7,
+      "improved": true
+    },
+    {
+      "session_date": "2024-02-11",
+      "session_number": 3,
+      "therapist_notes": "Session 3.",
+      "pain_score": 6.4,
+      "improved": true
+    },
+    {
+      "session_date": "2024-02-14",
+      "session_number": 4,
+      "therapist_notes": "Session 4.",
+      "pain_score": 6.1,
+      "improved": true
+    },
+    {
+      "session_date": "2024-02-17",
+      "session_number": 5,
+      "therapist_notes": "Session 5.",
+      "pain_score": 5.8,
+      "improved": true
+    },
+    {
+      "session_date": "2024-02-20",
+      "session_number": 6,
+      "therapist_notes": "Session 6.",
+      "pain_score": 5.5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-23",
+      "session_number": 7,
+      "therapist_notes": "Session 7.",
+      "pain_score": 5.2,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-26",
+      "session_number": 8,
+      "therapist_notes": "Session 8.",
+      "pain_score": 4.9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-29",
+      "session_number": 9,
+      "therapist_notes": "Session 9.",
+      "pain_score": 4.6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-32",
+      "session_number": 10,
+      "therapist_notes": "Session 10.",
+      "pain_score": 4.300000000000001,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-35",
+      "session_number": 11,
+      "therapist_notes": "Session 11.",
+      "pain_score": 4.0,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-38",
+      "session_number": 12,
+      "therapist_notes": "Session 12.",
+      "pain_score": 4.0,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-41",
+      "session_number": 13,
+      "therapist_notes": "Session 13.",
+      "pain_score": 4.0,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-44",
+      "session_number": 14,
+      "therapist_notes": "Session 14.",
+      "pain_score": 4.0,
+      "improved": false
+    },
+    {
+      "session_date": "2024-02-47",
+      "session_number": 15,
+      "therapist_notes": "Session 15.",
+      "pain_score": 4.0,
       "improved": false
     }
   ],
-  "pharmacy_history": [],
-  "imaging_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Meloxicam 15mg",
+      "start_date": "2024-01-15",
+      "duration_days": 90
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-01-20",
+      "findings": "Disc narrowing L4-L5."
+    }
+  ],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks"
 }

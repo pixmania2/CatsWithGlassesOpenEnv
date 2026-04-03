@@ -1,55 +1,93 @@
 {
   "insurer": "cms",
-
   "eligibility": {
     "active_required": true,
-    "coverage_types": ["medical"]
+    "plan_ids": [
+      "MEDICARE-PART-B"
+    ]
   },
-
   "covered_services": {
     "73721": {
-      "description": "MRI knee",
       "covered": true,
-      "requires_prior_auth": true,
-      "policy_section": "CMS LCD L33634"
+      "description": "MRI knee",
+      "icd10": [
+        "M17.11"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "72148": {
+      "covered": true,
+      "description": "MRI lumbar",
+      "icd10": [
+        "M54.5",
+        "M51.16"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "E2101": {
+      "covered": true,
+      "description": "CGM receiver",
+      "icd10": [
+        "E11.65",
+        "E11.649"
+      ],
+      "note": "Requires medical necessity",
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "K0553": {
+      "covered": true,
+      "description": "CGM receiver",
+      "icd10": [
+        "E11.65",
+        "E11.649"
+      ],
+      "note": "Requires medical necessity",
+      "policy_section": "Section 4.2 Covered Services"
     }
   },
-
   "prior_auth_criteria": {
     "73721": {
       "pt_required_weeks": 6,
-      "requires_conservative_treatment": true,
-      "requires_xray_first": true,
-      "policy_section": "CMS Imaging Guidelines"
+      "conservative_therapy_weeks": 6,
+      "policy_section": "CMS LCD L33642"
+    },
+    "72148": {
+      "pt_required_weeks": 6,
+      "conservative_therapy_weeks": 6,
+      "policy_section": "CMS LCD L33642"
     }
   },
-
-  "red_flag_bypass": [
-    {
-      "flag": "Suspected Tumor",
-      "bypass": ["all"],
-      "severity": "critical",
-      "policy_section": "CMS Emergency Clause"
-    }
-  ],
-
+  "red_flag_bypass": [],
   "step_therapy_rules": {
     "CGM": {
       "min_insulin_injections_per_day": 2,
-      "required_duration_months": 6,
-      "requires_failure": true
+      "min_daily_insulin_injections": 2
     }
   },
-
   "exception_criteria": {
     "CGM": [
       {
-        "type": "hypoglycemia",
+        "type": "dawn_phenomenon",
+        "metric": "fasting_glucose",
+        "threshold": 200,
+        "operator": ">",
+        "policy_section": "CMS LCD L33822 CGM Exception"
+      },
+      {
+        "type": "hypoglycemic_unawareness",
         "metric": "glucose",
         "threshold": 54,
         "operator": "<",
-        "policy_section": "CMS CGM Hypoglycemia Exception"
+        "policy_section": "CMS LCD L33822 CGM Exception"
       }
+    ]
+  },
+  "appeal_process": {
+    "filing_deadline_days": 120,
+    "levels": [
+      "Redetermination",
+      "Reconsideration",
+      "ALJ Hearing"
     ]
   }
 }

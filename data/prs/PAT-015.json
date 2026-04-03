@@ -1,48 +1,94 @@
 {
   "patient_id": "PAT-015",
   "demographics": {
-    "name": "Patient PAT-015",
-    "dob": "1975-01-01",
-    "gender": "female"
+    "name": "George Alvarez",
+    "dob": "1962-01-10",
+    "gender": "male"
   },
   "insurance": {
-    "member_id": "MBR-304679",
+    "member_id": "MBR-222324",
     "insurer": "cms",
-    "plan_id": "CMS-PLAN",
+    "plan_id": "MEDICARE-PART-B",
     "active": true
   },
   "vitals": {
-    "bmi": 31.2
+    "height_cm": 170,
+    "weight_kg": 92,
+    "bmi": 31.8
   },
   "diagnosis_codes": [
     {
-      "code": "E11.9",
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
       "primary": true
     }
   ],
-  "progress_notes": [],
-  "physical_exam": [],
+  "progress_notes": [
+    {
+      "date": "2024-09-01",
+      "note": "Fasting glucose > 200 mg/dL on consecutive mornings. Dawn Phenomenon. CGM needed."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-01",
+      "findings": "Peripheral neuropathy bilateral. Mild retinopathy."
+    }
+  ],
   "lab_results": [
     {
-      "test_name": "fasting_glucose",
-      "value": 180,
-      "unit": "mg/dL"
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.4,
+      "unit": "%",
+      "date": "2024-08-15",
+      "reference_range": "< 7.0%"
     },
     {
-      "test_name": "HbA1c",
-      "value": 9.4,
-      "unit": "%"
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 215,
+      "unit": "mg/dL",
+      "date": "2024-08-28",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 222,
+      "unit": "mg/dL",
+      "date": "2024-08-29",
+      "reference_range": "70-100 mg/dL"
     }
   ],
   "pt_sessions": [],
   "pharmacy_history": [
     {
-      "medication": "Insulin",
-      "frequency": "1 times daily"
+      "medication": "Insulin Glargine 35 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 240
+    },
+    {
+      "medication": "Insulin Lispro 10 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 240
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-06-01",
+      "duration_days": 820
     }
   ],
   "imaging_history": [],
   "requested_procedure": {
-    "cpt_code": "95250"
-  }
+    "cpt_code": "K0553",
+    "description": "CGM receiver"
+  },
+  "attending_physician": "Dr. Patricia Hernandez"
 }

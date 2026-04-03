@@ -1,136 +1,75 @@
 {
   "patient_id": "PAT-008",
   "demographics": {
-    "name": "Patient PAT-008",
-    "dob": "1975-01-01",
-    "gender": "male"
+    "name": "Susan Chen",
+    "dob": "1975-12-08",
+    "gender": "female"
   },
   "insurance": {
-    "member_id": "MBR-535580",
+    "member_id": "MBR-778899",
     "insurer": "cigna",
-    "plan_id": "CIGNA-PLAN",
+    "plan_id": "CIGNA-HMO-STANDARD",
     "active": true
   },
   "vitals": {
-    "bmi": 22.8
+    "height_cm": 158,
+    "weight_kg": 60,
+    "bmi": 24.0
   },
   "diagnosis_codes": [
     {
       "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
       "primary": true
     }
   ],
   "progress_notes": [
     {
-      "date": "2025-12-25",
-      "note": "Patient undergoing PT for 7 weeks"
+      "date": "2024-06-20",
+      "note": "Mild knee pain. 2 weeks PT. Requesting early MRI."
     }
   ],
-  "physical_exam": [],
+  "physical_exam": [
+    {
+      "date": "2024-06-20",
+      "findings": "Mild crepitus. Full ROM. No effusion. No locking."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [
     {
-      "session_date": "2026-02-08",
+      "session_date": "2024-06-10",
       "session_number": 1,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": true
+      "therapist_notes": "Initial eval.",
+      "pain_score": 4,
+      "improved": false
     },
     {
-      "session_date": "2026-02-11",
+      "session_date": "2024-06-14",
       "session_number": 2,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
+      "therapist_notes": "Good progress.",
+      "pain_score": 3,
       "improved": true
     },
     {
-      "session_date": "2026-02-14",
+      "session_date": "2024-06-19",
       "session_number": 3,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 6,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-17",
-      "session_number": 4,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-20",
-      "session_number": 5,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-23",
-      "session_number": 6,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 6,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-26",
-      "session_number": 7,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 6,
+      "therapist_notes": "Continued improvement.",
+      "pain_score": 3,
       "improved": true
-    },
-    {
-      "session_date": "2026-03-01",
-      "session_number": 8,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-04",
-      "session_number": 9,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-07",
-      "session_number": 10,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 5,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-10",
-      "session_number": 11,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-13",
-      "session_number": 12,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 5,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-16",
-      "session_number": 13,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-19",
-      "session_number": 14,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 6,
-      "improved": false
     }
   ],
-  "pharmacy_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 400mg",
+      "start_date": "2024-06-01",
+      "duration_days": 30
+    }
+  ],
   "imaging_history": [],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Lisa Wang"
 }

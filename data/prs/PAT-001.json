@@ -1,32 +1,60 @@
 {
   "patient_id": "PAT-001",
   "demographics": {
-    "name": "Patient PAT-001",
-    "dob": "1975-01-01",
+    "name": "John Carter",
+    "dob": "1965-04-12",
     "gender": "male"
   },
   "insurance": {
-    "member_id": "MBR-695872",
+    "member_id": "MBR-881234",
     "insurer": "aetna",
-    "plan_id": "AETNA-PLAN",
+    "plan_id": "AETNA-GOLD-PPO",
     "active": true
   },
   "vitals": {
-    "bmi": 23.8
+    "height_cm": 178,
+    "weight_kg": 88,
+    "bmi": 27.8,
+    "bp": "138/85"
   },
   "diagnosis_codes": [
     {
       "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
       "primary": true
     }
   ],
-  "progress_notes": [],
-  "physical_exam": [],
+  "progress_notes": [
+    {
+      "date": "2024-06-01",
+      "note": "Persistent right knee pain 6/10 severity, worsening over 3 months."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-06-01",
+      "findings": "Crepitus on flexion. ROM limited to 110 degrees. Mild effusion."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [],
-  "pharmacy_history": [],
-  "imaging_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 600mg",
+      "start_date": "2024-04-01",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-05-15",
+      "findings": "Mild joint space narrowing."
+    }
+  ],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell"
 }

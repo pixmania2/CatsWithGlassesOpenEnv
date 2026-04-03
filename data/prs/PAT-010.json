@@ -1,136 +1,68 @@
 {
   "patient_id": "PAT-010",
   "demographics": {
-    "name": "Patient PAT-010",
-    "dob": "1975-01-01",
+    "name": "Angela Davis",
+    "dob": "1988-10-05",
     "gender": "female"
   },
   "insurance": {
-    "member_id": "MBR-597263",
-    "insurer": "cms",
-    "plan_id": "CMS-PLAN",
+    "member_id": "MBR-556677",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
     "active": true
   },
   "vitals": {
-    "bmi": 28.7
+    "height_cm": 170,
+    "weight_kg": 68,
+    "bmi": 23.5
   },
   "diagnosis_codes": [
     {
       "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
       "primary": true
     }
   ],
   "progress_notes": [
     {
-      "date": "2026-02-15",
-      "note": "Patient undergoing PT for 7 weeks"
+      "date": "2024-07-15",
+      "note": "New knee pain 2 weeks ago. 1.5 weeks PT. Wants MRI."
     }
   ],
-  "physical_exam": [],
+  "physical_exam": [
+    {
+      "date": "2024-07-15",
+      "findings": "Mild tenderness. Full ROM. No effusion. No red flags."
+    }
+  ],
   "lab_results": [],
   "pt_sessions": [
     {
-      "session_date": "2026-02-08",
+      "session_date": "2024-07-05",
       "session_number": 1,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": true
+      "therapist_notes": "Initial eval.",
+      "pain_score": 4,
+      "improved": false
     },
     {
-      "session_date": "2026-02-11",
+      "session_date": "2024-07-12",
       "session_number": 2,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
+      "therapist_notes": "Some improvement.",
+      "pain_score": 3,
       "improved": true
-    },
-    {
-      "session_date": "2026-02-14",
-      "session_number": 3,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 5,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-17",
-      "session_number": 4,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-20",
-      "session_number": 5,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
-      "improved": false
-    },
-    {
-      "session_date": "2026-02-23",
-      "session_number": 6,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
-      "improved": true
-    },
-    {
-      "session_date": "2026-02-26",
-      "session_number": 7,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-01",
-      "session_number": 8,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 4,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-04",
-      "session_number": 9,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-07",
-      "session_number": 10,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-10",
-      "session_number": 11,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-13",
-      "session_number": 12,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 7,
-      "improved": false
-    },
-    {
-      "session_date": "2026-03-16",
-      "session_number": 13,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 5,
-      "improved": true
-    },
-    {
-      "session_date": "2026-03-19",
-      "session_number": 14,
-      "therapist_notes": "PT session conducted",
-      "pain_score": 8,
-      "improved": false
     }
   ],
-  "pharmacy_history": [],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 400mg",
+      "start_date": "2024-07-01",
+      "duration_days": 14
+    }
+  ],
   "imaging_history": [],
   "requested_procedure": {
-    "cpt_code": "73721"
-  }
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell"
 }
