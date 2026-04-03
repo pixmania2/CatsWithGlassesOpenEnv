@@ -10,8 +10,6 @@ Usage:
 """
 
 import asyncio
-import argparse
-import sys
 
 from environment.engine import PTPAEngine
 from server.session import SessionStore
@@ -19,10 +17,6 @@ from baseline.baseline import run_baseline_internal
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run PTPA baseline inference")
-    parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    args = parser.parse_args()
-
     engine = PTPAEngine()
     store = SessionStore()
 
