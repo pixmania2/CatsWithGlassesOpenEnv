@@ -6,7 +6,7 @@ Grader components (weights):
   - rationale_mapping        (30%) — Did the rationale cite the correct exception clause?
   - appeal_letter_quality    (30%) — LLM-as-judge score on the appeal letter quality.
 
-The appeal_letter_quality component uses an actual OpenAI gpt-4o-mini call
+The appeal_letter_quality component uses an actual OpenAI gpt-5.4-mini call
 when OPENAI_API_KEY is available, falling back to keyword heuristics otherwise.
 """
 
@@ -36,7 +36,7 @@ logger = logging.getLogger("ptpa.grader.task3")
 
 def _llm_judge_appeal_letter(letter: str) -> float:
     """
-    Call gpt-4o-mini to score the appeal letter using the rubric from tasks.py.
+    Call gpt-5.4-mini to score the appeal letter using the rubric from tasks.py.
     Returns a float 0.0–1.0. Falls back to keyword heuristics on failure.
     """
     api_key = os.getenv("OPENAI_API_KEY", "")
@@ -50,7 +50,7 @@ def _llm_judge_appeal_letter(letter: str) -> float:
         prompt = APPEAL_LETTER_JUDGE_RUBRIC.replace("{letter_text}", letter)
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5.4-mini",
             temperature=0,
             max_tokens=500,
             messages=[{"role": "user", "content": prompt}],

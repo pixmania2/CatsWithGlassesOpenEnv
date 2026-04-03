@@ -17,6 +17,8 @@ from typing import Any, Dict
 import yaml
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from models import (
     BaselineResponse,
@@ -67,6 +69,20 @@ session_store = SessionStore(
     timeout_seconds=3600,
 )
 engine = PTPAEngine()
+
+# ---------------------------------------------------------------------------
+# Static files + UI
+# ---------------------------------------------------------------------------
+_STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
+
+
+@app.get("/", include_in_schema=False)
+async def ui_root():
+    """Serve the interactive UI."""
+    return FileResponse(os.path.join(_STATIC_DIR, "index.html"))
+
+
+app.mount("/static", StaticFiles(directory=_STATIC_DIR), name="static")
 
 
 # ===================================================================
@@ -238,7 +254,7 @@ async def grader_endpoint(req: GraderRequest):
 @app.post("/baseline", response_model=BaselineResponse)
 async def baseline_endpoint():
     """
-    Run the baseline gpt-4o-mini agent against all 3 tasks.
+    Run the baseline gpt-5.4-mini agent against all 3 tasks.
 
     This endpoint orchestrates the full baseline loop internally:
     reset -> step loop -> grade for each task.

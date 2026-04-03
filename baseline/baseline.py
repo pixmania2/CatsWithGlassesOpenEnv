@@ -1,7 +1,7 @@
 """
 baseline.py — Baseline Inference Script for the PTPA OpenEnv Environment
 
-Runs gpt-4o-mini against all 3 tasks using fixed seeds.
+Runs gpt-5.4-mini against all 3 tasks using fixed seeds.
 Can be invoked:
   1. Internally by POST /baseline (run_baseline_internal)
   2. Standalone:  python -m baseline.baseline --url http://localhost:8000
@@ -135,12 +135,12 @@ def _parse_action(response_text: str, patient_id: str, task_id: TaskID) -> PTPAA
 
 
 class BaselineAgent:
-    """Runs gpt-4o-mini against the environment API."""
+    """Runs gpt-5.4-mini against the environment API."""
 
     def __init__(
         self,
         api_key: Optional[str] = None,
-        model: str = "gpt-4o-mini",
+        model: str = "gpt-5.4-mini",
         temperature: float = 0,
         max_tokens: int = 1000,
     ):
@@ -317,7 +317,7 @@ async def run_baseline_internal(engine, session_store) -> BaselineResponse:
 
     return BaselineResponse(
         environment_version="1.2.0",
-        model_used="gpt-4o-mini",
+        model_used="gpt-5.4-mini",
         seeds_used=seeds_used,
         task_results=task_results,
         overall_score=round(overall, 4),
@@ -354,7 +354,7 @@ def _placeholder_baseline_response() -> BaselineResponse:
 
     return BaselineResponse(
         environment_version="1.2.0",
-        model_used="gpt-4o-mini (placeholder)",
+        model_used="gpt-5.4-mini (placeholder)",
         seeds_used=[42],
         task_results=task_results,
         overall_score=round(sum(r.final_score for r in task_results) / 3, 4),

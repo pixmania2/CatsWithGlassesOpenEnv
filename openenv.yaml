@@ -147,7 +147,7 @@ data:
 # BASELINE INFERENCE
 # ---------------------------------------------------------------------------
 baseline:
-  model: "gpt-4o-mini"
+  model: "gpt-5.4-mini"
   api_compatible: "openai"
   temperature: 0
   max_tokens: 1000

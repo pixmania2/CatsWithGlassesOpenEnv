@@ -1,3 +1,14 @@
+---
+title: CatsWithGlassesOpenEnv
+emoji: 🏥
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8000
+tags:
+  - openenv
+---
+
 # Patient Triage & Prior Authorization (PTPA) OpenEnv
 
 A high-fidelity healthcare environment for training and evaluating AI agents on real-world prior authorization (PA) workflows. Agents must navigate insurance eligibility verification, medical necessity assessment for advanced imaging, and complex exception appeal construction for diabetic management devices.
@@ -78,7 +89,7 @@ The agent handles an appeal after CGM denial. Must check step therapy compliance
 | `GET` | `/state?episode_id=...` | Get current episode state |
 | `GET` | `/tasks` | List all tasks with action schemas |
 | `POST` | `/grader` | Grade a completed episode |
-| `POST` | `/baseline` | Run baseline gpt-4o-mini agent on all tasks |
+| `POST` | `/baseline` | Run baseline gpt-5.4-mini agent on all tasks |
 | `GET` | `/health` | Liveness check |
 | `GET` | `/validate` | Validate environment integrity |
 | `GET` | `/info` | Environment metadata |
@@ -169,7 +180,7 @@ Dense reward signals that shape agent behavior:
 
 ## Baseline Scores
 
-Using gpt-4o-mini (temperature=0, seed=42):
+Using gpt-5.4-mini (temperature=0, seed=42):
 
 | Task | Score | Analysis |
 |------|-------|----------|
@@ -211,7 +222,7 @@ healthcare_prior_auth/
 ├── data/
 │   └── prs/                    <- Patient Record System fixtures
 ├── baseline/
-│   └── baseline.py             <- gpt-4o-mini baseline inference
+│   └── baseline.py             <- gpt-5.4-mini baseline inference
 ```
 
 ---

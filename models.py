@@ -449,7 +449,7 @@ class TaskInfo(BaseModel):
         "", description="Brief example of a patient scenario for this task"
     )
     baseline_expected_score : float = Field(
-        ..., description="Expected score for gpt-4o-mini baseline agent"
+        ..., description="Expected score for gpt-5.4-mini baseline agent"
     )
 
 
@@ -488,10 +488,10 @@ class BaselineTaskResult(BaseModel):
 class BaselineResponse(BaseModel):
     """
     Full response from POST /baseline.
-    Runs gpt-4o-mini agent against all 3 tasks with fixed seeds.
+    Runs gpt-5.4-mini agent against all 3 tasks with fixed seeds.
     """
     environment_version : str  = "1.2.0"
-    model_used          : str  = "gpt-4o-mini"
+    model_used          : str  = "gpt-5.4-mini"
     seeds_used          : List[int] = Field(default_factory=list)
     task_results        : List[BaselineTaskResult]
     overall_score       : float = Field(..., description="Mean score across all 3 tasks")

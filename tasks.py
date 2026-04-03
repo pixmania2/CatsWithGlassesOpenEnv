@@ -361,7 +361,7 @@ TASK3_GRADER_COMPONENTS: List[GraderComponentSpec] = [
         weight=0.30,
         description=(
             "Quality of the generated Letter of Medical Necessity, scored by an LLM-as-judge "
-            "(gpt-4o-mini with a structured rubric). "
+            "(gpt-5.4-mini with a structured rubric). "
             "Rubric dimensions: "
             "(A) ICD-10 codes present and correct; "
             "(B) Specific lab values cited with dates; "
