@@ -158,7 +158,7 @@ baseline:
     task3_cgm_appeal:    0.15
     overall_mean:        0.52
   api_key_env_var: "OPENAI_API_KEY"
-  script: "baseline/baseline.py"
+  script: "inference.py"
 
 # ---------------------------------------------------------------------------
 # INFRASTRUCTURE & DEPLOYMENT
