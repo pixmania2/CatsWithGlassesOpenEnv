@@ -1,0 +1,98 @@
+{
+  "insurer": "cigna",
+  "eligibility": {
+    "active_required": true,
+    "plan_ids": [
+      "CIGNA-HMO-STANDARD",
+      "CIGNA-OPEN-ACCESS"
+    ]
+  },
+  "covered_services": {
+    "73721": {
+      "covered": true,
+      "description": "MRI knee",
+      "icd10": [
+        "M17.11",
+        "M23.211"
+      ],
+      "requires_prior_auth": true,
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "72148": {
+      "covered": true,
+      "description": "MRI lumbar",
+      "icd10": [
+        "M54.5"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "E2101": {
+      "covered": true,
+      "description": "CGM receiver",
+      "icd10": [
+        "E11.65"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    }
+  },
+  "prior_auth_criteria": {
+    "73721": {
+      "pt_required_weeks": 6,
+      "conservative_therapy_weeks": 6,
+      "requires_xray": true,
+      "policy_section": "Cigna Musculoskeletal Imaging Guidelines",
+      "red_flag_bypass": [
+        "True Locking",
+        "Suspected tumor",
+        "Suspected infection"
+      ]
+    },
+    "72148": {
+      "pt_required_weeks": 6,
+      "conservative_therapy_weeks": 6,
+      "requires_xray": true,
+      "policy_section": "Cigna CPB Lumbar MRI"
+    }
+  },
+  "red_flag_bypass": [
+    {
+      "flag": "True Locking",
+      "bypass": [
+        "pt_requirement"
+      ],
+      "severity": "critical",
+      "policy_section": "Cigna Urgent Imaging Clause"
+    },
+    {
+      "flag": "Neurological Deficit",
+      "bypass": [
+        "all"
+      ],
+      "severity": "critical"
+    }
+  ],
+  "step_therapy_rules": {
+    "CGM": {
+      "min_insulin_injections_per_day": 2,
+      "min_daily_insulin_injections": 2
+    }
+  },
+  "exception_criteria": {
+    "CGM": [
+      {
+        "type": "glycemic_variability",
+        "metric": "HbA1c",
+        "threshold": 7.0,
+        "operator": ">",
+        "policy_section": "Cigna CPG CGM Coverage Exception"
+      }
+    ]
+  },
+  "appeal_process": {
+    "filing_deadline_days": 90,
+    "levels": [
+      "Internal Appeal",
+      "External Review"
+    ]
+  }
+}

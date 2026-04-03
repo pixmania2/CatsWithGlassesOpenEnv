@@ -1,0 +1,53 @@
+{
+  "patient_id": "PAT-003",
+  "demographics": {
+    "name": "Robert Kim",
+    "dob": "1982-01-15",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-334455",
+    "insurer": "united",
+    "plan_id": "UHC-CHOICE-PLUS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 175,
+    "weight_kg": 82,
+    "bmi": 26.8
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M75.10",
+      "description": "Rotator cuff syndrome",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-01",
+      "note": "Right shoulder pain. Requesting shoulder MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-01",
+      "findings": "Positive Neer and Hawkins tests. ROM decreased."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Meloxicam 15mg",
+      "start_date": "2024-05-01",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "73221",
+    "description": "MRI right shoulder without contrast"
+  },
+  "attending_physician": "Dr. Emily Tanaka"
+}

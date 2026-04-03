@@ -1,0 +1,75 @@
+{
+  "patient_id": "PAT-008",
+  "demographics": {
+    "name": "Susan Chen",
+    "dob": "1975-12-08",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-778899",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-HMO-STANDARD",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 158,
+    "weight_kg": 60,
+    "bmi": 24.0
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-06-20",
+      "note": "Mild knee pain. 2 weeks PT. Requesting early MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-06-20",
+      "findings": "Mild crepitus. Full ROM. No effusion. No locking."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-06-10",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 4,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-14",
+      "session_number": 2,
+      "therapist_notes": "Good progress.",
+      "pain_score": 3,
+      "improved": true
+    },
+    {
+      "session_date": "2024-06-19",
+      "session_number": 3,
+      "therapist_notes": "Continued improvement.",
+      "pain_score": 3,
+      "improved": true
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 400mg",
+      "start_date": "2024-06-01",
+      "duration_days": 30
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Lisa Wang"
+}

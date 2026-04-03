@@ -1,0 +1,95 @@
+{
+  "patient_id": "PAT-007",
+  "demographics": {
+    "name": "James OBrien",
+    "dob": "1985-07-25",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-445566",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 183,
+    "weight_kg": 90,
+    "bmi": 26.9
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M23.211",
+      "description": "Derangement anterior horn medial meniscus, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-05-10",
+      "note": "Acute right knee injury. Knee locked in flexion 20 minutes."
+    },
+    {
+      "date": "2024-05-20",
+      "note": "True Locking episode witnessed in clinic. Knee locked at 45 degrees. Suspected torn meniscus with mechanical block."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-05-20",
+      "findings": "TRUE LOCKING observed. Knee locked at 45 degrees flexion, unable to extend. Positive McMurray. Joint line tenderness medial. Effusion 2+. HIGH CLINICAL URGENCY.",
+      "red_flags": [
+        "True Locking"
+      ]
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-05-13",
+      "session_number": 1,
+      "therapist_notes": "Post-injury eval. Limited ROM.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-15",
+      "session_number": 2,
+      "therapist_notes": "Locking during session.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-17",
+      "session_number": 3,
+      "therapist_notes": "Cannot bear weight.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-22",
+      "session_number": 4,
+      "therapist_notes": "Discharged. MRI needed.",
+      "pain_score": 8,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-05-10",
+      "duration_days": 14
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-05-10",
+      "findings": "No fracture. Possible effusion."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Kevin Park"
+}

@@ -1,0 +1,115 @@
+{
+  "insurer": "aetna",
+  "eligibility": {
+    "active_required": true,
+    "plan_ids": [
+      "AETNA-GOLD-PPO",
+      "AETNA-BASIC-EPO"
+    ]
+  },
+  "covered_services": {
+    "73721": {
+      "covered": true,
+      "description": "MRI knee",
+      "icd10": [
+        "M17.11",
+        "M23.211"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "72148": {
+      "covered": true,
+      "description": "MRI lumbar",
+      "icd10": [
+        "M54.5"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "73221": {
+      "covered": true,
+      "description": "MRI shoulder",
+      "icd10": [
+        "M75.10"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "70553": {
+      "covered": false,
+      "description": "MRI brain",
+      "note": "Brain MRI for migraine requires additional criteria not met",
+      "policy_section": "Section 5.1 Prior Authorization Required"
+    },
+    "E2101": {
+      "covered": true,
+      "description": "CGM receiver",
+      "icd10": [
+        "E11.65",
+        "E10.641"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "K0553": {
+      "covered": true,
+      "description": "CGM receiver",
+      "icd10": [
+        "E11.65",
+        "E10.641"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    }
+  },
+  "prior_auth_criteria": {
+    "73721": {
+      "pt_required_weeks": 3,
+      "conservative_therapy_weeks": 3,
+      "requires_xray": true,
+      "policy_section": "Aetna CPB 0171"
+    },
+    "72148": {
+      "pt_required_weeks": 3,
+      "conservative_therapy_weeks": 3,
+      "requires_xray": true,
+      "policy_section": "Aetna CPB Lumbar MRI"
+    }
+  },
+  "red_flag_bypass": [
+    {
+      "flag": "True Locking",
+      "bypass": [
+        "pt_requirement"
+      ],
+      "severity": "critical"
+    },
+    {
+      "flag": "Neurological Deficit",
+      "bypass": [
+        "all"
+      ],
+      "severity": "critical"
+    }
+  ],
+  "step_therapy_rules": {
+    "CGM": {
+      "min_insulin_injections_per_day": 2,
+      "min_daily_insulin_injections": 2
+    }
+  },
+  "exception_criteria": {
+    "CGM": [
+      {
+        "type": "hypoglycemic_unawareness",
+        "metric": "glucose",
+        "threshold": 54,
+        "operator": "<",
+        "policy_section": "Aetna CPB 0515 CGM Exception"
+      }
+    ]
+  },
+  "appeal_process": {
+    "filing_deadline_days": 180,
+    "levels": [
+      "Internal Appeal",
+      "External Review"
+    ]
+  }
+}

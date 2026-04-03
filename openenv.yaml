@@ -147,7 +147,7 @@ data:
 # BASELINE INFERENCE
 # ---------------------------------------------------------------------------
 baseline:
-  model: "gpt-4o-mini"
+  model: "gpt-5.4-mini"
   api_compatible: "openai"
   temperature: 0
   max_tokens: 1000
@@ -158,7 +158,7 @@ baseline:
     task3_cgm_appeal:    0.15
     overall_mean:        0.52
   api_key_env_var: "OPENAI_API_KEY"
-  script: "baseline/run_baseline.py"
+  script: "baseline/baseline.py"
 
 # ---------------------------------------------------------------------------
 # INFRASTRUCTURE & DEPLOYMENT
@@ -210,4 +210,4 @@ infrastructure:
 # │       ├── cigna_policies.json
 # │       └── cms_policies.json
 # └── baseline/
-#     └── run_baseline.py
+#     └── baseline.py

@@ -1,0 +1,94 @@
+{
+  "patient_id": "PAT-013",
+  "demographics": {
+    "name": "Frank Okafor",
+    "dob": "1968-11-30",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-161718",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 180,
+    "weight_kg": 98,
+    "bmi": 30.2
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-01",
+      "note": "HbA1c 8.9% despite 3+ months adherent insulin therapy. CGM requested."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-01",
+      "findings": "Obese male. Acanthosis nigricans. Pulses intact."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.9,
+      "unit": "%",
+      "date": "2024-07-20",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.6,
+      "unit": "%",
+      "date": "2024-04-15",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 178,
+      "unit": "mg/dL",
+      "date": "2024-07-20",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 40 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 210
+    },
+    {
+      "medication": "Insulin Lispro 10 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 210
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2023-01-01",
+      "duration_days": 580
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "CGM receiver"
+  },
+  "attending_physician": "Dr. Rachel Green"
+}

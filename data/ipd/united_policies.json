@@ -1,0 +1,43 @@
+{
+  "insurer": "united",
+  "eligibility": {
+    "active_required": true,
+    "plan_ids": [
+      "UHC-CHOICE-PLUS"
+    ]
+  },
+  "covered_services": {
+    "73721": {
+      "covered": true,
+      "description": "MRI knee",
+      "icd10": [
+        "M17.11"
+      ],
+      "policy_section": "Section 4.2 Covered Services"
+    },
+    "73221": {
+      "covered": false,
+      "description": "MRI shoulder",
+      "note": "Not covered under this plan tier",
+      "policy_section": "Section 4.2 Covered Services"
+    }
+  },
+  "prior_auth_criteria": {
+    "73721": {
+      "pt_required_weeks": 6,
+      "conservative_therapy_weeks": 6,
+      "requires_xray": true,
+      "policy_section": "UHC MRI Policy"
+    }
+  },
+  "red_flag_bypass": [],
+  "step_therapy_rules": {},
+  "exception_criteria": {},
+  "appeal_process": {
+    "filing_deadline_days": 180,
+    "levels": [
+      "Internal Appeal",
+      "External Review"
+    ]
+  }
+}

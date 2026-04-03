@@ -1,0 +1,120 @@
+{
+  "patient_id": "PAT-006",
+  "demographics": {
+    "name": "Linda Morrison",
+    "dob": "1970-03-18",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-667788",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 165,
+    "weight_kg": 75,
+    "bmi": 27.5
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-03-01",
+      "note": "Right knee pain worsening despite PT."
+    },
+    {
+      "date": "2024-04-15",
+      "note": "Completed 4 weeks of PT. Pain persists. Requesting MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-04-15",
+      "findings": "Crepitus. No effusion. ROM 10-120. No locking."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-03-04",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-08",
+      "session_number": 2,
+      "therapist_notes": "ROM exercises.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-13",
+      "session_number": 3,
+      "therapist_notes": "Closed-chain.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-03-18",
+      "session_number": 4,
+      "therapist_notes": "Stairs persist.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-22",
+      "session_number": 5,
+      "therapist_notes": "Balance training.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-27",
+      "session_number": 6,
+      "therapist_notes": "Decline noted.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-01",
+      "session_number": 7,
+      "therapist_notes": "Recommends imaging.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-05",
+      "session_number": 8,
+      "therapist_notes": "Discharged. MRI.",
+      "pain_score": 7,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 600mg",
+      "start_date": "2024-02-15",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-02-20",
+      "findings": "Mild-moderate narrowing."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell"
+}

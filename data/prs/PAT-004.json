@@ -1,0 +1,59 @@
+{
+  "patient_id": "PAT-004",
+  "demographics": {
+    "name": "Dorothy Williams",
+    "dob": "1955-11-03",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-112233",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 160,
+    "weight_kg": 72,
+    "bmi": 28.1
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-05-20",
+      "note": "Progressive right knee pain. MRI requested."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-05-20",
+      "findings": "Bilateral knee crepitus. Varus deformity."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Acetaminophen 1000mg",
+      "start_date": "2024-01-01",
+      "duration_days": 140
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-04-10",
+      "findings": "Moderate medial narrowing."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks"
+}

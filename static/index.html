@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTPA OpenEnv</title>
+<style>
+  :root { --bg: #0f1117; --surface: #1a1d27; --border: #2a2d3a; --text: #e4e4e7; --muted: #71717a; --accent: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #eab308; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.8rem; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .panel-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 12px; }
+  label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; margin-top: 10px; }
+  select, input, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-family: inherit; font-size: 0.8rem; }
+  select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 60px; }
+  .btn { display: inline-block; padding: 8px 16px; border: none; border-radius: 6px; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s; margin-top: 12px; margin-right: 6px; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-blue { background: var(--accent); color: #fff; }
+  .btn-green { background: var(--green); color: #000; }
+  .btn-yellow { background: var(--yellow); color: #000; }
+  .btn-red { background: var(--red); color: #fff; }
+  .badge { display: inline-block; font-size: 0.65rem; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  .badge-green { background: #16a34a22; color: var(--green); border: 1px solid #16a34a55; }
+  .badge-red { background: #ef444422; color: var(--red); border: 1px solid #ef444455; }
+  .badge-blue { background: #3b82f622; color: var(--accent); border: 1px solid #3b82f655; }
+  .badge-yellow { background: #eab30822; color: var(--yellow); border: 1px solid #eab30855; }
+  .log { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 0.75rem; line-height: 1.6; max-height: 520px; overflow-y: auto; white-space: pre-wrap; word-break: break-word; }
+  .log-entry { padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-label { color: var(--accent); font-weight: 600; }
+  .log-reward { color: var(--green); }
+  .log-penalty { color: var(--red); }
+  .score-display { text-align: center; padding: 16px; }
+  .score-big { font-size: 2.4rem; font-weight: 700; }
+  .meta { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; font-size: 0.75rem; }
+  .meta span { color: var(--muted); }
+  .meta strong { color: var(--text); }
+  .status-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .hidden { display: none; }
+  .actions-grid { display: grid; grid-template-columns: 1fr; gap: 4px; margin: 8px 0; }
+  .action-opt { padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.72rem; transition: border-color 0.15s; }
+  .action-opt:hover { border-color: var(--accent); }
+  .action-opt.selected { border-color: var(--accent); background: #3b82f611; }
+  .progress-flags { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
+  .flag { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: var(--border); color: var(--muted); }
+  .flag.done { background: #16a34a22; color: var(--green); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>PTPA OpenEnv</h1>
+  <p class="subtitle">Patient Triage & Prior Authorization Environment</p>
+
+  <div class="status-bar" id="statusBar">
+    <span class="badge badge-green" id="healthBadge">checking...</span>
+    <span style="color:var(--muted);font-size:0.72rem" id="sessionInfo"></span>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT PANEL: Controls -->
+    <div>
+      <!-- Reset -->
+      <div class="panel">
+        <div class="panel-title">1. Start Episode</div>
+        <label>Task</label>
+        <select id="taskSelect">
+          <option value="task1_verification">Task 1 — Verification (Easy)</option>
+          <option value="task2_mri_necessity">Task 2 — MRI Necessity (Medium)</option>
+          <option value="task3_cgm_appeal">Task 3 — CGM Appeal (Hard)</option>
+        </select>
+        <label>Seed (optional)</label>
+        <input type="number" id="seedInput" placeholder="42" value="42">
+        <label>Patient ID (optional)</label>
+        <input type="text" id="patientInput" placeholder="e.g. PAT-001">
+        <button class="btn btn-blue" onclick="doReset()">Reset</button>
+      </div>
+
+      <!-- Action -->
+      <div class="panel" style="margin-top:12px" id="actionPanel">
+        <div class="panel-title">2. Take Action</div>
+        <label>Action Type</label>
+        <div class="actions-grid" id="actionTypes"></div>
+        <label>Parameters (JSON)</label>
+        <textarea id="paramsInput" placeholder='{"member_id": "MBR-881234", "insurer": "aetna"}'></textarea>
+        <button class="btn btn-green" onclick="doStep()" id="stepBtn" disabled>Step</button>
+        <button class="btn btn-yellow" onclick="doGrade()" id="gradeBtn" disabled>Grade</button>
+      </div>
+
+      <!-- Progress -->
+      <div class="panel" style="margin-top:12px" id="progressPanel">
+        <div class="panel-title">Progress</div>
+        <div class="progress-flags" id="progressFlags"></div>
+        <div class="meta">
+          <span>Steps: <strong id="stepCount">0</strong>/<strong id="maxSteps">-</strong></span>
+          <span>Reward: <strong id="totalReward">0.00</strong></span>
+          <span>Status: <strong id="episodeStatus">-</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Log -->
+    <div>
+      <div class="panel">
+        <div class="panel-title">Episode Log</div>
+        <div class="log" id="log"><span style="color:var(--muted)">Select a task and click Reset to begin.</span></div>
+      </div>
+
+      <!-- Score -->
+      <div class="panel hidden" style="margin-top:12px" id="scorePanel">
+        <div class="panel-title">Grader Result</div>
+        <div class="score-display">
+          <div class="score-big" id="finalScore">-</div>
+          <div style="color:var(--muted);font-size:0.8rem;margin-top:4px" id="scoreFeedback"></div>
+        </div>
+        <div id="componentScores"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = window.location.origin;
+let episodeId = null;
+let patientId = null;
+let taskId = null;
+
+const TASK_ACTIONS = {
+  task1_verification: [
+    {type: 'check_eligibility', hint: '{"member_id": "...", "insurer": "..."}'},
+    {type: 'check_cpt_coverage', hint: '{"cpt_code": "...", "icd10_code": "...", "insurer": "..."}'},
+    {type: 'query_patient_record', hint: '{"section": "vitals|progress_notes|lab_results|..."}'},
+    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "eligibility|covered_services|..."}'},
+    {type: 'submit_decision', hint: '{"decision": "approve|deny", "rationale": "..."}'},
+  ],
+  task2_mri_necessity: [
+    {type: 'extract_pt_sessions', hint: '{}'},
+    {type: 'check_red_flags', hint: '{}'},
+    {type: 'compare_policy_duration', hint: '{"weeks_of_pt_found": 4, "insurer": "...", "cpt_code": "73721"}'},
+    {type: 'query_patient_record', hint: '{"section": "physical_exam|progress_notes|..."}'},
+    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "prior_auth_criteria"}'},
+    {type: 'submit_decision', hint: '{"decision": "approve|deny", "rationale": "..."}'},
+  ],
+  task3_cgm_appeal: [
+    {type: 'extract_lab_values', hint: '{"lab_tests": ["HbA1c", "fasting_glucose", "glucose_reading"]}'},
+    {type: 'check_step_therapy', hint: '{"device_requested": "CGM", "insurer": "..."}'},
+    {type: 'generate_appeal_letter', hint: '{"evidence_found": ["..."], "exception_clause": "..."}'},
+    {type: 'query_patient_record', hint: '{"section": "lab_results|pharmacy_history|..."}'},
+    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "exception_criteria"}'},
+    {type: 'submit_decision', hint: '{"decision": "approve|deny|appeal", "rationale": "..."}'},
+  ],
+};
+
+let selectedAction = null;
+
+function renderActions() {
+  const task = document.getElementById('taskSelect').value;
+  const actions = TASK_ACTIONS[task] || [];
+  const container = document.getElementById('actionTypes');
+  container.innerHTML = actions.map(a =>
+    `<div class="action-opt" data-type="${a.type}" data-hint='${a.hint}' onclick="selectAction(this)">${a.type}</div>`
+  ).join('');
+  selectedAction = null;
+  document.getElementById('paramsInput').value = '';
+}
+
+function selectAction(el) {
+  document.querySelectorAll('.action-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAction = el.dataset.type;
+  document.getElementById('paramsInput').value = el.dataset.hint;
+}
+
+function log(html) {
+  const el = document.getElementById('log');
+  el.innerHTML += `<div class="log-entry">${html}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearLog() {
+  document.getElementById('log').innerHTML = '';
+}
+
+function updateProgress(state) {
+  if (!state) return;
+  document.getElementById('stepCount').textContent = state.step_count;
+  document.getElementById('maxSteps').textContent = state.max_steps;
+  document.getElementById('totalReward').textContent = (state.progress.total_reward_so_far || 0).toFixed(2);
+  document.getElementById('episodeStatus').textContent = state.status;
+
+  const flags = ['eligibility_verified','cpt_coverage_checked','pt_sessions_extracted','red_flags_checked','lab_values_extracted','step_therapy_checked','policy_retrieved','decision_submitted'];
+  const container = document.getElementById('progressFlags');
+  container.innerHTML = flags.map(f => {
+    const on = state.progress[f];
+    const short = f.replace('_verified','').replace('_checked','').replace('_extracted','').replace('_submitted','').replace('_retrieved','');
+    return `<span class="flag ${on ? 'done' : ''}">${short}</span>`;
+  }).join('');
+}
+
+async function doReset() {
+  taskId = document.getElementById('taskSelect').value;
+  const seed = document.getElementById('seedInput').value;
+  const pid = document.getElementById('patientInput').value;
+
+  const body = {task_id: taskId};
+  if (seed) body.seed = parseInt(seed);
+  if (pid) body.patient_id = pid;
+
+  clearLog();
+  document.getElementById('scorePanel').classList.add('hidden');
+
+  try {
+    const r = await fetch(`${API}/reset`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const d = await r.json();
+    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+
+    episodeId = d.episode_id;
+    patientId = d.state.patient.patient_id;
+    const p = d.state.patient;
+
+    document.getElementById('sessionInfo').textContent = `Episode: ${episodeId} | Patient: ${patientId}`;
+    document.getElementById('stepBtn').disabled = false;
+    document.getElementById('gradeBtn').disabled = true;
+
+    log(`<span class="log-label">RESET</span> Task: ${taskId}`);
+    log(`Patient: <strong>${p.name}</strong> (${p.patient_id}) | Insurer: ${p.insurer.toUpperCase()} | Plan: ${p.plan_id}`);
+    log(`Diagnosis: ${p.primary_icd10} | Procedure: CPT ${p.requested_cpt}`);
+    log(`<span style="color:var(--muted)">${d.initial_observation.result}</span>`);
+
+    updateProgress(d.state);
+    renderActions();
+  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+}
+
+async function doStep() {
+  if (!episodeId || !selectedAction) { log('<span style="color:var(--yellow)">Select an action first.</span>'); return; }
+
+  let params;
+  try { params = JSON.parse(document.getElementById('paramsInput').value || '{}'); }
+  catch(e) { log(`<span style="color:var(--red)">Invalid JSON: ${e.message}</span>`); return; }
+
+  const body = {
+    episode_id: episodeId,
+    action: { action_type: selectedAction, patient_id: patientId, task_id: taskId, parameters: params }
+  };
+
+  try {
+    const r = await fetch(`${API}/step`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const d = await r.json();
+    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+
+    const rwd = d.reward;
+    const rwdClass = rwd > 0 ? 'log-reward' : rwd < 0 ? 'log-penalty' : '';
+    log(`<span class="log-label">STEP ${d.state.step_count}</span> ${selectedAction} <span class="${rwdClass}">[reward: ${rwd >= 0 ? '+' : ''}${rwd.toFixed(2)}]</span>`);
+    log(`<span style="color:var(--muted)">${d.observation.result}</span>`);
+
+    if (d.observation.red_flags && d.observation.red_flags.length > 0) {
+      log(`<span style="color:var(--red)">RED FLAGS: ${d.observation.red_flags.map(f=>f.flag_name).join(', ')}</span>`);
+    }
+
+    updateProgress(d.state);
+
+    if (d.done) {
+      log(`<span class="log-label" style="color:var(--yellow)">EPISODE DONE</span> Click Grade to see your score.`);
+      document.getElementById('stepBtn').disabled = true;
+      document.getElementById('gradeBtn').disabled = false;
+    }
+  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+}
+
+async function doGrade() {
+  if (!episodeId) return;
+
+  try {
+    const r = await fetch(`${API}/grader`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({episode_id: episodeId})});
+    const d = await r.json();
+    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+
+    const scoreEl = document.getElementById('finalScore');
+    scoreEl.textContent = d.final_score.toFixed(2);
+    scoreEl.style.color = d.final_score >= 0.8 ? 'var(--green)' : d.final_score >= 0.5 ? 'var(--yellow)' : 'var(--red)';
+
+    document.getElementById('scoreFeedback').textContent = `${d.decision_correct ? 'Correct' : 'Incorrect'} decision | ${d.feedback}`;
+
+    const comps = document.getElementById('componentScores');
+    comps.innerHTML = d.components.map(c => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.75rem">
+        <span>${c.component_name}</span>
+        <span>
+          <span style="color:var(--muted)">w=${c.weight}</span>
+          <span style="color:${c.passed ? 'var(--green)' : 'var(--red)'}; margin-left:8px; font-weight:600">${c.score.toFixed(2)}</span>
+        </span>
+      </div>
+    `).join('');
+
+    document.getElementById('scorePanel').classList.remove('hidden');
+    document.getElementById('gradeBtn').disabled = true;
+
+    log(`<span class="log-label" style="color:var(--green)">GRADED</span> Final score: <strong>${d.final_score.toFixed(2)}</strong>`);
+  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+}
+
+// Init
+(async function() {
+  renderActions();
+  document.getElementById('taskSelect').addEventListener('change', renderActions);
+  try {
+    const r = await fetch(`${API}/health`);
+    const d = await r.json();
+    document.getElementById('healthBadge').textContent = d.status === 'healthy' ? 'CONNECTED' : 'ERROR';
+    document.getElementById('healthBadge').className = d.status === 'healthy' ? 'badge badge-green' : 'badge badge-red';
+  } catch(e) {
+    document.getElementById('healthBadge').textContent = 'OFFLINE';
+    document.getElementById('healthBadge').className = 'badge badge-red';
+  }
+})();
+</script>
+</body>
+</html>
