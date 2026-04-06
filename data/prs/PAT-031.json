@@ -1,0 +1,103 @@
+{
+  "patient_id": "PAT-031",
+  "demographics": {
+    "name": "Nina Patel",
+    "dob": "1964-01-25",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310031",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 160,
+    "weight_kg": 82,
+    "bmi": 32.0,
+    "bp": "144/90"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-10",
+      "note": "Dawn Phenomenon confirmed. Fasting glucose consistently > 200 mg/dL despite optimized basal insulin. CGM needed to titrate overnight dosing."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-10",
+      "findings": "Peripheral neuropathy bilateral feet. Diminished monofilament sensation."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.8,
+      "unit": "%",
+      "date": "2024-07-20",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 225,
+      "unit": "mg/dL",
+      "date": "2024-08-05",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 231,
+      "unit": "mg/dL",
+      "date": "2024-08-06",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 218,
+      "unit": "mg/dL",
+      "date": "2024-08-07",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 38 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 220
+    },
+    {
+      "medication": "Insulin Lispro 10 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 220
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-06-01",
+      "duration_days": 800
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Patricia Hernandez"
+}

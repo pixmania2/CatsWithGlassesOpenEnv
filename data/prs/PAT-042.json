@@ -1,0 +1,107 @@
+{
+  "patient_id": "PAT-042",
+  "demographics": {
+    "name": "Sonia Ramirez",
+    "dob": "1975-12-03",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310042",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 157,
+    "weight_kg": 64,
+    "bmi": 26.0,
+    "bp": "124/76"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E10.641",
+      "description": "Type 1 DM with hypoglycemia with coma",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-06-15",
+      "note": "Recurrent hypoglycemic episodes. Glucose documented at 45 mg/dL. Hypoglycemic unawareness. CGM urgently needed."
+    },
+    {
+      "date": "2024-07-20",
+      "note": "Aetna denied CGM citing no exception criteria met. Glucose of 45 < 54 threshold clearly meets Aetna CPB 0515 exception. Preparing rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-20",
+      "findings": "Hypoglycemic unawareness confirmed. Autonomic neuropathy signs present."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 7.4,
+      "unit": "%",
+      "date": "2024-06-01",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 45,
+      "unit": "mg/dL",
+      "date": "2024-06-10",
+      "reference_range": "70-180 mg/dL"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 50,
+      "unit": "mg/dL",
+      "date": "2024-05-28",
+      "reference_range": "70-180 mg/dL"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 52,
+      "unit": "mg/dL",
+      "date": "2024-05-15",
+      "reference_range": "70-180 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 24 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-06-01",
+      "duration_days": 420
+    },
+    {
+      "medication": "Insulin Aspart 6 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-06-01",
+      "duration_days": 420
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Michael Chang",
+  "denial_letter": {
+    "date": "2024-07-15",
+    "insurer": "aetna",
+    "reason": "Prior authorization denied: CGM request does not meet exception criteria. No documented evidence of hypoglycemic unawareness or glucose readings below policy threshold.",
+    "denial_code": "PA-4042",
+    "reviewer": "Dr. Sandra Liu"
+  }
+}

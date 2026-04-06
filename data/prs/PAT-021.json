@@ -1,0 +1,60 @@
+{
+  "patient_id": "PAT-021",
+  "demographics": {
+    "name": "Priya Sharma",
+    "dob": "1974-03-28",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310021",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 162,
+    "weight_kg": 68,
+    "bmi": 25.9,
+    "bp": "128/78"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-10",
+      "note": "Chronic lumbar pain radiating to left leg, worsening over 4 months. Conservative therapy ongoing."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-10",
+      "findings": "Paravertebral tenderness L3-L5. Positive SLR left at 50 degrees. No motor deficit."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-05-01",
+      "duration_days": 120
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-06-15",
+      "findings": "Mild disc space narrowing L4-L5."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee"
+}

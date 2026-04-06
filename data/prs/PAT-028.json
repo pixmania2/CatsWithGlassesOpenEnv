@@ -1,0 +1,97 @@
+{
+  "patient_id": "PAT-028",
+  "demographics": {
+    "name": "Wei Zhang",
+    "dob": "1976-02-18",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310028",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 172,
+    "weight_kg": 78,
+    "bmi": 26.4,
+    "bp": "126/78"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-20",
+      "note": "Low back pain 3 weeks. Started PT two weeks ago. Wants MRI now."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-20",
+      "findings": "Paravertebral muscle spasm L3-L5. Negative SLR bilaterally. Full strength lower extremities. No red flags."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-08-05",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Core stabilization.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-09",
+      "session_number": 2,
+      "therapist_notes": "Stretching program.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-12",
+      "session_number": 3,
+      "therapist_notes": "Mild improvement.",
+      "pain_score": 5,
+      "improved": true
+    },
+    {
+      "session_date": "2024-08-16",
+      "session_number": 4,
+      "therapist_notes": "Continued strengthening.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-19",
+      "session_number": 5,
+      "therapist_notes": "Progressive exercises.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-22",
+      "session_number": 6,
+      "therapist_notes": "Ongoing. Patient wants to stop for imaging.",
+      "pain_score": 5,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-08-01",
+      "duration_days": 30
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks"
+}

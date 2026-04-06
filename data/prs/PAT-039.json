@@ -1,0 +1,161 @@
+{
+  "patient_id": "PAT-039",
+  "demographics": {
+    "name": "Terrence Washington",
+    "dob": "1965-11-28",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310039",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 183,
+    "weight_kg": 95,
+    "bmi": 28.4,
+    "bp": "136/84"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M75.10",
+      "description": "Rotator cuff syndrome, unspecified shoulder",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-04-15",
+      "note": "Left shoulder pain 4 months. Completed 6 weeks PT and received subacromial corticosteroid injection with transient relief only."
+    },
+    {
+      "date": "2024-06-01",
+      "note": "PA denied by Aetna citing no conservative therapy. Documented PT and injection in original submission. Preparing rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-06-01",
+      "findings": "Positive Neer and Hawkins impingement. Empty can test positive. ROM: forward flexion 130, abduction 110. Supraspinatus weakness 4/5."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-02-26",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Rotator cuff protocol.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-01",
+      "session_number": 2,
+      "therapist_notes": "Pendulum exercises. Isometrics.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-04",
+      "session_number": 3,
+      "therapist_notes": "AAROM progressing.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-03-08",
+      "session_number": 4,
+      "therapist_notes": "Theraband resistance.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-11",
+      "session_number": 5,
+      "therapist_notes": "Scapular stabilization.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-15",
+      "session_number": 6,
+      "therapist_notes": "Functional activities.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-18",
+      "session_number": 7,
+      "therapist_notes": "Progress limited by pain.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-22",
+      "session_number": 8,
+      "therapist_notes": "Eccentric loading.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-25",
+      "session_number": 9,
+      "therapist_notes": "Plateau. Injection recommended.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-29",
+      "session_number": 10,
+      "therapist_notes": "Post-injection, mild relief.",
+      "pain_score": 5,
+      "improved": true
+    },
+    {
+      "session_date": "2024-04-01",
+      "session_number": 11,
+      "therapist_notes": "Transient relief fading.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-05",
+      "session_number": 12,
+      "therapist_notes": "Discharged. MRI recommended.",
+      "pain_score": 6,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Meloxicam 15mg",
+      "start_date": "2024-02-01",
+      "duration_days": 90
+    },
+    {
+      "medication": "Subacromial corticosteroid injection (Triamcinolone 40mg)",
+      "start_date": "2024-03-27",
+      "duration_days": 1
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-02-15",
+      "findings": "Subacromial spurring. No fracture. Mild AC joint arthrosis."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73221",
+    "description": "MRI left shoulder without contrast"
+  },
+  "attending_physician": "Dr. Emily Tanaka",
+  "denial_letter": {
+    "date": "2024-05-25",
+    "insurer": "aetna",
+    "reason": "Prior authorization denied: No documentation of conservative therapy including physical therapy or anti-inflammatory medications prior to advanced imaging request.",
+    "denial_code": "PA-4039",
+    "reviewer": "Dr. Richard Blume"
+  }
+}

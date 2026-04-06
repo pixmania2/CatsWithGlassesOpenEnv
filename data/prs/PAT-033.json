@@ -1,0 +1,95 @@
+{
+  "patient_id": "PAT-033",
+  "demographics": {
+    "name": "Kenji Watanabe",
+    "dob": "1961-10-03",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310033",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 174,
+    "weight_kg": 90,
+    "bmi": 29.7,
+    "bp": "140/88"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-07-20",
+      "note": "Glycemic variability despite adherent multi-dose insulin regimen. HbA1c 9.2%. CGM requested for pattern analysis and dose optimization."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-20",
+      "findings": "Obese male. Background diabetic retinopathy. Microalbuminuria on last urine."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 9.2,
+      "unit": "%",
+      "date": "2024-07-10",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.8,
+      "unit": "%",
+      "date": "2024-04-05",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 198,
+      "unit": "mg/dL",
+      "date": "2024-07-10",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 42 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-12-01",
+      "duration_days": 230
+    },
+    {
+      "medication": "Insulin Lispro 12 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-12-01",
+      "duration_days": 230
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-03-01",
+      "duration_days": 870
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Rachel Green"
+}

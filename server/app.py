@@ -116,11 +116,13 @@ async def reset_endpoint(req: ResetRequest = Body(default=None)):
         seed = int(seed_override)
 
     try:
+        diff_config = req.difficulty_config if req.difficulty_config else None
         obs, state = engine.reset(
             episode_id=episode_id,
             task_id=task_id,
             seed=seed,
             patient_id=req.patient_id,
+            difficulty_config=diff_config,
         )
     except Exception as exc:
         logger.error("Reset failed: %s", exc)
@@ -368,6 +370,30 @@ async def info_endpoint():
         ],
         "endpoints": manifest.get("endpoints", {}),
         "spec": manifest.get("spec", {}),
+    }
+
+
+# ===================================================================
+# GET /replay
+# ===================================================================
+@app.get("/replay")
+async def replay_endpoint(episode_id: str = Query(..., description="Episode ID")):
+    """Return the full step-by-step trace for a completed episode."""
+    try:
+        entry = session_store.get(episode_id)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Episode not found: {episode_id}")
+
+    return {
+        "episode_id": entry.episode_id,
+        "task_id": entry.task_id.value,
+        "status": entry.status.value,
+        "step_count": entry.state.step_count,
+        "total_reward": entry.state.progress.total_reward_so_far,
+        "observation_history": [h.model_dump() for h in entry.state.observation_history],
+        "step_history": entry.step_history,
+        "grader_result": entry.grader_result.model_dump() if entry.grader_result else None,
+        "difficulty_config": entry.state.difficulty_config.model_dump(),
     }
 
 

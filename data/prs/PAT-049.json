@@ -1,0 +1,133 @@
+{
+  "patient_id": "PAT-049",
+  "demographics": {
+    "name": "Amara Okafor",
+    "dob": "1986-10-27",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310049",
+    "insurer": "aetna",
+    "plan_id": "AETNA-BASIC-EPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 166,
+    "weight_kg": 70,
+    "bmi": 25.4,
+    "bp": "120/74"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M23.211",
+      "description": "Derangement anterior horn medial meniscus, right knee",
+      "primary": true
+    },
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-06-15",
+      "note": "Right knee pain with clicking and catching. 4 weeks PT completed. Positive McMurray test. Suspected meniscal tear."
+    },
+    {
+      "date": "2024-07-20",
+      "note": "Aetna denied knee MRI. Patient has completed 4 weeks PT (Aetna requires 3 weeks minimum). Positive McMurray with clinical suspicion of meniscal tear. Preparing rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-20",
+      "findings": "Positive McMurray test with audible click. Joint line tenderness medial. ROM 0-125. Mild effusion. No locking."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-05-13",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Meniscal protocol.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-16",
+      "session_number": 2,
+      "therapist_notes": "Quad and hamstring strengthening.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-20",
+      "session_number": 3,
+      "therapist_notes": "Step exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-23",
+      "session_number": 4,
+      "therapist_notes": "Catching sensation persists.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-27",
+      "session_number": 5,
+      "therapist_notes": "Balance training.",
+      "pain_score": 5,
+      "improved": true
+    },
+    {
+      "session_date": "2024-05-30",
+      "session_number": 6,
+      "therapist_notes": "Functional testing.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-03",
+      "session_number": 7,
+      "therapist_notes": "No further gains.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-06",
+      "session_number": 8,
+      "therapist_notes": "Discharged. MRI recommended.",
+      "pain_score": 6,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 600mg",
+      "start_date": "2024-05-01",
+      "duration_days": 45
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-05-05",
+      "findings": "Mild joint space narrowing. No fracture. No loose bodies."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell",
+  "denial_letter": {
+    "date": "2024-07-15",
+    "insurer": "aetna",
+    "reason": "Prior authorization denied: Insufficient documentation of conservative therapy failure. Clinical notes do not adequately demonstrate functional limitation requiring advanced imaging.",
+    "denial_code": "PA-4049",
+    "reviewer": "Dr. Howard Stein"
+  }
+}

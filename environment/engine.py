@@ -17,10 +17,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from models import (
     ActionType,
+    DifficultyConfig,
     EpisodeProgress,
     EpisodeStatus,
     EvidenceItem,
     GraderResult,
+    ObservationHistoryEntry,
     PatientRecord,
     PolicyRule,
     PTSession,
@@ -31,9 +33,6 @@ from models import (
     TaskID,
 )
 from tasks import (
-    TASK1_ANSWER_KEYS,
-    TASK2_ANSWER_KEYS,
-    TASK3_ANSWER_KEYS,
     get_max_steps,
     get_task,
 )
@@ -41,6 +40,7 @@ from environment.rewards import compute_step_reward, no_reward
 from environment.task1_verification import grade as grade_task1
 from environment.task2_mri_necessity import grade as grade_task2
 from environment.task3_cgm_appeal import grade as grade_task3
+from environment.task4_peer_review import grade as grade_task4
 
 
 # =========================================================================
@@ -88,9 +88,10 @@ _POLICIES: Dict[str, Dict[str, Any]] = _load_policies()
 
 # Patient pool derived from answer keys in tasks.py
 _TASK_PATIENTS = {
-    TaskID.VERIFICATION:  list(TASK1_ANSWER_KEYS.keys()),
-    TaskID.MRI_NECESSITY: list(TASK2_ANSWER_KEYS.keys()),
-    TaskID.CGM_APPEAL:    list(TASK3_ANSWER_KEYS.keys()),
+    TaskID.VERIFICATION:  ["PAT-001", "PAT-002", "PAT-003", "PAT-004", "PAT-005", "PAT-021", "PAT-022", "PAT-023", "PAT-024", "PAT-025"],
+    TaskID.MRI_NECESSITY: ["PAT-006", "PAT-007", "PAT-008", "PAT-009", "PAT-010", "PAT-026", "PAT-027", "PAT-028", "PAT-029", "PAT-030"],
+    TaskID.CGM_APPEAL:    ["PAT-011", "PAT-012", "PAT-013", "PAT-014", "PAT-015", "PAT-031", "PAT-032", "PAT-033", "PAT-034", "PAT-035"],
+    TaskID.PEER_REVIEW:   ["PAT-036", "PAT-037", "PAT-038", "PAT-039", "PAT-040", "PAT-041", "PAT-042", "PAT-043", "PAT-044", "PAT-045", "PAT-046", "PAT-047", "PAT-048", "PAT-049", "PAT-050"],
 }
 
 
@@ -251,6 +252,7 @@ class PTPAEngine:
         task_id: TaskID,
         seed: Optional[int] = None,
         patient_id: Optional[str] = None,
+        difficulty_config: Optional[DifficultyConfig] = None,
     ) -> Tuple[PTPAObservation, PTPAState]:
         rng = random.Random(seed)
 
@@ -295,6 +297,7 @@ class PTPAEngine:
             progress=EpisodeProgress(),
             seed=seed if seed is not None else rng.randint(0, 99999),
             created_at=datetime.utcnow().isoformat(),
+            difficulty_config=difficulty_config or DifficultyConfig(),
         )
 
         self._episodes[episode_id] = {
@@ -303,6 +306,7 @@ class PTPAEngine:
             "queried_sections": set(),
             "appeal_letter": None,
             "submitted_decision": None,
+            "difficulty_config": difficulty_config or DifficultyConfig(),
         }
 
         obs = PTPAObservation(
@@ -380,6 +384,21 @@ class PTPAEngine:
             if new_info:
                 queried.add(section_key)
 
+            # Apply noise if configured
+            config = ep.get("difficulty_config", DifficultyConfig())
+            if isinstance(config, dict):
+                config = DifficultyConfig(**config)
+            rng = random.Random(state.seed + state.step_count)
+            obs.result = _apply_noise(obs.result, config, rng)
+
+        at = action.action_type
+        state.observation_history.append(ObservationHistoryEntry(
+            step_number=state.step_count,
+            action_type=at,
+            observation=obs.result[:500],  # truncate to prevent state bloat
+            reward=reward,
+        ))
+
         done = progress.decision_submitted or state.step_count >= state.max_steps
 
         obs.done = done
@@ -422,6 +441,8 @@ class PTPAEngine:
             return grade_task2(pid, submitted, progress, episode_id)
         elif task_id == TaskID.CGM_APPEAL:
             return grade_task3(pid, submitted, progress, ep, episode_id)
+        elif task_id == TaskID.PEER_REVIEW:
+            return grade_task4(pid, submitted, progress, ep, episode_id)
         else:
             raise ValueError(f"Unknown task: {task_id}")
 
@@ -804,6 +825,128 @@ def _handle_submit_decision(
     return PTPAObservation(result=result, success=True), True
 
 
+def _apply_noise(obs_text: str, config: DifficultyConfig, rng: random.Random) -> str:
+    """Apply noise/ambiguity to observation text based on difficulty config."""
+    if config.noise_level == "none" and not config.missing_data and not config.conflicting_notes:
+        return obs_text
+
+    result = obs_text
+
+    if config.missing_data and rng.random() < 0.3:
+        lines = result.split("\n")
+        if len(lines) > 2:
+            idx = rng.randint(1, len(lines) - 1)
+            lines[idx] = "  [DATA UNAVAILABLE — record not found in system]"
+            result = "\n".join(lines)
+
+    if config.conflicting_notes and rng.random() < 0.25:
+        result += "\n  NOTE: A separate progress note from a different provider contains a contradictory assessment."
+
+    if config.noise_level == "low" and rng.random() < 0.2:
+        result += "\n  [System note: Some fields may have been updated since last retrieval]"
+    elif config.noise_level == "medium" and rng.random() < 0.35:
+        result += "\n  WARNING: Record last synced 48 hours ago. Some values may be outdated."
+    elif config.noise_level == "high" and rng.random() < 0.5:
+        result += "\n  CAUTION: Multiple data sources detected. Values may differ between EMR systems."
+        if rng.random() < 0.3:
+            lines = result.split("\n")
+            if len(lines) > 3:
+                idx = rng.randint(1, len(lines) - 1)
+                lines[idx] = lines[idx] + " [UNVERIFIED]"
+                result = "\n".join(lines)
+
+    if config.ambiguous_labs and rng.random() < 0.3:
+        result += "\n  Note: Some lab values are near clinical decision thresholds. Consider repeat testing."
+
+    return result
+
+
+def _handle_review_denial_letter(action, patient, ep, progress):
+    denial = patient.get("denial_letter")
+    if not denial:
+        return PTPAObservation(result="No denial letter found for this patient.", success=False), False
+
+    result = (
+        f"DENIAL LETTER\n"
+        f"{'='*50}\n"
+        f"Date: {denial.get('date', 'N/A')}\n"
+        f"Insurer: {denial.get('insurer', 'N/A').upper()}\n"
+        f"Denial Code: {denial.get('denial_code', 'N/A')}\n"
+        f"Reviewing Physician: {denial.get('reviewer', 'N/A')}\n"
+        f"\nReason for Denial:\n  {denial.get('reason', 'No reason provided')}\n"
+    )
+    progress.policy_retrieved = True
+    return PTPAObservation(result=result, success=True), True
+
+
+def _handle_gather_counter_evidence(action, patient, ep, progress):
+    sections = action.parameters.get("sections", [])
+    focus = action.parameters.get("focus_area", "")
+
+    evidence_parts = []
+    for section in sections:
+        data = patient.get(section)
+        if data is None:
+            evidence_parts.append(f"Section '{section}': not found")
+            continue
+        if isinstance(data, list) and len(data) == 0:
+            evidence_parts.append(f"Section '{section}': empty")
+            continue
+        if isinstance(data, list):
+            for item in data[:5]:  # limit to 5 entries
+                evidence_parts.append(f"  [{section}] {item}")
+        elif isinstance(data, dict):
+            for k, v in data.items():
+                evidence_parts.append(f"  [{section}] {k}: {v}")
+
+    if not evidence_parts:
+        return PTPAObservation(result="No evidence found in the requested sections.", success=True), False
+
+    result = f"Counter-evidence gathered (focus: {focus}):\n" + "\n".join(evidence_parts)
+
+    # Update progress flags based on what was gathered
+    for s in sections:
+        if s == "pt_sessions":
+            progress.pt_sessions_extracted = True
+        elif s == "lab_results":
+            progress.lab_values_extracted = True
+        elif s == "physical_exam":
+            progress.red_flags_checked = True
+
+    return PTPAObservation(result=result, success=True), True
+
+
+def _handle_submit_rebuttal(action, patient, ep, progress):
+    points = action.parameters.get("rebuttal_points", [])
+    recommended = action.parameters.get("recommended_action", "")
+    rationale = action.parameters.get("rationale", "")
+
+    if not points or len(points) == 0:
+        return PTPAObservation(result="Rebuttal must include at least one point.", success=False, error="Empty rebuttal"), False
+
+    if recommended not in ("overturn", "uphold"):
+        return PTPAObservation(result=f"recommended_action must be 'overturn' or 'uphold', got '{recommended}'", success=False), False
+
+    if len(rationale) < 20:
+        return PTPAObservation(result="Rationale must be at least 20 characters.", success=False), False
+
+    progress.decision_submitted = True
+    ep["submitted_decision"] = {
+        "rebuttal_points": points,
+        "recommended_action": recommended,
+        "rationale": rationale,
+        "decision": "appeal" if recommended == "overturn" else "deny",
+    }
+
+    result = (
+        f"Rebuttal submitted: {recommended.upper()}\n"
+        f"Points: {len(points)}\n"
+        f"Rationale: {rationale}\n"
+        f"Episode complete. Call POST /grader to receive your score."
+    )
+    return PTPAObservation(result=result, success=True), True
+
+
 _ACTION_HANDLERS = {
     ActionType.QUERY_PATIENT_RECORD:    _handle_query_patient_record,
     ActionType.QUERY_POLICY_DATABASE:   _handle_query_policy_database,
@@ -816,6 +959,9 @@ _ACTION_HANDLERS = {
     ActionType.CHECK_STEP_THERAPY:      _handle_check_step_therapy,
     ActionType.GENERATE_APPEAL_LETTER:  _handle_generate_appeal_letter,
     ActionType.SUBMIT_DECISION:         _handle_submit_decision,
+    ActionType.REVIEW_DENIAL_LETTER:    _handle_review_denial_letter,
+    ActionType.GATHER_COUNTER_EVIDENCE: _handle_gather_counter_evidence,
+    ActionType.SUBMIT_REBUTTAL:         _handle_submit_rebuttal,
 }
 
 

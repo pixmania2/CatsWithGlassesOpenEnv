@@ -1,0 +1,80 @@
+{
+  "patient_id": "PAT-034",
+  "demographics": {
+    "name": "Lucille Fontaine",
+    "dob": "1973-03-17",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310034",
+    "insurer": "aetna",
+    "plan_id": "AETNA-BASIC-EPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 164,
+    "weight_kg": 88,
+    "bmi": 32.7,
+    "bp": "148/92"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-10",
+      "note": "Requests CGM. Currently on oral medications only \u2014 Metformin and Glipizide. Not on insulin. No documented hypoglycemic events."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-10",
+      "findings": "Obese female. No neuropathy. No retinopathy. Good peripheral pulses."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.0,
+      "unit": "%",
+      "date": "2024-08-20",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 168,
+      "unit": "mg/dL",
+      "date": "2024-08-20",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2023-01-01",
+      "duration_days": 620
+    },
+    {
+      "medication": "Glipizide 10mg",
+      "frequency": "1 times daily",
+      "route": "oral",
+      "start_date": "2023-06-01",
+      "duration_days": 470
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Patricia Hernandez"
+}

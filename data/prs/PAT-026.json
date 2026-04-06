@@ -1,0 +1,163 @@
+{
+  "patient_id": "PAT-026",
+  "demographics": {
+    "name": "Ahmed Hassan",
+    "dob": "1971-06-22",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310026",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 176,
+    "weight_kg": 85,
+    "bmi": 27.4,
+    "bp": "134/84"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-03-15",
+      "note": "Right knee pain persistent after 7 weeks of structured PT. No significant improvement."
+    },
+    {
+      "date": "2024-04-28",
+      "note": "Completed full PT course. Pain persists 6/10. Requesting MRI to evaluate internal derangement."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-04-28",
+      "findings": "Medial joint line tenderness. Crepitus. ROM 5-115. No effusion. No locking."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-03-04",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. ROM exercises.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-08",
+      "session_number": 2,
+      "therapist_notes": "Quad strengthening.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-12",
+      "session_number": 3,
+      "therapist_notes": "Stationary bike added.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-03-15",
+      "session_number": 4,
+      "therapist_notes": "Hamstring stretching.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-19",
+      "session_number": 5,
+      "therapist_notes": "Closed-chain exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-22",
+      "session_number": 6,
+      "therapist_notes": "Balance training.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-26",
+      "session_number": 7,
+      "therapist_notes": "Step-ups initiated.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-29",
+      "session_number": 8,
+      "therapist_notes": "No further gains.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-02",
+      "session_number": 9,
+      "therapist_notes": "Plateau reached.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-05",
+      "session_number": 10,
+      "therapist_notes": "Recommends advanced imaging.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-09",
+      "session_number": 11,
+      "therapist_notes": "Maintenance only.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-12",
+      "session_number": 12,
+      "therapist_notes": "Aquatic therapy trial.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-16",
+      "session_number": 13,
+      "therapist_notes": "No change.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-19",
+      "session_number": 14,
+      "therapist_notes": "Discharged from PT. MRI recommended.",
+      "pain_score": 6,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 600mg",
+      "start_date": "2024-02-01",
+      "duration_days": 90
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-02-20",
+      "findings": "Mild medial joint space narrowing."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Lisa Wang"
+}

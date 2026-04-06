@@ -1,0 +1,60 @@
+{
+  "patient_id": "PAT-025",
+  "demographics": {
+    "name": "Yuki Tanaka",
+    "dob": "1958-09-02",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310025",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-HMO-STANDARD",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 155,
+    "weight_kg": 65,
+    "bmi": 27.1,
+    "bp": "136/80"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-10-05",
+      "note": "Progressive right knee pain limiting ADLs. Stair climbing severely affected. Requesting MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-10-05",
+      "findings": "Bony enlargement medial compartment. Crepitus on flexion/extension. ROM 0-110. Mild effusion."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Diclofenac 75mg",
+      "start_date": "2024-06-01",
+      "duration_days": 120
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-08-01",
+      "findings": "Moderate-severe medial joint space narrowing. Osteophyte formation."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Kevin Park"
+}

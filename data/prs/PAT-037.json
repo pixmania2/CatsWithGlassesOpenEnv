@@ -1,0 +1,166 @@
+{
+  "patient_id": "PAT-037",
+  "demographics": {
+    "name": "Mei-Lin Wu",
+    "dob": "1968-05-22",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310037",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 160,
+    "weight_kg": 62,
+    "bmi": 24.2,
+    "bp": "126/78"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    },
+    {
+      "code": "M51.16",
+      "description": "Intervertebral disc disorders with radiculopathy, lumbar region",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-07-15",
+      "note": "Chronic low back pain with left leg radiculopathy. X-ray reveals disc narrowing L4-L5. 7 weeks PT completed with no improvement."
+    },
+    {
+      "date": "2024-08-20",
+      "note": "Denial received from Cigna citing no prior imaging. X-ray was performed 2024-06-01 and documented in chart. Preparing rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-20",
+      "findings": "Positive SLR left at 35 degrees. Diminished left patellar reflex. Paravertebral spasm L4-L5."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-06-03",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-07",
+      "session_number": 2,
+      "therapist_notes": "Core stabilization.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-10",
+      "session_number": 3,
+      "therapist_notes": "McKenzie exercises.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-14",
+      "session_number": 4,
+      "therapist_notes": "Traction trial.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-06-17",
+      "session_number": 5,
+      "therapist_notes": "Aquatic therapy.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-21",
+      "session_number": 6,
+      "therapist_notes": "No further gains.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-24",
+      "session_number": 7,
+      "therapist_notes": "Worsening radiculopathy.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-28",
+      "session_number": 8,
+      "therapist_notes": "Plateau.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-01",
+      "session_number": 9,
+      "therapist_notes": "Declining function.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-05",
+      "session_number": 10,
+      "therapist_notes": "Discharged. Imaging recommended.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-08",
+      "session_number": 11,
+      "therapist_notes": "Maintenance only.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-12",
+      "session_number": 12,
+      "therapist_notes": "Final visit. Awaiting MRI.",
+      "pain_score": 7,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-05-01",
+      "duration_days": 90
+    },
+    {
+      "medication": "Gabapentin 300mg",
+      "start_date": "2024-06-15",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-06-01",
+      "findings": "Disc space narrowing L4-L5. Moderate osteophyte formation. Endplate sclerosis."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee",
+  "denial_letter": {
+    "date": "2024-08-15",
+    "insurer": "cigna",
+    "reason": "Prior authorization denied: No prior imaging studies on file. Cigna policy requires plain radiographs before advanced imaging.",
+    "denial_code": "PA-4037",
+    "reviewer": "Dr. Barbara Collins"
+  }
+}

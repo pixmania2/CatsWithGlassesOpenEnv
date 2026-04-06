@@ -47,6 +47,7 @@ MAX_STEPS: Dict[TaskID, int] = {
     TaskID.VERIFICATION  : 10,
     TaskID.MRI_NECESSITY : 20,
     TaskID.CGM_APPEAL    : 25,
+    TaskID.PEER_REVIEW   : 30,
 }
 
 # Seeds used by the baseline inference script (fixed for reproducibility)
@@ -400,6 +401,13 @@ Letter to evaluate:
 {letter_text}
 """
 
+TASK4_GRADER_COMPONENTS = [
+    GraderComponentSpec(component_name="denial_analysis", weight=0.25, description="Did the agent read and correctly identify the denial reason and its weaknesses?"),
+    GraderComponentSpec(component_name="evidence_gathering", weight=0.30, description="Did the agent gather relevant counter-evidence (PT records, labs, imaging, red flags)?"),
+    GraderComponentSpec(component_name="rebuttal_quality", weight=0.25, description="Quality of the structured rebuttal argument — addresses each denial point with evidence."),
+    GraderComponentSpec(component_name="outcome_accuracy", weight=0.20, description="Did the agent correctly determine whether the denial can be overturned?"),
+]
+
 TASK3_AVAILABLE_ACTIONS: List[ActionSchema] = [
     ActionSchema(
         action_type=ActionType.EXTRACT_LAB_VALUES,
@@ -473,6 +481,18 @@ TASK3_AVAILABLE_ACTIONS: List[ActionSchema] = [
     ),
 ]
 
+TASK4_AVAILABLE_ACTIONS = [
+    ActionSchema(action_type=ActionType.REVIEW_DENIAL_LETTER, description="Read the insurer's denial letter to understand the stated reason for denial.", parameters={"patient_id": "str"}, required_params=["patient_id"]),
+    ActionSchema(action_type=ActionType.GATHER_COUNTER_EVIDENCE, description="Compile clinical evidence from the patient record that contradicts the denial reason. Specify which sections to pull.", parameters={"sections": "list[str] — PRS sections to extract evidence from", "focus_area": "str — What to look for: 'pt_duration', 'red_flags', 'lab_values', 'imaging', 'medications'"}, required_params=["sections"]),
+    ActionSchema(action_type=ActionType.QUERY_PATIENT_RECORD, description="Retrieve a section of the patient's EHR.", parameters={"section": "str — PRSSection"}, required_params=["section"]),
+    ActionSchema(action_type=ActionType.QUERY_POLICY_DATABASE, description="Retrieve policy rules relevant to the denial.", parameters={"insurer": "str", "section": "str"}, required_params=["insurer", "section"]),
+    ActionSchema(action_type=ActionType.CHECK_RED_FLAGS, description="Scan for clinical red flags that could override the denial reason.", parameters={}, required_params=[]),
+    ActionSchema(action_type=ActionType.EXTRACT_PT_SESSIONS, description="Extract PT session records to verify therapy duration claims.", parameters={}, required_params=[]),
+    ActionSchema(action_type=ActionType.EXTRACT_LAB_VALUES, description="Extract lab values relevant to the denial.", parameters={"lab_tests": "list[str]"}, required_params=["lab_tests"]),
+    ActionSchema(action_type=ActionType.SUBMIT_REBUTTAL, description="Submit the final rebuttal with structured arguments addressing each denial point.", parameters={"rebuttal_points": "list[str] — Each point addresses a denial reason with evidence", "recommended_action": "str — 'overturn' or 'uphold'", "rationale": "str — Summary rationale"}, required_params=["rebuttal_points", "recommended_action", "rationale"]),
+    ActionSchema(action_type=ActionType.SUBMIT_DECISION, description="Submit final decision (use submit_rebuttal instead for Task 4).", parameters={"decision": "str", "rationale": "str"}, required_params=["decision", "rationale"]),
+]
+
 TASK3_INFO = TaskInfo(
     task_id=TaskID.CGM_APPEAL,
     name="Medical Exception Appeal: Continuous Glucose Monitor (CGM)",
@@ -510,6 +530,39 @@ TASK3_INFO = TaskInfo(
 
 
 # ===========================================================================
+# TASK 4: PEER-TO-PEER REVIEW — DENIAL REBUTTAL (Expert)
+# ===========================================================================
+
+TASK4_INFO = TaskInfo(
+    task_id=TaskID.PEER_REVIEW,
+    name="Peer-to-Peer Review: Denial Rebuttal",
+    description=(
+        "Handle a peer-to-peer review after an insurer has denied a prior authorization. "
+        "The agent receives a denial letter with the insurer's rationale and must: "
+        "(1) analyze the denial reason to identify factual or policy errors, "
+        "(2) gather counter-evidence from the patient record (PT sessions, labs, imaging, red flags), "
+        "(3) cross-reference the evidence against the insurer's stated policy criteria, and "
+        "(4) submit a structured rebuttal that addresses each denial point with clinical evidence. "
+        "This is the most complex task — it requires adversarial reasoning against the insurer's "
+        "position, synthesis of multi-modal clinical data, and persuasive argumentation. "
+        "Some denials are legitimate and cannot be overturned; the agent must recognize these."
+    ),
+    difficulty=Difficulty.EXPERT,
+    max_steps=MAX_STEPS[TaskID.PEER_REVIEW],
+    available_actions=TASK4_AVAILABLE_ACTIONS,
+    grader_components=TASK4_GRADER_COMPONENTS,
+    reward_signals=REWARD_SIGNALS,
+    example_patient_context=(
+        "Patient PAT-036 (Insurer: Aetna) had a knee MRI denied for 'insufficient physical therapy'. "
+        "However, the patient record shows 5 weeks of PT (Aetna requires 3 weeks). "
+        "The agent must read the denial, find the PT records showing 5 weeks, cite Aetna CPB 0171, "
+        "and submit a rebuttal arguing the denial is factually incorrect."
+    ),
+    baseline_expected_score=0.10,
+)
+
+
+# ===========================================================================
 # TASK REGISTRY (imported by server and baseline)
 # ===========================================================================
 
@@ -517,12 +570,14 @@ ALL_TASKS: Dict[TaskID, TaskInfo] = {
     TaskID.VERIFICATION  : TASK1_INFO,
     TaskID.MRI_NECESSITY : TASK2_INFO,
     TaskID.CGM_APPEAL    : TASK3_INFO,
+    TaskID.PEER_REVIEW   : TASK4_INFO,
 }
 
 TASK_DIFFICULTY_ORDER: List[TaskID] = [
     TaskID.VERIFICATION,
     TaskID.MRI_NECESSITY,
     TaskID.CGM_APPEAL,
+    TaskID.PEER_REVIEW,
 ]
 
 
@@ -596,6 +651,11 @@ TASK1_ANSWER_KEYS: Dict[str, Dict] = {
         "correct_policy_section": "Section 5.1 Prior Authorization Required",
         "insurer"             : "aetna",
     },
+    "PAT-021": {"decision": AuthorizationDecision.APPROVE, "member_active": True, "cpt_covered": True, "correct_policy_section": "Section 4.2 Covered Services", "insurer": "cigna"},
+    "PAT-022": {"decision": AuthorizationDecision.APPROVE, "member_active": True, "cpt_covered": True, "correct_policy_section": "Section 4.2 Covered Services", "insurer": "aetna"},
+    "PAT-023": {"decision": AuthorizationDecision.DENY, "member_active": False, "cpt_covered": True, "correct_policy_section": "Section 2.1 Eligibility Requirements", "insurer": "cms"},
+    "PAT-024": {"decision": AuthorizationDecision.DENY, "member_active": True, "cpt_covered": False, "correct_policy_section": "Section 4.2 Covered Services", "insurer": "united"},
+    "PAT-025": {"decision": AuthorizationDecision.APPROVE, "member_active": True, "cpt_covered": True, "correct_policy_section": "Section 4.2 Covered Services", "insurer": "cigna"},
 }
 
 TASK2_ANSWER_KEYS: Dict[str, Dict] = {
@@ -646,6 +706,11 @@ TASK2_ANSWER_KEYS: Dict[str, Dict] = {
         "red_flag_present"    : False,
         "correct_policy_section": "Aetna CPB 0171 — MRI Extremities Criteria",
     },
+    "PAT-026": {"decision": AuthorizationDecision.APPROVE, "insurer": "cigna", "required_pt_weeks": 6, "documented_pt_weeks": 7.0, "pt_sessions_count": 14, "red_flag_present": False, "correct_policy_section": "Cigna Clinical Policy Bulletin MRI Extremities"},
+    "PAT-027": {"decision": AuthorizationDecision.APPROVE, "insurer": "aetna", "required_pt_weeks": 3, "documented_pt_weeks": 2.0, "pt_sessions_count": 4, "red_flag_present": True, "red_flag_type": "Progressive Neurological Deficit", "bypass_clause": "Urgency Bypass — Neurological", "correct_policy_section": "Aetna CPB 0171"},
+    "PAT-028": {"decision": AuthorizationDecision.DENY, "insurer": "cms", "required_pt_weeks": 6, "documented_pt_weeks": 3.0, "pt_sessions_count": 6, "red_flag_present": False, "correct_policy_section": "CMS LCD L33642"},
+    "PAT-029": {"decision": AuthorizationDecision.APPROVE, "insurer": "aetna", "required_pt_weeks": 3, "documented_pt_weeks": 5.0, "pt_sessions_count": 10, "red_flag_present": False, "correct_policy_section": "Aetna CPB 0171"},
+    "PAT-030": {"decision": AuthorizationDecision.APPROVE, "insurer": "cigna", "required_pt_weeks": 6, "documented_pt_weeks": 4.0, "pt_sessions_count": 8, "red_flag_present": True, "red_flag_type": "Suspected Infection", "bypass_clause": "Urgency Bypass — Infection", "correct_policy_section": "Cigna Clinical Policy Bulletin MRI Extremities"},
 }
 
 # Task 3 uses LLM-as-judge; keys define the qualifying exception for each patient
@@ -702,4 +767,27 @@ TASK3_ANSWER_KEYS: Dict[str, Dict] = {
         "correct_exception_clause": "CMS LCD L33822 — CGM Exception: Problematic Hypoglycemia / Dawn Phenomenon",
         "step_therapy_met"     : True,
     },
+    "PAT-031": {"decision": AuthorizationDecision.APPEAL, "insurer": "aetna", "exception_type": "dawn_phenomenon", "qualifying_metric": "fasting_glucose", "qualifying_value": 225.0, "qualifying_unit": "mg/dL", "qualifying_threshold": "> 200 mg/dL", "correct_exception_clause": "Aetna CPB 0515 — CGM Exception", "step_therapy_met": True},
+    "PAT-032": {"decision": AuthorizationDecision.APPEAL, "insurer": "cms", "exception_type": "hypoglycemic_unawareness", "qualifying_metric": "glucose_reading", "qualifying_value": 38.0, "qualifying_unit": "mg/dL", "qualifying_threshold": "< 54 mg/dL", "correct_exception_clause": "CMS LCD L33822 — CGM Exception", "step_therapy_met": True},
+    "PAT-033": {"decision": AuthorizationDecision.APPEAL, "insurer": "cigna", "exception_type": "glycemic_variability", "qualifying_metric": "HbA1c", "qualifying_value": 9.2, "qualifying_unit": "%", "qualifying_threshold": "> 7.0%", "correct_exception_clause": "Cigna CPG CGM Coverage Exception", "step_therapy_met": True},
+    "PAT-034": {"decision": AuthorizationDecision.DENY, "insurer": "aetna", "exception_type": None, "step_therapy_met": False, "denial_reason": "Oral medications only", "correct_exception_clause": None},
+    "PAT-035": {"decision": AuthorizationDecision.APPEAL, "insurer": "cms", "exception_type": "dawn_phenomenon", "qualifying_metric": "fasting_glucose", "qualifying_value": 218.0, "qualifying_unit": "mg/dL", "qualifying_threshold": "> 200 mg/dL", "correct_exception_clause": "CMS LCD L33822 — CGM Exception", "step_therapy_met": True},
+}
+
+TASK4_ANSWER_KEYS: Dict[str, Dict] = {
+    "PAT-036": {"expected_outcome": "overturn", "denial_reason": "insufficient_pt", "actual_pt_weeks": 5.0, "required_pt_weeks": 3, "insurer": "aetna", "key_evidence": "PT records show 5 weeks, exceeding Aetna's 3-week requirement"},
+    "PAT-037": {"expected_outcome": "overturn", "denial_reason": "no_imaging", "insurer": "cigna", "key_evidence": "X-ray shows disc space narrowing L4-L5"},
+    "PAT-038": {"expected_outcome": "uphold", "denial_reason": "oral_meds_only", "insurer": "cms", "key_evidence": "Patient truly has no insulin prescriptions — denial is correct"},
+    "PAT-039": {"expected_outcome": "overturn", "denial_reason": "no_conservative_therapy", "insurer": "aetna", "key_evidence": "6 weeks PT + corticosteroid injection documented"},
+    "PAT-040": {"expected_outcome": "overturn", "denial_reason": "no_red_flags", "insurer": "cigna", "key_evidence": "Physical exam documents TRUE LOCKING — bypasses PT requirement"},
+    "PAT-041": {"expected_outcome": "uphold", "denial_reason": "insufficient_pt", "actual_pt_weeks": 2.0, "required_pt_weeks": 6, "insurer": "cms", "key_evidence": "Only 2 weeks PT documented, CMS requires 6"},
+    "PAT-042": {"expected_outcome": "overturn", "denial_reason": "no_exception_criteria", "insurer": "aetna", "key_evidence": "Glucose 45 mg/dL < 54 threshold — meets hypoglycemic unawareness exception"},
+    "PAT-043": {"expected_outcome": "overturn", "denial_reason": "stable_hba1c", "insurer": "cigna", "key_evidence": "HbA1c 9.1% > 7.0% — meets glycemic variability exception"},
+    "PAT-044": {"expected_outcome": "overturn", "denial_reason": "incomplete_workup", "insurer": "cms", "key_evidence": "X-ray and 8 weeks PT both documented"},
+    "PAT-045": {"expected_outcome": "uphold", "denial_reason": "not_covered", "insurer": "united", "key_evidence": "CPT 73221 not covered under UHC-CHOICE-PLUS plan — coverage issue, not clinical"},
+    "PAT-046": {"expected_outcome": "overturn", "denial_reason": "no_exception_criteria", "insurer": "aetna", "key_evidence": "Fasting glucose 230 mg/dL > 200 — dawn phenomenon on insulin pump"},
+    "PAT-047": {"expected_outcome": "overturn", "denial_reason": "no_neurological_findings", "insurer": "cigna", "key_evidence": "Positive SLR + foot drop = progressive neurological deficit"},
+    "PAT-048": {"expected_outcome": "uphold", "denial_reason": "insufficient_insulin", "insurer": "cms", "key_evidence": "Only 1 injection/day, CGM requires ≥2"},
+    "PAT-049": {"expected_outcome": "overturn", "denial_reason": "insufficient_pt", "actual_pt_weeks": 4.0, "required_pt_weeks": 3, "insurer": "aetna", "key_evidence": "4 weeks PT ≥ 3 weeks + positive McMurray"},
+    "PAT-050": {"expected_outcome": "overturn", "denial_reason": "imaging_not_indicated", "insurer": "cigna", "key_evidence": "X-ray shows fracture — red flag bypass"},
 }

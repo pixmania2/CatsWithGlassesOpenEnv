@@ -1,0 +1,106 @@
+{
+  "patient_id": "PAT-027",
+  "demographics": {
+    "name": "Elena Vasquez",
+    "dob": "1966-11-08",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310027",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 165,
+    "weight_kg": 72,
+    "bmi": 26.4,
+    "bp": "140/86"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    },
+    {
+      "code": "G54.4",
+      "description": "Lumbosacral root disorder",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-07-01",
+      "note": "Acute low back pain with left leg weakness. Unable to dorsiflex left foot. Only 2 weeks of PT completed."
+    },
+    {
+      "date": "2024-07-10",
+      "note": "Neurological Deficit confirmed: left foot drop 2/5 dorsiflexion. Urgent MRI needed."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-10",
+      "findings": "Left foot drop \u2014 dorsiflexion 2/5. Absent left ankle jerk. Positive SLR left at 25 degrees. Sensory loss L5 dermatome.",
+      "red_flags": [
+        "Neurological Deficit"
+      ]
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-06-28",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Significant radiculopathy.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-02",
+      "session_number": 2,
+      "therapist_notes": "Unable to perform exercises due to weakness.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-05",
+      "session_number": 3,
+      "therapist_notes": "Worsening deficit. Referred back to physician.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-09",
+      "session_number": 4,
+      "therapist_notes": "Discharged. Imaging urgently needed.",
+      "pain_score": 9,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Gabapentin 300mg",
+      "start_date": "2024-06-25",
+      "duration_days": 21
+    },
+    {
+      "medication": "Methylprednisolone dose pack",
+      "start_date": "2024-07-01",
+      "duration_days": 6
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-06-26",
+      "findings": "Disc space narrowing L4-L5 and L5-S1."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee"
+}

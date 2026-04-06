@@ -1,0 +1,91 @@
+{
+  "patient_id": "PAT-048",
+  "demographics": {
+    "name": "Dorothy Abrams",
+    "dob": "1959-06-14",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310048",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 162,
+    "weight_kg": 82,
+    "bmi": 31.2,
+    "bp": "138/84"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-01",
+      "note": "Patient on once-daily basal insulin only. Requests CGM for glucose monitoring. No documented hypoglycemic episodes."
+    },
+    {
+      "date": "2024-10-05",
+      "note": "CMS denied CGM: requires minimum 2 daily insulin injections. Patient on only 1 injection/day. No exception criteria met. Denial appears appropriate."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-10-05",
+      "findings": "Mild peripheral neuropathy. Otherwise unremarkable diabetic exam."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 7.8,
+      "unit": "%",
+      "date": "2024-08-15",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 162,
+      "unit": "mg/dL",
+      "date": "2024-08-15",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 20 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-03-01",
+      "duration_days": 210
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-06-01",
+      "duration_days": 830
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Patricia Hernandez",
+  "denial_letter": {
+    "date": "2024-10-01",
+    "insurer": "cms",
+    "reason": "Prior authorization denied: Patient does not meet step therapy requirements for CGM. CMS requires minimum 2 insulin injections per day. Patient documentation shows 1 injection daily (basal insulin only). No exception criteria met.",
+    "denial_code": "PA-4048",
+    "reviewer": "Dr. Janet Moore"
+  }
+}

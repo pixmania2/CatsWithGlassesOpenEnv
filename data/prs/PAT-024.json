@@ -1,0 +1,59 @@
+{
+  "patient_id": "PAT-024",
+  "demographics": {
+    "name": "Marcus Jefferson",
+    "dob": "1988-05-19",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310024",
+    "insurer": "united",
+    "plan_id": "UHC-CHOICE-PLUS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 180,
+    "weight_kg": 84,
+    "bmi": 25.9,
+    "bp": "124/76"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "G43.909",
+      "description": "Migraine, unspecified",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-15",
+      "note": "Chronic migraines 3-4 times per week. Failed multiple prophylactic agents. Requesting brain MRI to rule out secondary cause."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-15",
+      "findings": "Cranial nerves II-XII intact. No papilledema. No focal neurological deficits."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Topiramate 100mg",
+      "start_date": "2024-03-01",
+      "duration_days": 180
+    },
+    {
+      "medication": "Sumatriptan 100mg",
+      "start_date": "2024-01-01",
+      "duration_days": 240
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "70553",
+    "description": "MRI brain with and without contrast"
+  },
+  "attending_physician": "Dr. Nora Reyes"
+}

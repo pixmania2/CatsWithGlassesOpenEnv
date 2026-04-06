@@ -1,0 +1,103 @@
+{
+  "patient_id": "PAT-032",
+  "demographics": {
+    "name": "Sandra Osei",
+    "dob": "1970-07-14",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310032",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 167,
+    "weight_kg": 76,
+    "bmi": 27.2,
+    "bp": "130/80"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.649",
+      "description": "Type 2 DM with hypoglycemia without coma",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-05",
+      "note": "Hypoglycemic unawareness. Multiple documented glucose readings < 54 mg/dL. Patient unable to recognize symptoms. CGM urgently needed."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-05",
+      "findings": "Hypoglycemic unawareness confirmed on clinical testing. Autonomic neuropathy suspected."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 7.1,
+      "unit": "%",
+      "date": "2024-08-20",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 38,
+      "unit": "mg/dL",
+      "date": "2024-08-25",
+      "reference_range": "70-180 mg/dL"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 45,
+      "unit": "mg/dL",
+      "date": "2024-08-18",
+      "reference_range": "70-180 mg/dL"
+    },
+    {
+      "test_name": "glucose_reading",
+      "test": "glucose_reading",
+      "value": 51,
+      "unit": "mg/dL",
+      "date": "2024-08-10",
+      "reference_range": "70-180 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 28 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-09-01",
+      "duration_days": 370
+    },
+    {
+      "medication": "Insulin Aspart 8 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-09-01",
+      "duration_days": 370
+    },
+    {
+      "medication": "Metformin 500mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-01-01",
+      "duration_days": 980
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Michael Chang"
+}

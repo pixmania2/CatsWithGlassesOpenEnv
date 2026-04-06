@@ -43,6 +43,10 @@ tasks:
     name: "Medical Exception Appeal — CGM"
     difficulty: hard
     baseline_expected_score: 0.15
+  - task_id: task4_peer_review
+    name: "Peer-to-Peer Review — Denial Rebuttal"
+    difficulty: expert
+    baseline_expected_score: 0.10
 
 # ---------------------------------------------------------------------------
 # HUGGINGFACE SPACES CONFIGURATION

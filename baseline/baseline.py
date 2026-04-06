@@ -1,7 +1,7 @@
 """
 baseline.py — Baseline Inference Script for the PTPA OpenEnv Environment
 
-Runs gpt-5.4-mini against all 3 tasks using fixed seeds.
+Runs gpt-5.4-mini against all 4 tasks using fixed seeds.
 Can be invoked:
   1. Internally by POST /baseline (run_baseline_internal)
   2. Standalone:  python -m baseline.baseline --url http://localhost:8000
@@ -222,7 +222,7 @@ class BaselineAgent:
 
 async def run_baseline_internal(engine, session_store) -> BaselineResponse:
     """
-    Run the baseline agent against all 3 tasks using fixed seeds.
+    Run the baseline agent against all 4 tasks using fixed seeds.
     Called directly by the /baseline endpoint.
     """
     from server.session import SessionStore
@@ -236,7 +236,7 @@ async def run_baseline_internal(engine, session_store) -> BaselineResponse:
     task_results: List[BaselineTaskResult] = []
     seeds_used = BASELINE_SEEDS[:1]  # Use first seed for speed
 
-    for task_id in [TaskID.VERIFICATION, TaskID.MRI_NECESSITY, TaskID.CGM_APPEAL]:
+    for task_id in [TaskID.VERIFICATION, TaskID.MRI_NECESSITY, TaskID.CGM_APPEAL, TaskID.PEER_REVIEW]:
         seed = seeds_used[0]
         episode_id = SessionStore.generate_episode_id()
 
@@ -332,6 +332,7 @@ def _placeholder_baseline_response() -> BaselineResponse:
         (TaskID.VERIFICATION, 0.98),
         (TaskID.MRI_NECESSITY, 0.42),
         (TaskID.CGM_APPEAL, 0.15),
+        (TaskID.PEER_REVIEW, 0.10),
     ]:
         task_results.append(BaselineTaskResult(
             task_id=task_id,
@@ -357,7 +358,7 @@ def _placeholder_baseline_response() -> BaselineResponse:
         model_used="gpt-5.4-mini (placeholder)",
         seeds_used=[42],
         task_results=task_results,
-        overall_score=round(sum(r.final_score for r in task_results) / 3, 4),
+        overall_score=round(sum(r.final_score for r in task_results) / len(task_results), 4),
         run_timestamp=datetime.utcnow().isoformat(),
     )
 

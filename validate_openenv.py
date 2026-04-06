@@ -14,7 +14,6 @@ Usage:
     python validate_openenv.py --url https://YOUR.hf.space  # test live HF Space
 """
 
-import json
 import sys
 import os
 import yaml

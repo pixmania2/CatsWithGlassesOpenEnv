@@ -1,0 +1,142 @@
+{
+  "patient_id": "PAT-036",
+  "demographics": {
+    "name": "Carlos Rivera",
+    "dob": "1977-02-14",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310036",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 178,
+    "weight_kg": 88,
+    "bmi": 27.8,
+    "bp": "132/82"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-05-01",
+      "note": "Right knee pain worsening despite 5 weeks of PT. Functional limitation."
+    },
+    {
+      "date": "2024-06-10",
+      "note": "Prior authorization for knee MRI denied by Aetna. Preparing rebuttal with documentation of 5-week PT course."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-06-10",
+      "findings": "Medial joint line tenderness. Positive McMurray. ROM 0-115. Mild effusion."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-04-01",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. ROM deficit.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-04",
+      "session_number": 2,
+      "therapist_notes": "Quad strengthening.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-08",
+      "session_number": 3,
+      "therapist_notes": "Step exercises.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-04-11",
+      "session_number": 4,
+      "therapist_notes": "Balance training.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-15",
+      "session_number": 5,
+      "therapist_notes": "Closed-chain exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-18",
+      "session_number": 6,
+      "therapist_notes": "Functional testing.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-22",
+      "session_number": 7,
+      "therapist_notes": "Plateau reached.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-25",
+      "session_number": 8,
+      "therapist_notes": "No further gains.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-29",
+      "session_number": 9,
+      "therapist_notes": "Recommends imaging.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-02",
+      "session_number": 10,
+      "therapist_notes": "Discharged from PT. MRI advised.",
+      "pain_score": 6,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 600mg",
+      "start_date": "2024-03-01",
+      "duration_days": 90
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-03-15",
+      "findings": "Mild medial joint space narrowing. No fracture."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell",
+  "denial_letter": {
+    "date": "2024-06-05",
+    "insurer": "aetna",
+    "reason": "Prior authorization denied: Insufficient physical therapy. Documentation does not demonstrate adequate conservative therapy trial prior to advanced imaging.",
+    "denial_code": "PA-4021",
+    "reviewer": "Dr. Howard Stein"
+  }
+}

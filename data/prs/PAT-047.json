@@ -1,0 +1,127 @@
+{
+  "patient_id": "PAT-047",
+  "demographics": {
+    "name": "Nikolai Petrov",
+    "dob": "1972-01-18",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310047",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-HMO-STANDARD",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 180,
+    "weight_kg": 86,
+    "bmi": 26.5,
+    "bp": "132/82"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    },
+    {
+      "code": "G54.4",
+      "description": "Lumbosacral root disorder",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-06-01",
+      "note": "Progressive left leg weakness with foot drop. Positive SLR at 20 degrees. Motor deficit L5 distribution. Urgent MRI needed."
+    },
+    {
+      "date": "2024-07-15",
+      "note": "Cigna denied lumbar MRI stating no neurological findings. Patient has documented foot drop and positive SLR \u2014 clear neurological deficit. Preparing rebuttal with detailed exam findings."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-06-01",
+      "findings": "Left foot drop \u2014 dorsiflexion 3/5. Positive SLR left at 20 degrees. Absent left ankle jerk. Sensory deficit L5 dermatome. Antalgic gait.",
+      "red_flags": [
+        "Neurological Deficit"
+      ]
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-05-06",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Significant radiculopathy.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-10",
+      "session_number": 2,
+      "therapist_notes": "Gentle ROM only.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-13",
+      "session_number": 3,
+      "therapist_notes": "Worsening weakness.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-17",
+      "session_number": 4,
+      "therapist_notes": "Foot drop developing.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-20",
+      "session_number": 5,
+      "therapist_notes": "Cannot perform exercises safely.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-24",
+      "session_number": 6,
+      "therapist_notes": "Discharged. Urgent imaging needed.",
+      "pain_score": 9,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Gabapentin 600mg",
+      "start_date": "2024-05-01",
+      "duration_days": 60
+    },
+    {
+      "medication": "Methylprednisolone dose pack",
+      "start_date": "2024-05-15",
+      "duration_days": 6
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-05-03",
+      "findings": "Disc space narrowing L4-L5 and L5-S1. Spondylotic changes."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee",
+  "denial_letter": {
+    "date": "2024-07-10",
+    "insurer": "cigna",
+    "reason": "Prior authorization denied: No significant neurological findings documented. Patient has not completed required conservative therapy course per Cigna lumbar MRI guidelines.",
+    "denial_code": "PA-4047",
+    "reviewer": "Dr. Robert Chang"
+  }
+}
