@@ -52,7 +52,7 @@ def _llm_judge_appeal_letter(letter: str) -> float:
         response = client.chat.completions.create(
             model="gpt-5.4-mini",
             temperature=0,
-            max_tokens=500,
+            max_completion_tokens=500,
             messages=[{"role": "user", "content": prompt}],
         )
         content = response.choices[0].message.content or ""

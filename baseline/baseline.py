@@ -37,38 +37,44 @@ logger = logging.getLogger("ptpa.baseline")
 # Baseline Agent
 # =========================================================================
 
-_SYSTEM_PROMPT_TEMPLATE = """You are a healthcare prior authorization agent. You must complete the assigned task by gathering evidence and submitting a decision.
+_SYSTEM_PROMPT_TEMPLATE = """You are an expert healthcare prior authorization agent. Complete the task by gathering evidence, then submit your decision.
 
 TASK: {task_name}
 DESCRIPTION: {task_description}
 
-AVAILABLE ACTIONS (use the exact action_type string):
+AVAILABLE ACTIONS:
 {actions_block}
 
-PATIENT: {patient_name} (ID: {patient_id})
-INSURER: {insurer} | PLAN: {plan_id}
-DIAGNOSIS: {diagnosis} ({icd10})
-REQUESTED PROCEDURE: {procedure} (CPT {cpt_code})
+PATIENT RECORD:
+  Name: {patient_name} | ID: {patient_id}
+  Member ID: {member_id} | Insurer: {insurer} | Plan: {plan_id}
+  Diagnosis: {icd10} | Requested: CPT {cpt_code}
+  Physician: {physician}
+
+STRATEGY BY TASK TYPE:
+- Verification (task1): check_eligibility with member_id="{member_id}" and insurer="{insurer}", then check_cpt_coverage with cpt_code="{cpt_code}" and icd10_code="{icd10}" and insurer="{insurer}", then submit_decision.
+- MRI Necessity (task2): extract_pt_sessions, check_red_flags, query_policy_database for prior_auth_criteria, then submit_decision. Cite specific PT weeks and policy threshold in rationale.
+- CGM Appeal (task3): extract_lab_values for HbA1c/fasting_glucose/glucose_reading, check_step_therapy, query_policy_database for exception_criteria, generate_appeal_letter, then submit_decision with "appeal". Cite exact lab values and threshold numbers (e.g., "215 mg/dL > 200 mg/dL threshold").
+- Peer Review (task4): review_denial_letter FIRST, then gather_counter_evidence with relevant sections, then submit_rebuttal with rebuttal_points addressing each denial reason. Use recommended_action="overturn" or "uphold".
 
 RULES:
-- Call actions to gather evidence BEFORE submitting your decision.
-- For submit_decision, "decision" must be "approve", "deny", or "appeal".
-- For submit_decision, "rationale" must be at least 20 characters and reference specific evidence.
-- You have {max_steps} steps total. Be efficient.
+- Gather evidence BEFORE deciding. Do NOT submit on step 1.
+- For submit_decision: "decision" must be "approve", "deny", or "appeal". "rationale" must cite specific numbers and policy sections.
+- For submit_rebuttal (task4): provide rebuttal_points as a list of strings, each >30 chars.
+- You have {max_steps} steps. Submit your decision/rebuttal by step {deadline} at the latest.
+- Output EXACTLY ONE JSON object per response. No markdown, no explanation, no extra text.
 
-Respond with ONLY a JSON object (no markdown, no explanation):
 {{"action_type": "...", "patient_id": "{patient_id}", "task_id": "{task_id}", "parameters": {{...}}}}
 """
 
-_USER_PROMPT_TEMPLATE = """Step {step}/{max_steps}. 
+_USER_PROMPT_TEMPLATE = """Step {step}/{max_steps}.{urgency}
 
-LAST ACTION RESULT:
+LAST RESULT:
 {observation}
 
-PROGRESS SO FAR:
-{progress}
+PROGRESS: {progress}
 
-What is your next action? Respond with ONLY a valid JSON action object."""
+Reply with ONE JSON action object."""
 
 
 def _format_actions(task_id: TaskID) -> str:
@@ -105,7 +111,6 @@ def _format_progress(state: PTPAState) -> str:
 
 def _parse_action(response_text: str, patient_id: str, task_id: TaskID) -> PTPAAction:
     """Extract a PTPAAction from the LLM's response text."""
-    # Try to find JSON in the response
     text = response_text.strip()
 
     # Strip markdown code fences
@@ -113,18 +118,35 @@ def _parse_action(response_text: str, patient_id: str, task_id: TaskID) -> PTPAA
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
 
+    # Try direct parse
     try:
         data = json.loads(text)
     except json.JSONDecodeError:
-        # Try to extract JSON from within the text
-        match = re.search(r"\{.*\}", text, re.DOTALL)
-        if match:
-            try:
-                data = json.loads(match.group())
-            except json.JSONDecodeError:
-                raise ValueError(f"Could not parse JSON from response: {text[:200]}")
-        else:
-            raise ValueError(f"No JSON found in response: {text[:200]}")
+        data = None
+
+    # If that failed, try to extract the FIRST complete JSON object
+    if data is None:
+        # Use a brace-counting approach to find the first balanced {...}
+        depth = 0
+        start = None
+        for i, ch in enumerate(text):
+            if ch == "{":
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0 and start is not None:
+                    candidate = text[start : i + 1]
+                    try:
+                        data = json.loads(candidate)
+                        break
+                    except json.JSONDecodeError:
+                        start = None
+                        continue
+
+    if data is None:
+        raise ValueError(f"Could not parse JSON from response: {text[:200]}")
 
     # Ensure required fields
     data.setdefault("patient_id", patient_id)
@@ -142,11 +164,11 @@ class BaselineAgent:
         api_key: Optional[str] = None,
         model: str = "gpt-5.4-mini",
         temperature: float = 0,
-        max_tokens: int = 1000,
+        max_completion_tokens: int = 1000,
     ):
         self.model = model
         self.temperature = temperature
-        self.max_tokens = max_tokens
+        self.max_completion_tokens = max_completion_tokens
 
         key = api_key or os.getenv("OPENAI_API_KEY", "")
         if not key:
@@ -166,34 +188,46 @@ class BaselineAgent:
     ) -> PTPAAction:
         task = get_task(state.task_id)
 
+        deadline = max(1, state.max_steps - 2)
         system_prompt = _SYSTEM_PROMPT_TEMPLATE.format(
             task_name=task.name,
             task_description=task.description,
             actions_block=_format_actions(state.task_id),
             patient_name=state.patient.name,
             patient_id=state.patient.patient_id,
+            member_id=state.patient.member_id,
             insurer=state.patient.insurer,
             plan_id=state.patient.plan_id,
-            diagnosis=state.patient.primary_icd10,
             icd10=state.patient.primary_icd10,
-            procedure=state.patient.requested_cpt,
             cpt_code=state.patient.requested_cpt,
+            physician=state.patient.attending_physician,
             max_steps=state.max_steps,
+            deadline=deadline,
             task_id=state.task_id.value,
         )
+
+        # Urgency nudge when running low on steps
+        remaining = state.max_steps - step_num
+        if remaining <= 2:
+            urgency = " URGENT: You are almost out of steps! Submit your decision/rebuttal NOW."
+        elif remaining <= 4:
+            urgency = f" WARNING: Only {remaining} steps left. Wrap up and submit soon."
+        else:
+            urgency = ""
 
         user_prompt = _USER_PROMPT_TEMPLATE.format(
             step=step_num,
             max_steps=state.max_steps,
             observation=last_observation.result,
             progress=_format_progress(state),
+            urgency=urgency,
         )
 
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 temperature=self.temperature,
-                max_tokens=self.max_tokens,
+                max_completion_tokens=self.max_completion_tokens,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
