@@ -105,7 +105,6 @@ def _format_progress(state: PTPAState) -> str:
 
 def _parse_action(response_text: str, patient_id: str, task_id: TaskID) -> PTPAAction:
     """Extract a PTPAAction from the LLM's response text."""
-    # Try to find JSON in the response
     text = response_text.strip()
 
     # Strip markdown code fences
@@ -113,18 +112,35 @@ def _parse_action(response_text: str, patient_id: str, task_id: TaskID) -> PTPAA
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
 
+    # Try direct parse
     try:
         data = json.loads(text)
     except json.JSONDecodeError:
-        # Try to extract JSON from within the text
-        match = re.search(r"\{.*\}", text, re.DOTALL)
-        if match:
-            try:
-                data = json.loads(match.group())
-            except json.JSONDecodeError:
-                raise ValueError(f"Could not parse JSON from response: {text[:200]}")
-        else:
-            raise ValueError(f"No JSON found in response: {text[:200]}")
+        data = None
+
+    # If that failed, try to extract the FIRST complete JSON object
+    if data is None:
+        # Use a brace-counting approach to find the first balanced {...}
+        depth = 0
+        start = None
+        for i, ch in enumerate(text):
+            if ch == "{":
+                if depth == 0:
+                    start = i
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0 and start is not None:
+                    candidate = text[start : i + 1]
+                    try:
+                        data = json.loads(candidate)
+                        break
+                    except json.JSONDecodeError:
+                        start = None
+                        continue
+
+    if data is None:
+        raise ValueError(f"Could not parse JSON from response: {text[:200]}")
 
     # Ensure required fields
     data.setdefault("patient_id", patient_id)
@@ -142,11 +158,11 @@ class BaselineAgent:
         api_key: Optional[str] = None,
         model: str = "gpt-5.4-mini",
         temperature: float = 0,
-        max_tokens: int = 1000,
+        max_completion_tokens: int = 1000,
     ):
         self.model = model
         self.temperature = temperature
-        self.max_tokens = max_tokens
+        self.max_completion_tokens = max_completion_tokens
 
         key = api_key or os.getenv("OPENAI_API_KEY", "")
         if not key:
@@ -193,7 +209,7 @@ class BaselineAgent:
             response = self.client.chat.completions.create(
                 model=self.model,
                 temperature=self.temperature,
-                max_tokens=self.max_tokens,
+                max_completion_tokens=self.max_completion_tokens,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
