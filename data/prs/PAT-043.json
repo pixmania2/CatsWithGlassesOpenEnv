@@ -1,0 +1,106 @@
+{
+  "patient_id": "PAT-043",
+  "demographics": {
+    "name": "Kwame Asante",
+    "dob": "1963-03-09",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310043",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 179,
+    "weight_kg": 96,
+    "bmi": 30.0,
+    "bp": "146/90"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-01",
+      "note": "Glycemic variability with HbA1c 9.1% despite multi-dose insulin. CGM needed for pattern analysis."
+    },
+    {
+      "date": "2024-09-10",
+      "note": "Cigna denied CGM claiming stable HbA1c. HbA1c of 9.1% clearly exceeds 7.0% threshold for Cigna glycemic variability exception. Rebuttal in progress."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-10",
+      "findings": "Obese male. Background diabetic retinopathy. Bilateral peripheral neuropathy."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 9.1,
+      "unit": "%",
+      "date": "2024-07-20",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.7,
+      "unit": "%",
+      "date": "2024-04-10",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 192,
+      "unit": "mg/dL",
+      "date": "2024-07-20",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 45 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 250
+    },
+    {
+      "medication": "Insulin Lispro 14 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2024-01-01",
+      "duration_days": 250
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-01-01",
+      "duration_days": 980
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Rachel Green",
+  "denial_letter": {
+    "date": "2024-09-05",
+    "insurer": "cigna",
+    "reason": "Prior authorization denied: Patient's HbA1c appears stable. CGM is not indicated for patients with stable glycemic control on current insulin regimen.",
+    "denial_code": "PA-4043",
+    "reviewer": "Dr. Thomas Park"
+  }
+}

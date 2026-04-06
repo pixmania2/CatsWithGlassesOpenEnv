@@ -22,16 +22,18 @@ from pydantic import BaseModel, Field
 # ===========================================================================
 
 class TaskID(str, Enum):
-    """The three tasks in the PTPA environment, ordered by difficulty."""
+    """The four tasks in the PTPA environment, ordered by difficulty."""
     VERIFICATION    = "task1_verification"
     MRI_NECESSITY   = "task2_mri_necessity"
     CGM_APPEAL      = "task3_cgm_appeal"
+    PEER_REVIEW     = "task4_peer_review"
 
 
 class Difficulty(str, Enum):
     EASY   = "easy"
     MEDIUM = "medium"
     HARD   = "hard"
+    EXPERT = "expert"
 
 
 class EpisodeStatus(str, Enum):
@@ -72,6 +74,11 @@ class ActionType(str, Enum):
     EXTRACT_LAB_VALUES      = "extract_lab_values"      # Retrieve HbA1c, glucose readings
     CHECK_STEP_THERAPY      = "check_step_therapy"      # Verify prior therapy requirements met
     GENERATE_APPEAL_LETTER  = "generate_appeal_letter"  # Draft Letter of Medical Necessity
+
+    # --- Task 4: Peer-to-Peer Review ---
+    REVIEW_DENIAL_LETTER    = "review_denial_letter"    # Read the insurer's denial rationale
+    GATHER_COUNTER_EVIDENCE = "gather_counter_evidence" # Compile clinical evidence to rebut denial
+    SUBMIT_REBUTTAL         = "submit_rebuttal"         # Submit structured rebuttal argument
 
 
 class PRSSection(str, Enum):
@@ -355,6 +362,22 @@ class EpisodeProgress(BaseModel):
     total_reward_so_far    : float = 0.0
 
 
+class DifficultyConfig(BaseModel):
+    """Configurable difficulty modifiers applied at reset time."""
+    noise_level     : str  = Field(default="none", description="'none', 'low', 'medium', 'high' — adds noise to observations")
+    missing_data    : bool = Field(default=False, description="Randomly omit some record fields")
+    conflicting_notes : bool = Field(default=False, description="Add contradictory info in progress notes")
+    ambiguous_labs  : bool = Field(default=False, description="Add borderline lab values near thresholds")
+
+
+class ObservationHistoryEntry(BaseModel):
+    """One entry in the observation history."""
+    step_number : int
+    action_type : str
+    observation : str
+    reward      : float
+
+
 class PTPAState(BaseModel):
     """
     Full environment state returned by GET /state.
@@ -370,6 +393,12 @@ class PTPAState(BaseModel):
     progress   : EpisodeProgress
     seed       : int         = Field(..., description="Random seed for reproducibility")
     created_at : str         = Field(..., description="ISO datetime of episode start")
+    observation_history : List[ObservationHistoryEntry] = Field(
+        default_factory=list, description="Full history of observations for multi-step reasoning"
+    )
+    difficulty_config : DifficultyConfig = Field(
+        default_factory=DifficultyConfig, description="Active difficulty modifiers for this episode"
+    )
 
 
 # ===========================================================================
@@ -512,6 +541,9 @@ class ResetRequest(BaseModel):
     )
     patient_id : Optional[str] = Field(
         default=None, description="Request a specific patient fixture. None = sampled by seed."
+    )
+    difficulty_config : Optional[DifficultyConfig] = Field(
+        default=None, description="Difficulty modifiers. None = default (clean data)."
     )
 
 

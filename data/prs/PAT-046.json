@@ -1,0 +1,107 @@
+{
+  "patient_id": "PAT-046",
+  "demographics": {
+    "name": "Ingrid Johansson",
+    "dob": "1967-04-30",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310046",
+    "insurer": "aetna",
+    "plan_id": "AETNA-GOLD-PPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 168,
+    "weight_kg": 70,
+    "bmi": 24.8,
+    "bp": "128/78"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-07-01",
+      "note": "Dawn Phenomenon with fasting glucose 230 mg/dL. On insulin pump (continuous subcutaneous infusion). Meets step therapy. CGM needed for overnight profiling."
+    },
+    {
+      "date": "2024-08-15",
+      "note": "Aetna denied CGM. Patient is on insulin pump which far exceeds minimum injection requirement. Fasting glucose 230 clearly meets thresholds. Preparing comprehensive rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-15",
+      "findings": "Peripheral neuropathy bilateral. Insulin pump site left abdomen in good condition."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 8.6,
+      "unit": "%",
+      "date": "2024-06-15",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 230,
+      "unit": "mg/dL",
+      "date": "2024-06-28",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 225,
+      "unit": "mg/dL",
+      "date": "2024-06-29",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 238,
+      "unit": "mg/dL",
+      "date": "2024-06-30",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin pump (Omnipod) \u2014 continuous subcutaneous insulin infusion",
+      "frequency": "continuous",
+      "route": "subcutaneous",
+      "start_date": "2023-06-01",
+      "duration_days": 420
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-01-01",
+      "duration_days": 960
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Patricia Hernandez",
+  "denial_letter": {
+    "date": "2024-08-10",
+    "insurer": "aetna",
+    "reason": "Prior authorization denied: CGM request lacks sufficient clinical justification. Documentation does not clearly demonstrate that current insulin regimen is inadequate for glycemic management.",
+    "denial_code": "PA-4046",
+    "reviewer": "Dr. Elizabeth Grant"
+  }
+}

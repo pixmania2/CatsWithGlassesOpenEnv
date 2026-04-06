@@ -5,122 +5,289 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PTPA OpenEnv</title>
 <style>
-  :root { --bg: #0f1117; --surface: #1a1d27; --border: #2a2d3a; --text: #e4e4e7; --muted: #71717a; --accent: #3b82f6; --green: #22c55e; --red: #ef4444; --yellow: #eab308; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #22252f; --border: #2a2d3a;
+    --text: #e4e4e7; --muted: #71717a; --accent: #3b82f6; --green: #22c55e;
+    --red: #ef4444; --yellow: #eab308; --orange: #f97316; --cyan: #06b6d4;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; background: var(--bg); color: var(--text); min-height: 100vh; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
-  h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 4px; }
-  .subtitle { color: var(--muted); font-size: 0.8rem; margin-bottom: 24px; }
-  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
-  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .panel-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 12px; }
-  label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; margin-top: 10px; }
-  select, input, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 6px; font-family: inherit; font-size: 0.8rem; }
+  body { font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
+  .app-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .app-header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+  .app-header .subtitle { color: var(--muted); font-size: 0.72rem; }
+  .status-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  .layout { display: grid; grid-template-columns: 300px 1fr 280px; gap: 0; min-height: calc(100vh - 56px); }
+  @media (max-width: 1100px) { .layout { grid-template-columns: 280px 1fr; } .col-right { display: none; } .patient-mobile { display: block !important; } }
+  @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } .col-left, .col-center, .col-right { border-right: none !important; } }
+
+  .col-left { border-right: 1px solid var(--border); overflow-y: auto; max-height: calc(100vh - 56px); }
+  .col-center { overflow-y: auto; max-height: calc(100vh - 56px); }
+  .col-right { border-left: 1px solid var(--border); overflow-y: auto; max-height: calc(100vh - 56px); }
+
+  .col-pad { padding: 14px; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+  .panel-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 10px; font-weight: 600; }
+
+  label { display: block; font-size: 0.68rem; color: var(--muted); margin-bottom: 3px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.03em; }
+  label:first-child { margin-top: 0; }
+  select, input[type="number"], input[type="text"], textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 8px; border-radius: 4px; font-family: inherit; font-size: 0.78rem;
+  }
   select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent); }
-  textarea { resize: vertical; min-height: 60px; }
-  .btn { display: inline-block; padding: 8px 16px; border: none; border-radius: 6px; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s; margin-top: 12px; margin-right: 6px; }
-  .btn:hover { opacity: 0.85; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  textarea { resize: vertical; min-height: 52px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 13px; border: none; border-radius: 4px; font-family: inherit; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s, transform 0.1s; margin-top: 8px; margin-right: 4px; }
+  .btn:hover { opacity: 0.88; }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
   .btn-blue { background: var(--accent); color: #fff; }
   .btn-green { background: var(--green); color: #000; }
   .btn-yellow { background: var(--yellow); color: #000; }
   .btn-red { background: var(--red); color: #fff; }
-  .badge { display: inline-block; font-size: 0.65rem; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--accent); }
+  .btn-sm { padding: 4px 10px; font-size: 0.68rem; margin-top: 6px; }
+
+  .badge { display: inline-block; font-size: 0.62rem; padding: 2px 7px; border-radius: 99px; font-weight: 600; }
   .badge-green { background: #16a34a22; color: var(--green); border: 1px solid #16a34a55; }
   .badge-red { background: #ef444422; color: var(--red); border: 1px solid #ef444455; }
   .badge-blue { background: #3b82f622; color: var(--accent); border: 1px solid #3b82f655; }
   .badge-yellow { background: #eab30822; color: var(--yellow); border: 1px solid #eab30855; }
-  .log { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 0.75rem; line-height: 1.6; max-height: 520px; overflow-y: auto; white-space: pre-wrap; word-break: break-word; }
-  .log-entry { padding: 6px 0; border-bottom: 1px solid var(--border); }
+
+  /* Log */
+  .log { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 10px; font-size: 0.72rem; line-height: 1.55; max-height: calc(100vh - 200px); overflow-y: auto; white-space: pre-wrap; word-break: break-word; }
+  .log-entry { padding: 5px 0; border-bottom: 1px solid var(--border); }
   .log-entry:last-child { border-bottom: none; }
-  .log-label { color: var(--accent); font-weight: 600; }
+  .log-label { color: var(--accent); font-weight: 700; }
   .log-reward { color: var(--green); }
   .log-penalty { color: var(--red); }
-  .score-display { text-align: center; padding: 16px; }
-  .score-big { font-size: 2.4rem; font-weight: 700; }
-  .meta { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; font-size: 0.75rem; }
+  .log-ts { color: var(--muted); font-size: 0.62rem; margin-right: 6px; }
+
+  /* Score display */
+  .score-display { text-align: center; padding: 12px; }
+  .score-big { font-size: 2rem; font-weight: 700; }
+
+  /* Meta row */
+  .meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.72rem; }
   .meta span { color: var(--muted); }
   .meta strong { color: var(--text); }
-  .status-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
-  .hidden { display: none; }
-  .actions-grid { display: grid; grid-template-columns: 1fr; gap: 4px; margin: 8px 0; }
-  .action-opt { padding: 6px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.72rem; transition: border-color 0.15s; }
-  .action-opt:hover { border-color: var(--accent); }
-  .action-opt.selected { border-color: var(--accent); background: #3b82f611; }
-  .progress-flags { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
-  .flag { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: var(--border); color: var(--muted); }
+
+  /* Action grid */
+  .actions-grid { display: grid; grid-template-columns: 1fr; gap: 3px; margin: 6px 0; }
+  .action-opt { padding: 5px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; font-size: 0.70rem; transition: border-color 0.12s; }
+  .action-opt:hover { border-color: var(--accent); color: var(--accent); }
+  .action-opt.selected { border-color: var(--accent); background: #3b82f611; color: var(--accent); }
+
+  /* Progress flags */
+  .progress-flags { display: flex; flex-wrap: wrap; gap: 3px; margin: 6px 0; }
+  .flag { font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; background: var(--border); color: var(--muted); }
   .flag.done { background: #16a34a22; color: var(--green); }
+
+  /* Patient info card */
+  .patient-card { font-size: 0.72rem; }
+  .patient-card .pc-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .patient-card .pc-row:last-child { border-bottom: none; }
+  .patient-card .pc-key { color: var(--muted); }
+  .patient-card .pc-val { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; word-break: break-word; }
+  .patient-card .pc-section { color: var(--accent); font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; margin-top: 10px; margin-bottom: 4px; }
+  .patient-card .pc-section:first-child { margin-top: 0; }
+
+  /* Reward chart */
+  .reward-chart { display: flex; align-items: flex-end; gap: 2px; height: 64px; padding: 4px 0; }
+  .reward-bar { flex: 1; min-width: 4px; max-width: 18px; border-radius: 2px 2px 0 0; transition: height 0.2s; position: relative; }
+  .reward-bar.pos { background: var(--green); }
+  .reward-bar.neg { background: var(--red); border-radius: 0 0 2px 2px; }
+  .reward-bar.zero { background: var(--border); min-height: 2px; }
+  .reward-summary { display: flex; justify-content: space-between; font-size: 0.64rem; color: var(--muted); margin-top: 4px; }
+
+  /* Collapsible */
+  .collapsible-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .collapsible-header:hover { color: var(--accent); }
+  .collapsible-arrow { transition: transform 0.2s; font-size: 0.7rem; }
+  .collapsible-arrow.open { transform: rotate(90deg); }
+  .collapsible-body { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+  .collapsible-body.open { max-height: 400px; }
+  .diff-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .diff-row label { margin: 0; flex-shrink: 0; min-width: 90px; }
+  .diff-row select { flex: 1; }
+  .cb-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 0.72rem; }
+  .cb-row input[type="checkbox"] { width: auto; accent-color: var(--accent); }
+  .cb-row span { color: var(--text); font-size: 0.72rem; }
+
+  /* Modal overlay */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; width: 90%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .modal-header h3 { font-size: 0.85rem; font-weight: 600; }
+  .modal-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.2rem; font-family: inherit; padding: 4px 8px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 16px; overflow-y: auto; flex: 1; font-size: 0.72rem; line-height: 1.6; }
+  .replay-step { padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .replay-step:last-child { border-bottom: none; }
+  .replay-step-num { color: var(--accent); font-weight: 700; }
+  .replay-action { color: var(--cyan); }
+  .replay-reward { font-weight: 600; }
+
+  .patient-mobile { display: none; }
+
+  .hidden { display: none; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>PTPA OpenEnv</h1>
-  <p class="subtitle">Patient Triage & Prior Authorization Environment</p>
 
-  <div class="status-bar" id="statusBar">
-    <span class="badge badge-green" id="healthBadge">checking...</span>
-    <span style="color:var(--muted);font-size:0.72rem" id="sessionInfo"></span>
+<!-- Header -->
+<div class="app-header">
+  <div>
+    <h1>PTPA OpenEnv</h1>
+    <span class="subtitle">Patient Triage &amp; Prior Authorization Environment</span>
   </div>
+  <div class="status-bar">
+    <span class="badge badge-green" id="healthBadge">checking...</span>
+    <span style="color:var(--muted);font-size:0.68rem" id="sessionInfo"></span>
+  </div>
+</div>
 
-  <div class="grid">
-    <!-- LEFT PANEL: Controls -->
-    <div>
-      <!-- Reset -->
-      <div class="panel">
-        <div class="panel-title">1. Start Episode</div>
-        <label>Task</label>
-        <select id="taskSelect">
-          <option value="task1_verification">Task 1 — Verification (Easy)</option>
-          <option value="task2_mri_necessity">Task 2 — MRI Necessity (Medium)</option>
-          <option value="task3_cgm_appeal">Task 3 — CGM Appeal (Hard)</option>
-        </select>
-        <label>Seed (optional)</label>
-        <input type="number" id="seedInput" placeholder="42" value="42">
-        <label>Patient ID (optional)</label>
-        <input type="text" id="patientInput" placeholder="e.g. PAT-001">
-        <button class="btn btn-blue" onclick="doReset()">Reset</button>
-      </div>
+<!-- Three-column layout -->
+<div class="layout">
 
-      <!-- Action -->
-      <div class="panel" style="margin-top:12px" id="actionPanel">
-        <div class="panel-title">2. Take Action</div>
-        <label>Action Type</label>
-        <div class="actions-grid" id="actionTypes"></div>
-        <label>Parameters (JSON)</label>
-        <textarea id="paramsInput" placeholder='{"member_id": "MBR-881234", "insurer": "aetna"}'></textarea>
-        <button class="btn btn-green" onclick="doStep()" id="stepBtn" disabled>Step</button>
-        <button class="btn btn-yellow" onclick="doGrade()" id="gradeBtn" disabled>Grade</button>
-      </div>
+  <!-- COL 1: Controls -->
+  <div class="col-left col-pad">
 
-      <!-- Progress -->
-      <div class="panel" style="margin-top:12px" id="progressPanel">
-        <div class="panel-title">Progress</div>
-        <div class="progress-flags" id="progressFlags"></div>
-        <div class="meta">
-          <span>Steps: <strong id="stepCount">0</strong>/<strong id="maxSteps">-</strong></span>
-          <span>Reward: <strong id="totalReward">0.00</strong></span>
-          <span>Status: <strong id="episodeStatus">-</strong></span>
+    <!-- Reset / Start -->
+    <div class="panel">
+      <div class="panel-title">1 &middot; Start Episode</div>
+      <label>Task</label>
+      <select id="taskSelect">
+        <option value="task1_verification">Task 1 — Verification (Easy)</option>
+        <option value="task2_mri_necessity">Task 2 — MRI Necessity (Medium)</option>
+        <option value="task3_cgm_appeal">Task 3 — CGM Appeal (Hard)</option>
+        <option value="task4_p2p_review">Task 4 — Peer-to-Peer Review (Expert)</option>
+      </select>
+      <label>Seed</label>
+      <input type="number" id="seedInput" placeholder="42" value="42">
+      <label>Patient ID</label>
+      <input type="text" id="patientInput" placeholder="e.g. PAT-001">
+
+      <!-- Difficulty Config (collapsible) -->
+      <div style="margin-top: 10px;">
+        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+          <span style="font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">Difficulty Settings</span>
+          <span class="collapsible-arrow">&#9654;</span>
+        </div>
+        <div class="collapsible-body" id="difficultyBody">
+          <div class="diff-row">
+            <label style="margin-top:0">Noise</label>
+            <select id="diffNoise">
+              <option value="none">none</option>
+              <option value="low">low</option>
+              <option value="medium" selected>medium</option>
+              <option value="high">high</option>
+            </select>
+          </div>
+          <div class="cb-row">
+            <input type="checkbox" id="diffMissing">
+            <span>missing_data</span>
+          </div>
+          <div class="cb-row">
+            <input type="checkbox" id="diffConflicting">
+            <span>conflicting_notes</span>
+          </div>
+          <div class="cb-row">
+            <input type="checkbox" id="diffAmbiguous">
+            <span>ambiguous_labs</span>
+          </div>
         </div>
       </div>
+
+      <button class="btn btn-blue" onclick="doReset()">Reset</button>
     </div>
 
-    <!-- RIGHT PANEL: Log -->
-    <div>
-      <div class="panel">
-        <div class="panel-title">Episode Log</div>
-        <div class="log" id="log"><span style="color:var(--muted)">Select a task and click Reset to begin.</span></div>
-      </div>
+    <!-- Action -->
+    <div class="panel" id="actionPanel">
+      <div class="panel-title">2 &middot; Take Action</div>
+      <label>Action Type</label>
+      <div class="actions-grid" id="actionTypes"></div>
+      <label>Parameters (JSON)</label>
+      <textarea id="paramsInput" placeholder='{"member_id": "MBR-881234", "insurer": "aetna"}'></textarea>
+      <button class="btn btn-green" onclick="doStep()" id="stepBtn" disabled>Step</button>
+      <button class="btn btn-yellow" onclick="doGrade()" id="gradeBtn" disabled>Grade</button>
+    </div>
 
-      <!-- Score -->
-      <div class="panel hidden" style="margin-top:12px" id="scorePanel">
-        <div class="panel-title">Grader Result</div>
-        <div class="score-display">
-          <div class="score-big" id="finalScore">-</div>
-          <div style="color:var(--muted);font-size:0.8rem;margin-top:4px" id="scoreFeedback"></div>
-        </div>
-        <div id="componentScores"></div>
+    <!-- Progress -->
+    <div class="panel" id="progressPanel">
+      <div class="panel-title">Progress</div>
+      <div class="progress-flags" id="progressFlags"></div>
+      <div class="meta" style="margin-top:6px;">
+        <span>Steps: <strong id="stepCount">0</strong>/<strong id="maxSteps">-</strong></span>
+        <span>Reward: <strong id="totalReward">0.00</strong></span>
       </div>
+      <div class="meta" style="margin-top:4px;">
+        <span>Status: <strong id="episodeStatus">-</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COL 2: Log + Score -->
+  <div class="col-center col-pad">
+    <!-- Mobile-only patient info -->
+    <div class="patient-mobile" id="patientMobile"></div>
+
+    <div class="panel" style="margin-bottom:10px;">
+      <div class="panel-title">Episode Log</div>
+      <div class="log" id="log"><span style="color:var(--muted)">Select a task and click Reset to begin.</span></div>
+    </div>
+
+    <!-- Score panel -->
+    <div class="panel hidden" id="scorePanel">
+      <div class="panel-title">Grader Result</div>
+      <div class="score-display">
+        <div class="score-big" id="finalScore">-</div>
+        <div style="color:var(--muted);font-size:0.75rem;margin-top:4px" id="scoreFeedback"></div>
+      </div>
+      <div id="componentScores"></div>
+      <div style="text-align:center; margin-top:8px;">
+        <button class="btn btn-outline btn-sm" id="replayBtn" onclick="doReplay()">View Replay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COL 3: Patient Info + Reward Chart -->
+  <div class="col-right col-pad">
+    <div class="panel" id="patientPanel">
+      <div class="panel-title">Patient Info</div>
+      <div class="patient-card" id="patientCard">
+        <span style="color:var(--muted);font-size:0.72rem;">No episode loaded.</span>
+      </div>
+    </div>
+    <div class="panel" id="rewardPanel">
+      <div class="panel-title">Reward History</div>
+      <div class="reward-chart" id="rewardChart">
+        <span style="color:var(--muted);font-size:0.68rem;">No steps yet.</span>
+      </div>
+      <div class="reward-summary" id="rewardSummary"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Replay Modal -->
+<div class="modal-overlay hidden" id="replayModal" onclick="closeReplayModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Episode Replay</h3>
+      <button class="modal-close" onclick="closeReplayModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="replayBody">
+      Loading...
     </div>
   </div>
 </div>
@@ -130,35 +297,63 @@ const API = window.location.origin;
 let episodeId = null;
 let patientId = null;
 let taskId = null;
+let selectedAction = null;
+let rewardHistory = [];
+let patientData = null;
 
+// ── Task → Action mapping ─────────────────────────────────────────
 const TASK_ACTIONS = {
   task1_verification: [
-    {type: 'check_eligibility', hint: '{"member_id": "...", "insurer": "..."}'},
-    {type: 'check_cpt_coverage', hint: '{"cpt_code": "...", "icd10_code": "...", "insurer": "..."}'},
-    {type: 'query_patient_record', hint: '{"section": "vitals|progress_notes|lab_results|..."}'},
-    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "eligibility|covered_services|..."}'},
-    {type: 'submit_decision', hint: '{"decision": "approve|deny", "rationale": "..."}'},
+    { type: 'check_eligibility',     hint: '{"member_id": "...", "insurer": "..."}' },
+    { type: 'check_cpt_coverage',    hint: '{"cpt_code": "...", "icd10_code": "...", "insurer": "..."}' },
+    { type: 'query_patient_record',  hint: '{"section": "vitals|progress_notes|lab_results|..."}' },
+    { type: 'query_policy_database', hint: '{"insurer": "...", "section": "eligibility|covered_services|..."}' },
+    { type: 'submit_decision',       hint: '{"decision": "approve|deny", "rationale": "..."}' },
   ],
   task2_mri_necessity: [
-    {type: 'extract_pt_sessions', hint: '{}'},
-    {type: 'check_red_flags', hint: '{}'},
-    {type: 'compare_policy_duration', hint: '{"weeks_of_pt_found": 4, "insurer": "...", "cpt_code": "73721"}'},
-    {type: 'query_patient_record', hint: '{"section": "physical_exam|progress_notes|..."}'},
-    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "prior_auth_criteria"}'},
-    {type: 'submit_decision', hint: '{"decision": "approve|deny", "rationale": "..."}'},
+    { type: 'extract_pt_sessions',      hint: '{}' },
+    { type: 'check_red_flags',          hint: '{}' },
+    { type: 'compare_policy_duration',  hint: '{"weeks_of_pt_found": 4, "insurer": "...", "cpt_code": "73721"}' },
+    { type: 'query_patient_record',     hint: '{"section": "physical_exam|progress_notes|..."}' },
+    { type: 'query_policy_database',    hint: '{"insurer": "...", "section": "prior_auth_criteria"}' },
+    { type: 'submit_decision',          hint: '{"decision": "approve|deny", "rationale": "..."}' },
   ],
   task3_cgm_appeal: [
-    {type: 'extract_lab_values', hint: '{"lab_tests": ["HbA1c", "fasting_glucose", "glucose_reading"]}'},
-    {type: 'check_step_therapy', hint: '{"device_requested": "CGM", "insurer": "..."}'},
-    {type: 'generate_appeal_letter', hint: '{"evidence_found": ["..."], "exception_clause": "..."}'},
-    {type: 'query_patient_record', hint: '{"section": "lab_results|pharmacy_history|..."}'},
-    {type: 'query_policy_database', hint: '{"insurer": "...", "section": "exception_criteria"}'},
-    {type: 'submit_decision', hint: '{"decision": "approve|deny|appeal", "rationale": "..."}'},
+    { type: 'extract_lab_values',    hint: '{"lab_tests": ["HbA1c", "fasting_glucose", "glucose_reading"]}' },
+    { type: 'check_step_therapy',    hint: '{"device_requested": "CGM", "insurer": "..."}' },
+    { type: 'generate_appeal_letter', hint: '{"evidence_found": ["..."], "exception_clause": "..."}' },
+    { type: 'query_patient_record',  hint: '{"section": "lab_results|pharmacy_history|..."}' },
+    { type: 'query_policy_database', hint: '{"insurer": "...", "section": "exception_criteria"}' },
+    { type: 'submit_decision',       hint: '{"decision": "approve|deny|appeal", "rationale": "..."}' },
+  ],
+  task4_p2p_review: [
+    { type: 'review_denial_letter',    hint: '{"denial_id": "...", "focus": "clinical_rationale|policy_citation|..."}' },
+    { type: 'gather_counter_evidence', hint: '{"evidence_types": ["peer_reviewed", "guidelines", "patient_history"]}' },
+    { type: 'submit_rebuttal',         hint: '{"rebuttal_points": ["..."], "supporting_references": ["..."]}' },
+    { type: 'query_patient_record',    hint: '{"section": "progress_notes|lab_results|imaging|..."}' },
+    { type: 'query_policy_database',   hint: '{"insurer": "...", "section": "appeal_process|medical_policy"}' },
+    { type: 'submit_decision',         hint: '{"decision": "overturn|uphold|partial_approval", "rationale": "..."}' },
   ],
 };
 
-let selectedAction = null;
+// ── Difficulty config collapsible ──────────────────────────────────
+function toggleCollapsible(header) {
+  const arrow = header.querySelector('.collapsible-arrow');
+  const body = header.nextElementSibling;
+  arrow.classList.toggle('open');
+  body.classList.toggle('open');
+}
 
+function getDifficultyConfig() {
+  return {
+    noise_level: document.getElementById('diffNoise').value,
+    missing_data: document.getElementById('diffMissing').checked,
+    conflicting_notes: document.getElementById('diffConflicting').checked,
+    ambiguous_labs: document.getElementById('diffAmbiguous').checked,
+  };
+}
+
+// ── Render actions for selected task ───────────────────────────────
 function renderActions() {
   const task = document.getElementById('taskSelect').value;
   const actions = TASK_ACTIONS[task] || [];
@@ -177,9 +372,15 @@ function selectAction(el) {
   document.getElementById('paramsInput').value = el.dataset.hint;
 }
 
+// ── Logging ────────────────────────────────────────────────────────
+function logTs() {
+  const d = new Date();
+  return d.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
 function log(html) {
   const el = document.getElementById('log');
-  el.innerHTML += `<div class="log-entry">${html}</div>`;
+  el.innerHTML += `<div class="log-entry"><span class="log-ts">${logTs()}</span>${html}</div>`;
   el.scrollTop = el.scrollHeight;
 }
 
@@ -187,6 +388,97 @@ function clearLog() {
   document.getElementById('log').innerHTML = '';
 }
 
+// ── Patient card rendering ─────────────────────────────────────────
+function renderPatientCard(p) {
+  if (!p) return;
+  patientData = p;
+
+  const rows = (section, pairs) => {
+    let h = `<div class="pc-section">${section}</div>`;
+    pairs.forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== '') {
+        h += `<div class="pc-row"><span class="pc-key">${k}</span><span class="pc-val">${v}</span></div>`;
+      }
+    });
+    return h;
+  };
+
+  const html =
+    rows('Demographics', [
+      ['Name', p.name],
+      ['ID', p.patient_id],
+      ['DOB', p.date_of_birth || p.dob || '—'],
+      ['Age', p.age || '—'],
+      ['Sex', p.sex || p.gender || '—'],
+    ]) +
+    rows('Insurance', [
+      ['Insurer', (p.insurer || '').toUpperCase()],
+      ['Plan', p.plan_id || '—'],
+      ['Member ID', p.member_id || '—'],
+      ['Group', p.group_id || p.group_number || '—'],
+    ]) +
+    rows('Clinical', [
+      ['Dx (ICD-10)', p.primary_icd10 || '—'],
+      ['Dx Desc', p.diagnosis_description || p.diagnosis || '—'],
+      ['Procedure (CPT)', p.requested_cpt || '—'],
+      ['Proc Desc', p.procedure_description || p.procedure || '—'],
+      ['Referring MD', p.referring_physician || p.physician || '—'],
+    ]);
+
+  document.getElementById('patientCard').innerHTML = `<div class="patient-card">${html}</div>`;
+
+  // Mobile version
+  document.getElementById('patientMobile').innerHTML = `<div class="panel"><div class="panel-title">Patient Info</div><div class="patient-card">${html}</div></div>`;
+}
+
+// ── Reward chart ───────────────────────────────────────────────────
+function resetRewardChart() {
+  rewardHistory = [];
+  document.getElementById('rewardChart').innerHTML = '<span style="color:var(--muted);font-size:0.68rem;">No steps yet.</span>';
+  document.getElementById('rewardSummary').innerHTML = '';
+}
+
+function addRewardBar(reward) {
+  rewardHistory.push(reward);
+  renderRewardChart();
+}
+
+function renderRewardChart() {
+  const chart = document.getElementById('rewardChart');
+  const summary = document.getElementById('rewardSummary');
+
+  if (rewardHistory.length === 0) {
+    chart.innerHTML = '<span style="color:var(--muted);font-size:0.68rem;">No steps yet.</span>';
+    summary.innerHTML = '';
+    return;
+  }
+
+  // Cumulative rewards
+  const cumulative = [];
+  let running = 0;
+  rewardHistory.forEach(r => { running += r; cumulative.push(running); });
+
+  const maxAbs = Math.max(Math.abs(Math.min(...cumulative)), Math.abs(Math.max(...cumulative)), 0.1);
+  const chartHeight = 60; // px
+
+  chart.innerHTML = cumulative.map((val, i) => {
+    const absH = Math.max(2, (Math.abs(val) / maxAbs) * chartHeight);
+    if (val > 0) {
+      return `<div class="reward-bar pos" style="height:${absH}px" title="Step ${i + 1}: ${val.toFixed(2)}"></div>`;
+    } else if (val < 0) {
+      return `<div class="reward-bar neg" style="height:${absH}px; align-self:flex-start;" title="Step ${i + 1}: ${val.toFixed(2)}"></div>`;
+    } else {
+      return `<div class="reward-bar zero" style="height:2px" title="Step ${i + 1}: 0.00"></div>`;
+    }
+  }).join('');
+
+  const total = cumulative[cumulative.length - 1];
+  const best = Math.max(...cumulative);
+  const worst = Math.min(...cumulative);
+  summary.innerHTML = `<span>Total: <strong style="color:${total >= 0 ? 'var(--green)' : 'var(--red)'}">${total.toFixed(2)}</strong></span><span>Hi: ${best.toFixed(2)}</span><span>Lo: ${worst.toFixed(2)}</span>`;
+}
+
+// ── Progress update ────────────────────────────────────────────────
 function updateProgress(state) {
   if (!state) return;
   document.getElementById('stepCount').textContent = state.step_count;
@@ -194,76 +486,123 @@ function updateProgress(state) {
   document.getElementById('totalReward').textContent = (state.progress.total_reward_so_far || 0).toFixed(2);
   document.getElementById('episodeStatus').textContent = state.status;
 
-  const flags = ['eligibility_verified','cpt_coverage_checked','pt_sessions_extracted','red_flags_checked','lab_values_extracted','step_therapy_checked','policy_retrieved','decision_submitted'];
+  const flags = [
+    'eligibility_verified', 'cpt_coverage_checked', 'pt_sessions_extracted',
+    'red_flags_checked', 'lab_values_extracted', 'step_therapy_checked',
+    'policy_retrieved', 'decision_submitted',
+    'denial_reviewed', 'counter_evidence_gathered', 'rebuttal_submitted',
+  ];
   const container = document.getElementById('progressFlags');
   container.innerHTML = flags.map(f => {
     const on = state.progress[f];
-    const short = f.replace('_verified','').replace('_checked','').replace('_extracted','').replace('_submitted','').replace('_retrieved','');
+    if (on === undefined && !on) {
+      // Only show flags relevant to current task — show all, dim irrelevant
+    }
+    const short = f.replace('_verified', '').replace('_checked', '').replace('_extracted', '')
+                    .replace('_submitted', '').replace('_retrieved', '').replace('_gathered', '')
+                    .replace('_reviewed', '');
     return `<span class="flag ${on ? 'done' : ''}">${short}</span>`;
   }).join('');
 }
 
+// ── API: Reset ─────────────────────────────────────────────────────
 async function doReset() {
   taskId = document.getElementById('taskSelect').value;
   const seed = document.getElementById('seedInput').value;
   const pid = document.getElementById('patientInput').value;
 
-  const body = {task_id: taskId};
+  const body = { task_id: taskId };
   if (seed) body.seed = parseInt(seed);
   if (pid) body.patient_id = pid;
 
+  // Include difficulty config
+  body.difficulty_config = getDifficultyConfig();
+
   clearLog();
+  resetRewardChart();
   document.getElementById('scorePanel').classList.add('hidden');
+  document.getElementById('patientCard').innerHTML = '<span style="color:var(--muted)">Loading...</span>';
 
   try {
-    const r = await fetch(`${API}/reset`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const r = await fetch(`${API}/reset`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
     const d = await r.json();
-    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+    if (!r.ok) {
+      log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`);
+      return;
+    }
 
     episodeId = d.episode_id;
     patientId = d.state.patient.patient_id;
     const p = d.state.patient;
 
-    document.getElementById('sessionInfo').textContent = `Episode: ${episodeId} | Patient: ${patientId}`;
+    document.getElementById('sessionInfo').textContent = `${episodeId}`;
     document.getElementById('stepBtn').disabled = false;
     document.getElementById('gradeBtn').disabled = true;
 
-    log(`<span class="log-label">RESET</span> Task: ${taskId}`);
-    log(`Patient: <strong>${p.name}</strong> (${p.patient_id}) | Insurer: ${p.insurer.toUpperCase()} | Plan: ${p.plan_id}`);
-    log(`Diagnosis: ${p.primary_icd10} | Procedure: CPT ${p.requested_cpt}`);
+    log(`<span class="log-label">RESET</span> Task: <strong>${taskId}</strong>`);
+    log(`Patient: <strong>${p.name}</strong> (${p.patient_id}) | Insurer: ${(p.insurer || '').toUpperCase()} | Plan: ${p.plan_id}`);
+    log(`Dx: ${p.primary_icd10} | Proc: CPT ${p.requested_cpt}`);
     log(`<span style="color:var(--muted)">${d.initial_observation.result}</span>`);
 
+    renderPatientCard(p);
     updateProgress(d.state);
     renderActions();
-  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+  } catch (e) {
+    log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`);
+  }
 }
 
+// ── API: Step ──────────────────────────────────────────────────────
 async function doStep() {
-  if (!episodeId || !selectedAction) { log('<span style="color:var(--yellow)">Select an action first.</span>'); return; }
+  if (!episodeId || !selectedAction) {
+    log('<span style="color:var(--yellow)">Select an action first.</span>');
+    return;
+  }
 
   let params;
-  try { params = JSON.parse(document.getElementById('paramsInput').value || '{}'); }
-  catch(e) { log(`<span style="color:var(--red)">Invalid JSON: ${e.message}</span>`); return; }
+  try {
+    params = JSON.parse(document.getElementById('paramsInput').value || '{}');
+  } catch (e) {
+    log(`<span style="color:var(--red)">Invalid JSON: ${e.message}</span>`);
+    return;
+  }
 
   const body = {
     episode_id: episodeId,
-    action: { action_type: selectedAction, patient_id: patientId, task_id: taskId, parameters: params }
+    action: {
+      action_type: selectedAction,
+      patient_id: patientId,
+      task_id: taskId,
+      parameters: params,
+    },
   };
 
   try {
-    const r = await fetch(`${API}/step`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+    const r = await fetch(`${API}/step`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
     const d = await r.json();
-    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+    if (!r.ok) {
+      log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`);
+      return;
+    }
 
     const rwd = d.reward;
     const rwdClass = rwd > 0 ? 'log-reward' : rwd < 0 ? 'log-penalty' : '';
-    log(`<span class="log-label">STEP ${d.state.step_count}</span> ${selectedAction} <span class="${rwdClass}">[reward: ${rwd >= 0 ? '+' : ''}${rwd.toFixed(2)}]</span>`);
+    log(`<span class="log-label">STEP ${d.state.step_count}</span> <strong>${selectedAction}</strong> <span class="${rwdClass}">[${rwd >= 0 ? '+' : ''}${rwd.toFixed(2)}]</span>`);
     log(`<span style="color:var(--muted)">${d.observation.result}</span>`);
 
     if (d.observation.red_flags && d.observation.red_flags.length > 0) {
-      log(`<span style="color:var(--red)">RED FLAGS: ${d.observation.red_flags.map(f=>f.flag_name).join(', ')}</span>`);
+      log(`<span style="color:var(--red)">⚠ RED FLAGS: ${d.observation.red_flags.map(f => f.flag_name).join(', ')}</span>`);
     }
 
+    addRewardBar(rwd);
     updateProgress(d.state);
 
     if (d.done) {
@@ -271,26 +610,37 @@ async function doStep() {
       document.getElementById('stepBtn').disabled = true;
       document.getElementById('gradeBtn').disabled = false;
     }
-  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+  } catch (e) {
+    log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`);
+  }
 }
 
+// ── API: Grade ─────────────────────────────────────────────────────
 async function doGrade() {
   if (!episodeId) return;
 
   try {
-    const r = await fetch(`${API}/grader`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({episode_id: episodeId})});
+    const r = await fetch(`${API}/grader`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ episode_id: episodeId }),
+    });
     const d = await r.json();
-    if (!r.ok) { log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`); return; }
+    if (!r.ok) {
+      log(`<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`);
+      return;
+    }
 
     const scoreEl = document.getElementById('finalScore');
     scoreEl.textContent = d.final_score.toFixed(2);
     scoreEl.style.color = d.final_score >= 0.8 ? 'var(--green)' : d.final_score >= 0.5 ? 'var(--yellow)' : 'var(--red)';
 
-    document.getElementById('scoreFeedback').textContent = `${d.decision_correct ? 'Correct' : 'Incorrect'} decision | ${d.feedback}`;
+    document.getElementById('scoreFeedback').textContent =
+      `${d.decision_correct ? '✓ Correct' : '✗ Incorrect'} decision — ${d.feedback}`;
 
     const comps = document.getElementById('componentScores');
     comps.innerHTML = d.components.map(c => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:0.72rem">
         <span>${c.component_name}</span>
         <span>
           <span style="color:var(--muted)">w=${c.weight}</span>
@@ -303,19 +653,81 @@ async function doGrade() {
     document.getElementById('gradeBtn').disabled = true;
 
     log(`<span class="log-label" style="color:var(--green)">GRADED</span> Final score: <strong>${d.final_score.toFixed(2)}</strong>`);
-  } catch(e) { log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`); }
+  } catch (e) {
+    log(`<span style="color:var(--red)">Fetch error: ${e.message}</span>`);
+  }
 }
 
-// Init
-(async function() {
+// ── API: Replay ────────────────────────────────────────────────────
+async function doReplay() {
+  if (!episodeId) return;
+
+  const modal = document.getElementById('replayModal');
+  const body = document.getElementById('replayBody');
+  modal.classList.remove('hidden');
+  body.innerHTML = '<span style="color:var(--muted)">Loading replay...</span>';
+
+  try {
+    const r = await fetch(`${API}/replay?episode_id=${encodeURIComponent(episodeId)}`);
+    const d = await r.json();
+    if (!r.ok) {
+      body.innerHTML = `<span style="color:var(--red)">Error: ${d.detail || JSON.stringify(d)}</span>`;
+      return;
+    }
+
+    // Render the replay trace
+    const steps = d.steps || d.trace || d.replay || [];
+    if (Array.isArray(steps) && steps.length > 0) {
+      body.innerHTML = steps.map((s, i) => {
+        const rwd = s.reward !== undefined ? s.reward : 0;
+        const rwdColor = rwd > 0 ? 'var(--green)' : rwd < 0 ? 'var(--red)' : 'var(--muted)';
+        const action = s.action_type || s.action || '—';
+        const obs = s.observation || s.result || '';
+        const obsText = typeof obs === 'string' ? obs : (obs.result || JSON.stringify(obs));
+        return `<div class="replay-step">
+          <span class="replay-step-num">Step ${i + 1}</span>
+          <span class="replay-action">${action}</span>
+          <span class="replay-reward" style="color:${rwdColor};margin-left:8px">[${rwd >= 0 ? '+' : ''}${rwd.toFixed ? rwd.toFixed(2) : rwd}]</span>
+          ${s.parameters ? `<div style="color:var(--muted);margin-top:2px;font-size:0.65rem">params: ${JSON.stringify(s.parameters)}</div>` : ''}
+          <div style="margin-top:3px;color:var(--text);opacity:0.85;">${obsText}</div>
+        </div>`;
+      }).join('');
+    } else {
+      // Fallback: dump the entire response
+      body.innerHTML = `<pre style="white-space:pre-wrap;word-break:break-word;color:var(--text);font-size:0.72rem;">${JSON.stringify(d, null, 2)}</pre>`;
+    }
+  } catch (e) {
+    body.innerHTML = `<span style="color:var(--red)">Fetch error: ${e.message}</span>`;
+  }
+}
+
+function closeReplayModal(event) {
+  if (event && event.target !== document.getElementById('replayModal')) return;
+  document.getElementById('replayModal').classList.add('hidden');
+}
+// Also close if called without event (the X button)
+document.querySelector('.modal-close')?.addEventListener('click', () => {
+  document.getElementById('replayModal').classList.add('hidden');
+});
+
+// ── Init ───────────────────────────────────────────────────────────
+(async function init() {
   renderActions();
   document.getElementById('taskSelect').addEventListener('change', renderActions);
+
+  // Keyboard shortcut: Escape closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('replayModal').classList.add('hidden');
+    }
+  });
+
   try {
     const r = await fetch(`${API}/health`);
     const d = await r.json();
     document.getElementById('healthBadge').textContent = d.status === 'healthy' ? 'CONNECTED' : 'ERROR';
     document.getElementById('healthBadge').className = d.status === 'healthy' ? 'badge badge-green' : 'badge badge-red';
-  } catch(e) {
+  } catch (e) {
     document.getElementById('healthBadge').textContent = 'OFFLINE';
     document.getElementById('healthBadge').className = 'badge badge-red';
   }

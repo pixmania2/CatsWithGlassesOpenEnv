@@ -1,0 +1,81 @@
+{
+  "patient_id": "PAT-050",
+  "demographics": {
+    "name": "Ravi Krishnamurthy",
+    "dob": "1978-03-05",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310050",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-HMO-STANDARD",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 175,
+    "weight_kg": 80,
+    "bmi": 26.1,
+    "bp": "126/78"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "S82.001A",
+      "description": "Unspecified fracture of right patella, initial encounter",
+      "primary": true
+    },
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-10",
+      "note": "Right knee injury after fall. X-ray shows non-displaced patellar fracture. MRI needed to assess soft tissue injury and occult fracture extent."
+    },
+    {
+      "date": "2024-09-15",
+      "note": "Cigna denied MRI claiming imaging is not indicated. X-ray clearly demonstrates a fracture requiring MRI for complete evaluation. Preparing urgent rebuttal."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-10",
+      "findings": "Significant swelling right knee. Unable to perform SLR against gravity. Patellar tenderness. Effusion 3+. Limited ROM 20-60 due to pain."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Acetaminophen 1000mg",
+      "start_date": "2024-08-10",
+      "duration_days": 14
+    },
+    {
+      "medication": "Tramadol 50mg",
+      "start_date": "2024-08-10",
+      "duration_days": 7
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-08-10",
+      "findings": "Non-displaced transverse fracture of the right patella. Moderate joint effusion. Cannot exclude additional ligamentous or meniscal injury on plain films."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Kevin Park",
+  "denial_letter": {
+    "date": "2024-09-10",
+    "insurer": "cigna",
+    "reason": "Prior authorization denied: Advanced imaging not indicated at this time. Conservative management with follow-up radiographs recommended per Cigna musculoskeletal imaging guidelines.",
+    "denial_code": "PA-4050",
+    "reviewer": "Dr. William Nguyen"
+  }
+}

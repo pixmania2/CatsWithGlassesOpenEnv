@@ -1,0 +1,154 @@
+{
+  "patient_id": "PAT-030",
+  "demographics": {
+    "name": "Dmitri Volkov",
+    "dob": "1979-08-30",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310030",
+    "insurer": "cigna",
+    "plan_id": "CIGNA-OPEN-ACCESS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 182,
+    "weight_kg": 92,
+    "bmi": 27.8,
+    "bp": "138/86"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M46.46",
+      "description": "Discitis, unspecified, lumbar region",
+      "primary": true
+    },
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": false
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-09-01",
+      "note": "Low back pain with fevers 101.2 F for 5 days. Elevated ESR/CRP. Suspected vertebral infection. Only 4 weeks PT."
+    },
+    {
+      "date": "2024-09-08",
+      "note": "Worsening pain at rest. Night sweats. Urgent MRI needed to rule out discitis/osteomyelitis."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-08",
+      "findings": "Severe midline tenderness L3-L4. Paraspinal muscle guarding. Temperature 101.4 F. No neurological deficit.",
+      "red_flags": [
+        "Suspected Infection"
+      ]
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "ESR",
+      "test": "ESR",
+      "value": 68,
+      "unit": "mm/hr",
+      "date": "2024-09-05",
+      "reference_range": "0-20 mm/hr"
+    },
+    {
+      "test_name": "CRP",
+      "test": "CRP",
+      "value": 8.4,
+      "unit": "mg/dL",
+      "date": "2024-09-05",
+      "reference_range": "< 0.5 mg/dL"
+    },
+    {
+      "test_name": "WBC",
+      "test": "WBC",
+      "value": 14.2,
+      "unit": "K/uL",
+      "date": "2024-09-05",
+      "reference_range": "4.5-11.0 K/uL"
+    }
+  ],
+  "pt_sessions": [
+    {
+      "session_date": "2024-08-05",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-09",
+      "session_number": 2,
+      "therapist_notes": "Gentle ROM.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-14",
+      "session_number": 3,
+      "therapist_notes": "Patient reports fevers.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-19",
+      "session_number": 4,
+      "therapist_notes": "Worsening. Referred back to MD.",
+      "pain_score": 8,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-23",
+      "session_number": 5,
+      "therapist_notes": "Unable to continue. Fever 101 F.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-08-28",
+      "session_number": 6,
+      "therapist_notes": "Discharged from PT. Imaging needed urgently.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-09-01",
+      "session_number": 7,
+      "therapist_notes": "Session cancelled. Sent to physician.",
+      "pain_score": 9,
+      "improved": false
+    },
+    {
+      "session_date": "2024-09-04",
+      "session_number": 8,
+      "therapist_notes": "No further PT until imaging obtained.",
+      "pain_score": 9,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Naproxen 500mg",
+      "start_date": "2024-08-01",
+      "duration_days": 30
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-08-03",
+      "findings": "Endplate irregularity L3-L4. Cannot exclude infection."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. James Lee"
+}

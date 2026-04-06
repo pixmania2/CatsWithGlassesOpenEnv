@@ -1,0 +1,60 @@
+{
+  "patient_id": "PAT-023",
+  "demographics": {
+    "name": "Fatima Al-Rashid",
+    "dob": "1980-12-05",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310023",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": false
+  },
+  "vitals": {
+    "height_cm": 158,
+    "weight_kg": 72,
+    "bmi": 28.8,
+    "bp": "130/82"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-10-01",
+      "note": "Right knee pain with weight bearing. Requesting MRI for surgical planning."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-10-01",
+      "findings": "Crepitus bilateral knees. ROM 5-115 degrees right. Mild valgus deformity."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Acetaminophen 1000mg",
+      "start_date": "2024-07-01",
+      "duration_days": 90
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-08-15",
+      "findings": "Moderate medial joint space narrowing right knee."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks"
+}

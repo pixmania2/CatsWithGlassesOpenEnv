@@ -1,0 +1,135 @@
+{
+  "patient_id": "PAT-029",
+  "demographics": {
+    "name": "Olivia Mensah",
+    "dob": "1983-04-11",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310029",
+    "insurer": "aetna",
+    "plan_id": "AETNA-BASIC-EPO",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 168,
+    "weight_kg": 74,
+    "bmi": 26.2,
+    "bp": "122/76"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-06-01",
+      "note": "Right knee pain 3 months. Completed 5 weeks of PT with minimal improvement."
+    },
+    {
+      "date": "2024-07-05",
+      "note": "PT plateau. Pain persists at 5/10. Requesting MRI."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-05",
+      "findings": "Medial joint line tenderness. Positive McMurray. ROM 0-120. No effusion. No locking."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-05-27",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-30",
+      "session_number": 2,
+      "therapist_notes": "Quad sets, SLR.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-03",
+      "session_number": 3,
+      "therapist_notes": "Step exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-06",
+      "session_number": 4,
+      "therapist_notes": "Mini squats.",
+      "pain_score": 5,
+      "improved": true
+    },
+    {
+      "session_date": "2024-06-10",
+      "session_number": 5,
+      "therapist_notes": "Bike added.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-13",
+      "session_number": 6,
+      "therapist_notes": "Balance board.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-17",
+      "session_number": 7,
+      "therapist_notes": "Lateral step-downs.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-20",
+      "session_number": 8,
+      "therapist_notes": "No further gains.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-24",
+      "session_number": 9,
+      "therapist_notes": "Recommends imaging.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-27",
+      "session_number": 10,
+      "therapist_notes": "Discharged. MRI advised.",
+      "pain_score": 5,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 400mg",
+      "start_date": "2024-05-01",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-05-10",
+      "findings": "Mild medial joint space narrowing right knee."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Sarah Mitchell"
+}

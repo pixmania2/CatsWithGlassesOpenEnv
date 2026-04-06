@@ -1,0 +1,103 @@
+{
+  "patient_id": "PAT-035",
+  "demographics": {
+    "name": "Ibrahim Diallo",
+    "dob": "1957-06-08",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310035",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 178,
+    "weight_kg": 94,
+    "bmi": 29.7,
+    "bp": "150/92"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-10-01",
+      "note": "Dawn Phenomenon. Fasting glucose consistently > 200 mg/dL despite maximized basal insulin. CGM needed for overnight glucose profiling."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-10-01",
+      "findings": "Peripheral neuropathy bilateral. Charcot changes left foot. Diminished pedal pulses."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 9.0,
+      "unit": "%",
+      "date": "2024-09-15",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 218,
+      "unit": "mg/dL",
+      "date": "2024-09-25",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 224,
+      "unit": "mg/dL",
+      "date": "2024-09-26",
+      "reference_range": "70-100 mg/dL"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 212,
+      "unit": "mg/dL",
+      "date": "2024-09-27",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Insulin Glargine 40 units",
+      "frequency": "1 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-10-01",
+      "duration_days": 365
+    },
+    {
+      "medication": "Insulin Lispro 12 units",
+      "frequency": "3 times daily",
+      "route": "subcutaneous",
+      "start_date": "2023-10-01",
+      "duration_days": 365
+    },
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2021-06-01",
+      "duration_days": 1200
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "K0553",
+    "description": "CGM receiver"
+  },
+  "attending_physician": "Dr. Patricia Hernandez"
+}

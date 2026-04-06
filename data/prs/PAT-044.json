@@ -1,0 +1,189 @@
+{
+  "patient_id": "PAT-044",
+  "demographics": {
+    "name": "Helen Papadopoulos",
+    "dob": "1956-07-20",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310044",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 160,
+    "weight_kg": 76,
+    "bmi": 29.7,
+    "bp": "140/86"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M17.11",
+      "description": "Primary osteoarthritis, right knee",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-05-01",
+      "note": "Right knee pain limiting mobility. X-ray shows moderate OA. Completed 8 weeks PT with no improvement."
+    },
+    {
+      "date": "2024-07-10",
+      "note": "CMS denied MRI citing incomplete workup. X-ray and 8-week PT course both documented. Denial appears to be processing error. Rebuttal in progress."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-07-10",
+      "findings": "Bilateral varus deformity. Crepitus. ROM 5-105 right. Mild effusion. Antalgic gait."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-03-04",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-07",
+      "session_number": 2,
+      "therapist_notes": "Quad sets, SLR.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-11",
+      "session_number": 3,
+      "therapist_notes": "Step exercises.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-14",
+      "session_number": 4,
+      "therapist_notes": "Stationary bike.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-03-18",
+      "session_number": 5,
+      "therapist_notes": "Balance board.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-21",
+      "session_number": 6,
+      "therapist_notes": "Closed-chain exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-25",
+      "session_number": 7,
+      "therapist_notes": "Lateral step-downs.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-03-28",
+      "session_number": 8,
+      "therapist_notes": "Aquatic therapy trial.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-01",
+      "session_number": 9,
+      "therapist_notes": "Plateau noted.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-04",
+      "session_number": 10,
+      "therapist_notes": "No further gains.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-08",
+      "session_number": 11,
+      "therapist_notes": "Functional decline.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-11",
+      "session_number": 12,
+      "therapist_notes": "Recommends imaging.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-15",
+      "session_number": 13,
+      "therapist_notes": "Maintenance exercises.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-18",
+      "session_number": 14,
+      "therapist_notes": "Unable to progress.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-22",
+      "session_number": 15,
+      "therapist_notes": "Final session. MRI recommended.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-04-25",
+      "session_number": 16,
+      "therapist_notes": "Discharged from PT.",
+      "pain_score": 7,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Acetaminophen 1000mg",
+      "start_date": "2024-02-01",
+      "duration_days": 90
+    },
+    {
+      "medication": "Diclofenac gel 1%",
+      "start_date": "2024-03-01",
+      "duration_days": 60
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-02-20",
+      "findings": "Moderate medial joint space narrowing. Osteophyte formation. Subchondral sclerosis."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73721",
+    "description": "MRI right knee without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks",
+  "denial_letter": {
+    "date": "2024-07-05",
+    "insurer": "cms",
+    "reason": "Prior authorization denied: Incomplete diagnostic workup. Records do not demonstrate adequate conservative therapy trial or prior imaging studies per CMS LCD L33642.",
+    "denial_code": "PA-4044",
+    "reviewer": "Dr. Catherine Marsh"
+  }
+}

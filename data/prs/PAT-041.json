@@ -1,0 +1,94 @@
+{
+  "patient_id": "PAT-041",
+  "demographics": {
+    "name": "Raymond Boucher",
+    "dob": "1960-04-22",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310041",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 175,
+    "weight_kg": 88,
+    "bmi": 28.7,
+    "bp": "138/84"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M54.5",
+      "description": "Low back pain",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-07-20",
+      "note": "Low back pain 3 weeks. Started PT 2 weeks ago. Requesting lumbar MRI."
+    },
+    {
+      "date": "2024-08-25",
+      "note": "CMS denied MRI: insufficient PT. Only 2 weeks completed vs 6 required. No red flags present. Denial appears appropriate."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-08-25",
+      "findings": "Mild paravertebral tenderness L4-L5. Negative SLR bilaterally. Full motor strength. No neurological deficits. No red flags."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-07-08",
+      "session_number": 1,
+      "therapist_notes": "Initial eval. Core exercises.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-12",
+      "session_number": 2,
+      "therapist_notes": "Stretching program.",
+      "pain_score": 5,
+      "improved": false
+    },
+    {
+      "session_date": "2024-07-15",
+      "session_number": 3,
+      "therapist_notes": "Some improvement.",
+      "pain_score": 4,
+      "improved": true
+    },
+    {
+      "session_date": "2024-07-19",
+      "session_number": 4,
+      "therapist_notes": "Patient wants to stop for imaging.",
+      "pain_score": 4,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Ibuprofen 400mg",
+      "start_date": "2024-07-01",
+      "duration_days": 30
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "72148",
+    "description": "MRI lumbar spine without contrast"
+  },
+  "attending_physician": "Dr. Alan Brooks",
+  "denial_letter": {
+    "date": "2024-08-20",
+    "insurer": "cms",
+    "reason": "Prior authorization denied: Insufficient conservative therapy. CMS LCD L33642 requires minimum 6 weeks of structured physical therapy before lumbar MRI authorization. Only 2 weeks documented.",
+    "denial_code": "PA-4041",
+    "reviewer": "Dr. Patricia Wells"
+  }
+}

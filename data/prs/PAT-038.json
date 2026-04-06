@@ -1,0 +1,91 @@
+{
+  "patient_id": "PAT-038",
+  "demographics": {
+    "name": "Margaret Kowalski",
+    "dob": "1972-09-11",
+    "gender": "female"
+  },
+  "insurance": {
+    "member_id": "MBR-310038",
+    "insurer": "cms",
+    "plan_id": "MEDICARE-PART-B",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 163,
+    "weight_kg": 90,
+    "bmi": 33.9,
+    "bp": "142/88"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "E11.65",
+      "description": "Type 2 diabetes with hyperglycemia",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-15",
+      "note": "Patient requests CGM for glucose monitoring. Currently on oral medications only. No insulin therapy. Physician agrees CGM would be helpful for self-management."
+    },
+    {
+      "date": "2024-09-20",
+      "note": "CMS denied CGM authorization. Patient not on insulin. Denial appears clinically appropriate \u2014 step therapy not met and no exception criteria apply."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-20",
+      "findings": "Obese female. No peripheral neuropathy. Good foot exam. No retinopathy."
+    }
+  ],
+  "lab_results": [
+    {
+      "test_name": "HbA1c",
+      "test": "HbA1c",
+      "value": 7.6,
+      "unit": "%",
+      "date": "2024-08-01",
+      "reference_range": "< 7.0%"
+    },
+    {
+      "test_name": "fasting_glucose",
+      "test": "fasting_glucose",
+      "value": 152,
+      "unit": "mg/dL",
+      "date": "2024-08-01",
+      "reference_range": "70-100 mg/dL"
+    }
+  ],
+  "pt_sessions": [],
+  "pharmacy_history": [
+    {
+      "medication": "Metformin 1000mg",
+      "frequency": "2 times daily",
+      "route": "oral",
+      "start_date": "2022-06-01",
+      "duration_days": 810
+    },
+    {
+      "medication": "Glipizide 10mg",
+      "frequency": "1 times daily",
+      "route": "oral",
+      "start_date": "2023-03-01",
+      "duration_days": 540
+    }
+  ],
+  "imaging_history": [],
+  "requested_procedure": {
+    "cpt_code": "E2101",
+    "description": "Continuous Glucose Monitor (CGM)"
+  },
+  "attending_physician": "Dr. Patricia Hernandez",
+  "denial_letter": {
+    "date": "2024-09-15",
+    "insurer": "cms",
+    "reason": "Prior authorization denied: Patient is managed with oral hypoglycemic agents only. CMS LCD L33822 requires insulin therapy (minimum 2 injections daily) for CGM coverage. No exception criteria met.",
+    "denial_code": "PA-4038",
+    "reviewer": "Dr. Janet Moore"
+  }
+}

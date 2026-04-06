@@ -1,0 +1,140 @@
+{
+  "patient_id": "PAT-045",
+  "demographics": {
+    "name": "Jamal Henderson",
+    "dob": "1981-09-15",
+    "gender": "male"
+  },
+  "insurance": {
+    "member_id": "MBR-310045",
+    "insurer": "united",
+    "plan_id": "UHC-CHOICE-PLUS",
+    "active": true
+  },
+  "vitals": {
+    "height_cm": 188,
+    "weight_kg": 98,
+    "bmi": 27.7,
+    "bp": "130/82"
+  },
+  "diagnosis_codes": [
+    {
+      "code": "M75.10",
+      "description": "Rotator cuff syndrome, unspecified shoulder",
+      "primary": true
+    }
+  ],
+  "progress_notes": [
+    {
+      "date": "2024-08-01",
+      "note": "Right shoulder pain 5 months. Failed conservative therapy. Requesting shoulder MRI."
+    },
+    {
+      "date": "2024-09-10",
+      "note": "United denied shoulder MRI. CPT 73221 is explicitly not covered under UHC-CHOICE-PLUS plan. This is a coverage exclusion, not a medical necessity issue. Rebuttal unlikely to succeed."
+    }
+  ],
+  "physical_exam": [
+    {
+      "date": "2024-09-10",
+      "findings": "Positive Neer and Hawkins. Empty can test 3/5. ROM limited. Atrophy of supraspinatus fossa."
+    }
+  ],
+  "lab_results": [],
+  "pt_sessions": [
+    {
+      "session_date": "2024-05-06",
+      "session_number": 1,
+      "therapist_notes": "Initial eval.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-10",
+      "session_number": 2,
+      "therapist_notes": "Rotator cuff protocol.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-13",
+      "session_number": 3,
+      "therapist_notes": "Isometric strengthening.",
+      "pain_score": 6,
+      "improved": true
+    },
+    {
+      "session_date": "2024-05-17",
+      "session_number": 4,
+      "therapist_notes": "Theraband exercises.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-20",
+      "session_number": 5,
+      "therapist_notes": "Scapular stabilization.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-24",
+      "session_number": 6,
+      "therapist_notes": "Progress limited.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-27",
+      "session_number": 7,
+      "therapist_notes": "Functional activities.",
+      "pain_score": 6,
+      "improved": false
+    },
+    {
+      "session_date": "2024-05-31",
+      "session_number": 8,
+      "therapist_notes": "No gains. MRI recommended.",
+      "pain_score": 7,
+      "improved": false
+    },
+    {
+      "session_date": "2024-06-03",
+      "session_number": 9,
+      "therapist_notes": "Discharged from PT.",
+      "pain_score": 7,
+      "improved": false
+    }
+  ],
+  "pharmacy_history": [
+    {
+      "medication": "Meloxicam 15mg",
+      "start_date": "2024-04-01",
+      "duration_days": 120
+    },
+    {
+      "medication": "Subacromial corticosteroid injection",
+      "start_date": "2024-06-15",
+      "duration_days": 1
+    }
+  ],
+  "imaging_history": [
+    {
+      "type": "X-ray",
+      "date": "2024-04-20",
+      "findings": "Subacromial spurring. No fracture."
+    }
+  ],
+  "requested_procedure": {
+    "cpt_code": "73221",
+    "description": "MRI right shoulder without contrast"
+  },
+  "attending_physician": "Dr. Emily Tanaka",
+  "denial_letter": {
+    "date": "2024-09-05",
+    "insurer": "united",
+    "reason": "Prior authorization denied: CPT 73221 (MRI shoulder) is not a covered benefit under the UHC-CHOICE-PLUS plan. This service is excluded from the member's current plan tier.",
+    "denial_code": "PA-4045",
+    "reviewer": "Dr. Daniel Foster"
+  }
+}
