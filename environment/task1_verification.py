@@ -82,7 +82,7 @@ def grade(
     return GraderResult(
         task_id=TaskID.VERIFICATION,
         episode_id=episode_id,
-        final_score=round(final, 4),
+        final_score=min(0.999, max(0.001, round(final, 4))),
         components=components,
         decision_made=agent_decision,
         decision_correct=decision_correct,
