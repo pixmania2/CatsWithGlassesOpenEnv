@@ -236,7 +236,7 @@ async def run_task(env: GenericEnvClient, client: OpenAI, task_id: str) -> float
 
         total = sum(rewards)
         max_possible = max_steps * 0.4
-        score = min(max(total / max_possible, 0.0), 1.0) if max_possible > 0 else 0.0
+        score = min(0.999, max(0.001, total / max_possible)) if max_possible > 0 else 0.001
         success = score > 0.1
 
     except Exception as exc:
